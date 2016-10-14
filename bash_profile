@@ -31,14 +31,15 @@
         GREEN="\[\e[32;1m\]"
         BLUE="\[\e[34;1m\]"
         OFF="\[\033[m\]"
+        GIT_BRANCH="$(parse_git_branch)"
 
         PROMPT="[\u@\h ${BLUE}\W${OFF}"
 
         if [ "${EXITSTATUS}" -eq 0 ]
         then
-           PS1="${PROMPT} ${BOLD}${GREEN}:)${OFF} ]\$ "
+           PS1="${PROMPT} ${GIT_BRANCH}${BOLD}${GREEN}:)${OFF} ]\$ "
         else
-           PS1="${PROMPT} ${BOLD}${RED}:(${OFF} ]\$ "
+           PS1="${PROMPT} ${GIT_BRANCH}${BOLD}${RED}:(${OFF} ]\$ "
         fi
 
         PS2="${BOLD}>${OFF} "
@@ -117,6 +118,12 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 #   showa: to remind yourself of an alias (given some part of it)
 #   ------------------------------------------------------------
     showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
+
+#   parse_git_branch: show git branch
+#   ------------------------------------------------------------
+    parse_git_branch() {
+      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/* \1 /'
+    }
 
 
 #   -------------------------------
@@ -279,7 +286,7 @@ alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when boo
 
 #   ----
 # MacPorts Installer addition on 2012-09-09_at_20:29:07: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 # JAVA_HOME
@@ -292,3 +299,10 @@ alias audiorestart="sudo kill `ps -ax | grep 'coreaudiod' | grep 'sbin' |awk '{p
 alias reloadprofile="source /Users/martin/.profile"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/martin/.sdkman"
+[[ -s "/Users/martin/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/martin/.sdkman/bin/sdkman-init.sh"
+
+export GOPATH="/Users/martin/dev/go"
+export PATH="$GOPATH/bin:$PATH"
