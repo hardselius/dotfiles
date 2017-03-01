@@ -263,6 +263,9 @@ alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rul
 #   7.  SYSTEMS OPERATIONS & INFORMATION
 #   ---------------------------------------
 
+git_proxy_telia() { git config --global http.proxy http://proxy.netcom.no:8080 ; }
+git_proxy_unset() { git config --global --unset http.proxy ; }
+
 alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when booted into single-user
 
 #   cleanupDS:  Recursively delete .DS_Store files
