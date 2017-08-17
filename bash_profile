@@ -263,8 +263,15 @@ alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rul
 #   7.  SYSTEMS OPERATIONS & INFORMATION
 #   ---------------------------------------
 
-git_proxy_telia() { git config --global http.proxy http://proxy.netcom.no:8080 ; }
-git_proxy_unset() { git config --global --unset http.proxy ; }
+proxy_telia() {
+  export ALL_PROXY="http://proxy.netcom.no:8080" ;
+  git config --global https.proxy socks5://127.0.0.1:9999 ;
+  git config --global http.proxy http://proxy.netcom.no:8080 ;
+}
+proxy_unset() {
+  export ALL_PROXY="" ;
+  git config --global --unset http.proxy ;
+}
 
 alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when booted into single-user
 
@@ -294,7 +301,9 @@ export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 
 # JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
-export GRADLE_HOME="/usr/local/Cellar/gradle/2.8/libexec"
+export GRADLE_HOME="/usr/local/Cellar/gradle/3.4/libexec"
+export MAVEN_HOME="/usr/local/Cellar/maven/3.3.9/libexec"
+export GROOVY_HOME="/usr/local/opt/groovy/libexec"
 export AXIS2_HOME="~/bin/axis2-1.6.3/bin"
 
 # Useful aliases
@@ -309,3 +318,5 @@ export SDKMAN_DIR="/Users/martin/.sdkman"
 
 export GOPATH="/Users/martin/dev/go"
 export PATH="$GOPATH/bin:$PATH"
+source $(brew --prefix)/etc/bash_completion
+source <(kubectl completion bash)
