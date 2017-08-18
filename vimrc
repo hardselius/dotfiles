@@ -1,3 +1,6 @@
 scriptencoding utf-8
 
-set ruler
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+

@@ -2,8 +2,9 @@
 all: install
 
 install:
-	cp vimrc ../.vimrc
-	cp zshrc ../.zshrc
+	cp -rf vim/ ../.vim
+	cp vimrc ~/.vimrc
+	cp zshrc ~/.zshrc
 
 update:
 	cp ~/.vimrc vimrc
