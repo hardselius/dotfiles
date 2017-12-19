@@ -10,3 +10,6 @@ install:
 update:
 	cp ~/.vimrc vimrc
 	cp ~/.zshrc zshrc
+
+apply:
+	source ~/.zshrc
