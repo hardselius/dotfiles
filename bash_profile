@@ -320,3 +320,6 @@ export GOPATH="/Users/martin/dev/go"
 export PATH="$GOPATH/bin:$PATH"
 source $(brew --prefix)/etc/bash_completion
 source <(kubectl completion bash)
+
+# added by Anaconda3 5.0.1 installer
+export PATH="/Users/martin/anaconda3/bin:$PATH"

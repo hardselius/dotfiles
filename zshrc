@@ -71,6 +71,20 @@ eval "$(rbenv init -)"
 #   export EDITOR='mvim'
 # fi
 
+# Vaulted
+function set_vaulted_rprompt() {
+  local DIFF=$((($(date -u -j -f "%Y-%m-%dT%TZ" "$VAULTED_ENV_EXPIRATION" +%s) - $(date +%s))))
+  if [[ "$DIFF" -le 0 ]]; then
+    echo "$VAULTED_ENV MFA Expired"
+  else
+    echo "$VAULTED_ENV MFA $(($DIFF/60))m$(($DIFF%60))s"
+  fi
+}
+
+if [[ $VAULTED_ENV ]] && [[ $VAULTED_ENV_EXPIRATION ]]; then
+  export RPROMPT='$(set_vaulted_rprompt)'
+fi
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
