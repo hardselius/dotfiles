@@ -100,3 +100,4 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export GOPATH=$HOME/dev/go
+export GPG_TTY=$(tty)
