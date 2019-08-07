@@ -85,6 +85,11 @@ if [[ $VAULTED_ENV ]] && [[ $VAULTED_ENV_EXPIRATION ]]; then
   export RPROMPT='$(set_vaulted_rprompt)'
 fi
 
+# Git Ignore
+function gi() {
+  curl -sLw "\n" https://www.gitignore.io/api/\$@
+}
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
