@@ -3,9 +3,9 @@ all: install
 
 update:
 	git submodule update --recursive --remote
+	curl -LSso vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 install:
-	git submodule update --recursive --remote
 	cp -rf vim/ ../.vim
 	cp vimrc ~/.vimrc
 	cp zshrc ~/.zshrc
