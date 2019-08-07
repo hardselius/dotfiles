@@ -11,6 +11,10 @@ install:
 	cp zshrc ~/.zshrc
 	cp tmux.conf ~/.tmux.conf
 	cp profile ~/.profile && source ~/.profile
+	
+	# Install solarized theme
+	cp -rf ~/.vim/bundle/vim-colors-solarized/colors ~/.vim
+	cp -rf ~/.vim/bundle/vim-colors-solarized/autoload ~/.vim
 
 #update:
 #	cp ~/.vimrc vimrc

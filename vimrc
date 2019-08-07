@@ -1,6 +1,10 @@
 scriptencoding utf-8
 execute pathogen#infect()
-syntax on
+
+syntax enable
+set background=dark
+colorscheme solarized
+
 filetype plugin indent on
 
 let g:terraform_align=1
