@@ -4,3 +4,6 @@
 [submodule "vim/bundle/vim-tmux"]
 	path = vim/bundle/vim-tmux
 	url = https://github.com/tmux-plugins/vim-tmux
+[submodule "vom/bundle/vim-terraform"]
+	path = vim/bundle/vim-terraform
+	url = https://github.com/hashivim/vim-terraform
