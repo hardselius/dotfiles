@@ -52,7 +52,7 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #
-plugins=(git bundler osx rake ruby brew aws httpie kubectl)
+plugins=(git bundler osx rake ruby brew aws httpie kubectl terraform docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -62,7 +62,7 @@ eval "$(rbenv init -)"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
