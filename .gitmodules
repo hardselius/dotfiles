@@ -28,3 +28,6 @@
 [submodule "vim/bundle/vim-packer"]
 	path = vim/bundle/vim-packer
 	url = https://github.com/hashivim/vim-packer.git
+[submodule "vim/bundle/vim-vagrant"]
+	path = vim/bundle/vim-vagrant
+	url = https://github.com/hashivim/vim-vagrant.git
