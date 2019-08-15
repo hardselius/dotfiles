@@ -1,0 +1,17 @@
+sudo: required
+
+language: ruby
+
+rvm: 2.3.1
+env:
+  - VIM_TYPE=nvim
+  - VIM_TYPE=vim
+
+services:
+  - docker
+
+before_script:
+  - git clone https://github.com/junegunn/vader.vim
+
+script:
+  - ./test-vim-terraform-completion

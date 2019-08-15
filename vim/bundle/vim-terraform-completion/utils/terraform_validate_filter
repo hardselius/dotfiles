@@ -1,0 +1,104 @@
+#!/usr/bin/env ruby
+require 'json'
+
+
+def main() 
+
+  begin
+    errors = (%x(terraform validate -no-color 2>&1)).split("\n")
+    if ARGV[1] == "--with-plan" 
+      plan_errors = %x(terraform plan -no-color -input=false 2>&1)
+      plan_errors = plan_errors.split("\n")
+      plan_errors_error_line_num = 0
+      plan_errors.each_index.find do |x|
+        if plan_errors[x].match(/.*error.*/i) != nil
+          plan_errors_error_line_num = x
+        end
+      end
+      errors.push(*plan_errors[plan_errors_error_line_num+1..-1])
+    end
+    file = File.read(ARGV[0]).split("\n")
+    errors_res = []
+
+    errors.each {|x|
+
+      if x.match(/Error loading files Error loading [^:]*: Error reading config for ([^\[]*)\[([^\]]*)\]: (.*)/) != nil
+        captures = x.match(/Error loading files Error loading [^:]*: Error reading config for ([^\[]*)\[([^\]]*)\]: (.*)/).captures
+        errors_res.push({:location=> "none", :variable=> "\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> captures[2] })
+      end
+      
+
+      if x.match(/(Error:|\*) resource '([^']*)' [^:]*: ([^:']*):? '([^']*)'/) != nil
+        captures = x.match(/(Error:|\*) resource '([^']*)' [^:]*: ([^:']*):? '([^']*)'/).captures
+
+        if captures[2] != "unknown variable referenced"
+          errors_res.push({:location=> captures[1].split("."), :variable=> captures[3], :errormsg=> captures[2] })
+        elsif
+          errors_res.push({:location=> captures[1].split("."), :variable=> "var.#{captures[3]}", :errormsg=> captures[2] })
+        end
+      end
+
+      if x.match(/\* ([^.]*).([^:]*): ((?!error).*): "([^\"]*)"/) != nil
+        captures = x.match(/\* ([^.]*).([^:]*): ((?!error).*): "([^\"]*)"/).captures
+
+        if captures[2] != "invalid variable syntax" 
+          errors_res.push({:location=> [captures[0], captures[1]],:variable=>"\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> captures[2] })
+        else
+          errors_res.push({:location=> [captures[0], captures[1]],:variable=>captures[3], :errormsg=> captures[2] })
+        end
+      end
+
+      if x.match(/\* ([^.]*).([^:]*): "([^"]*)": (.*)/) != nil
+        captures = x.match(/\* ([^.]*).([^:]*): "([^"]*)": (.*)/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=>"\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> "#{captures[2]} #{captures[3]}" })
+      end
+      
+      if x.match(/\* ([^.]*).([^:]*): Resource '[^']*' ([^']*'[^']*'[^']*'([^']*)')/) != nil
+        captures = x.match(/\* ([^.]*).([^:]*): Resource '[^']*' ([^']*'[^']*'[^']*'([^']*)')/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=>"#{captures[3]}", :errormsg=> "#{captures[2]}" })
+      end
+
+      if x.match(/Error loading files Error loading [^:]*: Error reading config for ([^\[]*)\[([^\]]*)\]: ([^:]*): (.*)/) != nil
+        captures = x.match(/Error loading files Error loading [^:]*: Error reading config for ([^\[]*)\[([^\]]*)\]: ([^:]*): (.*)/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=> captures[2], :errormsg=> captures[3] })
+      end
+
+      if x.match(/\* ([^.]*).([^:]*): (.*)/) != nil
+        captures = x.match(/\* ([^.]*).([^:]*): (.*)/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=>"\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> "#{captures[2]}" })
+      end
+
+      if x.match(/Error: data.([^.]*).([^:]*): (.*)/) != nil
+        captures = x.match(/Error: data.([^.]*).([^:]*): (.*)/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=>"\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> "#{captures[2]}" })
+      end
+
+      if x.match(/Error: ([^.]*).([^:]*): (.*)/) != nil
+        captures = x.match(/Error: ([^.]*).([^:]*): (.*)/).captures
+        errors_res.push({:location=> [captures[0], captures[1]], :variable=>"\"#{captures[0]}\" \"#{captures[1]}\"", :errormsg=> "#{captures[2]}" })
+      end
+
+			if x.match(/(Error:|\*) resource '([^']*)' config: (unknown resource '([^']*)') referenced in variable (.*)/) != nil
+				captures = x.match(/(Error:|\*) resource '([^']*)' config: (unknown resource '([^']*)') referenced in variable (.*)/).captures
+
+				errors_res.push({:location=> captures[3].split("."), :variable=> captures[4], :errormsg=> captures[2] })
+			end
+    }
+    
+    res = []
+    file.each_index.each {|x|
+      errors_res.map {|i|
+        if file[x].match(/[^A-Za-z0-9]{1,}#{i[:variable]}([^A-Za-z0-9]{1,}|\n|$)/) != nil
+            if not res.include? "#{ARGV[0]}:#{x+1}:#{i[:errormsg]} : #{i[:variable]}"
+              res.push("#{ARGV[0]}:#{x+1}:#{i[:errormsg]} : #{i[:variable]}")
+            end
+        end
+      }
+    }
+    puts res
+  rescue
+    puts "An Error as Occur"
+  end
+end
+
+main()

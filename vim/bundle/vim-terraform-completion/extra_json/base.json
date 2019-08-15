@@ -1,0 +1,61 @@
+[
+    {
+        "word": "count",
+        "info": "(int) - The number of identical resources to create. This doesn't apply to all resources. For details on using variables in conjunction with count, see Using Variables with count below.",
+        "kind": "Int"
+    },
+    {
+        "word": "depends_on",
+        "info": "(list of strings) - Explicit dependencies that this resource has. These dependencies will be created before this resource. For syntax and other details, see the section below on explicit dependencies.",
+        "kind": "List"
+    },
+    {
+        "word": "provider",
+        "info": "(string) - The name of a specific provider to use for this resource. The name is in the format of TYPE.ALIAS, for example, aws.west. Where west is set using the alias attribute in a provider. See multiple provider instances.",
+        "kind": "String"
+    },
+    {
+        "word": "lifecycle",
+        "kind": "Set(B)",
+        "subblock": [
+            {
+                "word": "create_before_destroy",
+                "kind": "Bool"
+            },
+            {
+                "word": "prevent_destroy",
+                "kind": "Bool"
+            },
+            {
+                "word": "ignore_changes",
+                "kind": "List"
+            }
+        ]
+    },
+    {
+        "word": "timeouts",
+        "kind": "Map(B)",
+        "subblock": [
+            { "word": "create"},
+            {"word":"delete"}
+        ]
+    },
+    {
+        "word": "connection",
+        "kind": "Map(B)",
+        "subblock": [
+          { "word": "type"},
+            {"word":"user"},
+            {"word":"password"},
+            {"word":"host"},
+            {"word":"port"},
+            {"word":"timeout"},
+            {"word":"script_path"},
+            {"word":"private_key"},
+            {"word":"agent"},
+            {"word":"https"},
+            {"word":"insecure"},
+            {"word":"cacert"}
+        ]
+    }
+]

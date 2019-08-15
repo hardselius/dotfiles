@@ -31,3 +31,6 @@
 [submodule "vim/bundle/vim-vagrant"]
 	path = vim/bundle/vim-vagrant
 	url = https://github.com/hashivim/vim-vagrant.git
+[submodule "vim/bundle/vim-terraform-completion"]
+	path = vim/bundle/vim-terraform-completion
+	url = https://github.com/juliosueiras/vim-terraform-completion

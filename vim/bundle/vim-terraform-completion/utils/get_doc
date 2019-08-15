@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+require 'json'
+
+begin
+data = ''
+File.open("#{ARGV[0]}/../provider_json/#{ARGV[2]}.json", "r") do |f|
+  f.each_line do |line|
+    data = line
+  end
+end
+
+res = ''
+JSON.parse(data)[ARGV[4]][ARGV[3]][ARGV[5]].each {|x|
+  if x['word'] == ARGV[1] 
+    res = x['info'] 
+    break
+  end
+}
+
+puts res
+rescue
+end

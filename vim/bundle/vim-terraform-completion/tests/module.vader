@@ -1,0 +1,91 @@
+Execute (Make sure tab is off):
+  set expandtab
+
+Given terraform (Module Offline Completion Test):
+  module "test" {
+    source = "./tests/modules"
+  }
+
+Do (Autocompletion for offline module argument completion):
+  1jo\<C-X>\<C-O>\<ESC><<
+
+Expect (get var_name):
+  module "test" {
+    source = "./tests/modules"
+  var_name
+  }
+
+Given terraform (Module Online argument Subpath Completion Test):
+  module "consul" {
+    source = "git::https://github.com/hashicorp/consul.git//terraform/aws?ref=v1.4.0"
+  }
+
+Do (Autocompletion for online module argument Subpath completion):
+  :w test.tf\<CR>:!terraform get\<CR>1jo\<C-X>\<C-O>\<ESC><<
+
+Expect (get private subnets):
+  module "consul" {
+    source = "git::https://github.com/hashicorp/consul.git//terraform/aws?ref=v1.4.0"
+  platform
+  }
+
+Given terraform (Module Online Attribute single path Completion Test):
+  module "vpc" {
+    source = "github.com/terraform-community-modules/tf_aws_vpc"
+  }
+
+  resource "aws_db_instance" "test" {
+  }
+
+Do (Autocompletion for online module attributes single path completion):
+  :w test.tf\<CR>:!terraform get\<CR>4joname = "${module.\<C-X>\<C-O>.\<C-X>\<C-O>}"
+
+Expect (get private subnets):
+  module "vpc" {
+    source = "github.com/terraform-community-modules/tf_aws_vpc"
+  }
+
+  resource "aws_db_instance" "test" {
+  name = "${module.vpc.private_subnets}"
+  }
+
+Given terraform (Module Online Attribute Subpath Completion Test):
+  module "consul" {
+    source = "git::https://github.com/hashicorp/consul.git//terraform/aws?ref=v1.4.0"
+  }
+
+  resource "aws_db_instance" "test" {
+  }
+
+Do (Autocompletion for online module attributes Subpath completion):
+  :w test.tf\<CR>:!terraform get\<CR>4joname = "${module.\<C-X>\<C-O>.\<C-X>\<C-O>}"
+
+Expect (get private subnets):
+  module "consul" {
+    source = "git::https://github.com/hashicorp/consul.git//terraform/aws?ref=v1.4.0"
+  }
+
+  resource "aws_db_instance" "test" {
+  name = "${module.consul.server_address}"
+  }
+
+
+Given terraform (Module Offline Attribute Completion Test):
+  module "test" {
+    source = "./tests/modules"
+  }
+
+  resource "aws_db_instance" "test" {
+  }
+
+Do (Autocompletion for offline module attributes completion):
+  4joname = "${module.\<C-X>\<C-O>.\<C-X>\<C-O>}"
+
+Expect (get output test):
+  module "test" {
+    source = "./tests/modules"
+  }
+
+  resource "aws_db_instance" "test" {
+  name = "${module.test.output_var}"
+  }

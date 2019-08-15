@@ -1,0 +1,65 @@
+Execute (Make sure tab is off):
+  set expandtab
+
+Given terraform (Resource Completion Test):
+
+Do (Autocompletion for resource first test):
+  iresource "aws_\<C-X>\<C-O>
+
+Expect (get aws_acm_certificate):
+  resource "aws_acm_certificate
+
+Do (Autocompletion for resource second docker test):
+  iresource "docker_\<C-X>\<C-O>
+
+Expect (get docker_container):
+  resource "docker_config
+
+Given terraform (Argument Completion Test):
+  resource "docker_container" "sd" {
+  }
+
+Do (Autocompletion for Argument Test):
+  o\<C-X>\<C-O>
+
+Expect (get attach):
+  resource "docker_container" "sd" {
+  attach
+  }
+
+Given terraform (Block Argument Completion Test):
+  resource "vsphere_virtual_machine" "sd" {
+    network_interface {
+    }
+  }
+
+Do (Autocompletion for Block Argument Test):
+  1jo\<C-X>\<C-O>\<ESC><<
+
+Expect (get adapter_type):
+  resource "vsphere_virtual_machine" "sd" {
+    network_interface {
+  adapter_type
+    }
+  }
+
+
+Given terraform (Resource Interpolation Completion Test):
+  resource "docker_container" "sd" {
+  }
+
+  resource "docker_container" "sd2" {
+  }
+
+Do (Autocompletion for interpolation):
+  3joname = "${docker_container.\<C-X>\<C-O>.\<C-X>\<C-O>}"\<ESC>
+  oname = "${docker_container.\<C-X>\<C-O>\<C-N>.\<C-X>\<C-O>}"\<ESC>
+
+Expect (get docker_container):
+  resource "docker_container" "sd" {
+  }
+
+  resource "docker_container" "sd2" {
+  name = "${docker_container.sd.attach}"
+  name = "${docker_container.sd2.attach}"
+  }

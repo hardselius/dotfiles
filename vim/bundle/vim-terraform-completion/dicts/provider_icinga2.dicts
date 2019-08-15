@@ -1,0 +1,7 @@
+icinga2
+r_icinga2_checkcommand
+r_icinga2_host
+r_icinga2_hostgroup
+r_icinga2_notification
+r_icinga2_service
+r_icinga2_user

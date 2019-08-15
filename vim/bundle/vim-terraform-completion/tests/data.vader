@@ -1,0 +1,44 @@
+Execute (Make sure tab is off):
+  set expandtab
+
+Given terraform (Data Completion Test):
+
+Do (Autocompletion for data first(aws) test):
+  idata "aws_\<C-X>\<C-O>
+
+Expect (get aws_acm_certificate):
+  data "aws_acm_certificate
+
+Given terraform (Block Argument Completion Test):
+  data "aws_vpc" "test" {
+    filter {
+    }
+  }
+
+Do (Autocompletion for Block Argument Test):
+  1jo\<C-X>\<C-O>\<ESC><<
+
+Expect (get adapter_type):
+  data "aws_vpc" "test" {
+    filter {
+  name
+    }
+  }
+
+Given terraform (Interpolation for Data Completion Test):
+  data "aws_db_instance" "sd" {
+  }
+
+  resource "docker_container" "sd2" {
+  }
+
+Do (Autocompletion for interpolation):
+  3joname = "${data.\<C-X>\<C-O>.\<C-X>\<C-O>.\<C-X>\<C-O>}"
+
+Expect (get address):
+  data "aws_db_instance" "sd" {
+  }
+
+  resource "docker_container" "sd2" {
+  name = "${data.aws_db_instance.sd.address}"
+  }
