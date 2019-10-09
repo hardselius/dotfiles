@@ -1,0 +1,14 @@
+# OSX trash
+.DS_Store
+
+# Vim-related files
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+# Ignore vim plugins
+vim/vim.symlink/*
+# Keep the .keep file so the directory is available
+!vim/vim.symlink/.keep
