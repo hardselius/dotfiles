@@ -1,0 +1,89 @@
+"
+" Maintainer:  Martin Hardselius <martin.hardselius@gmail.com>
+" Last change: 2019 Oct 9
+"
+
+scriptencoding utf-8
+
+" ------------------------------------------------------------------------------
+" PLUGINS
+" ------------------------------------------------------------------------------
+
+call plug#begin()
+
+" Useful tools
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+
+" Airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Color scheme
+Plug 'altercation/vim-colors-solarized'
+
+" Language support
+Plug 'dense-analysis/ale'
+Plug 'hashivim/vim-hashicorp-tools'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'tpope/vim-markdown'
+
+call plug#end()
+
+" ------------------------------------------------------------------------------
+" CONFIGURATION
+" ------------------------------------------------------------------------------
+
+filetype plugin indent on
+
+augroup vimrcEx
+  autocmd!
+
+  autocmd BufRead,BufNewFile tmux.conf.symlink set filetype=tmux
+  autocmd BufRead,BufNewFile vimrc.symlink set filetype=vim
+augroup END
+
+" Fix yaml indentation
+autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
+
+" Colorscheme
+set background=dark
+colorscheme solarized
+let g:airline_theme='solarized'
+let g:airline_powerline_fonts=1
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+
+" Toggle line numbers
+set number
+set numberwidth=5
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Open new split panes to bottom right
+set splitbelow
+set splitright
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
