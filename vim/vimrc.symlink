@@ -15,6 +15,10 @@ call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
+Plug 'tpope/vim-fugitive'
+
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
 
 " Airline
 Plug 'vim-airline/vim-airline'
@@ -26,7 +30,6 @@ Plug 'altercation/vim-colors-solarized'
 " Language support
 Plug 'dense-analysis/ale'
 Plug 'hashivim/vim-hashicorp-tools'
-
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-markdown'
 
@@ -61,7 +64,7 @@ let g:airline_theme='solarized'
 let g:airline_powerline_fonts=1
 
 " Make it obvious where 80 characters is
-set textwidth=80
+" set textwidth=80
 set colorcolumn=+1
 
 " Toggle line numbers
