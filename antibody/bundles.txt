@@ -1,8 +1,4 @@
 # this block is in alphabetic order
-mafredri/zsh-async
 romkatv/powerlevel10k
 rupa/z
 zsh-users/zsh-completions
-
-# these should be at last!
-zdharma/fast-syntax-highlighting
