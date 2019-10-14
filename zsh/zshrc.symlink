@@ -1,0 +1,68 @@
+#! /usr/bin/env zsh
+
+# ------------------------------------------------------------------------------
+# EXPORT
+# ------------------------------------------------------------------------------
+
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export PATH="/usr/local/bin:$PATH"
+export GPG_TTY=$(tty)
+
+export DOTFILES="$HOME/dotfiles"
+export PROJECTS="$HOME/dev"
+
+export EDITOR="vim"
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+export CLICOLOR=1
+
+# ------------------------------------------------------------------------------
+# CONFIG
+# ------------------------------------------------------------------------------
+
+# All our zsh files
+typeset -U config_files
+config_files=($DOTFILES/*/*.zsh)
+
+# Load the path files.
+for file in  ${(M)config_files:#*/path.zsh}; do
+	source  "$file"
+done
+
+# Load anitbody plugins.
+source ~/.zsh_plugins.sh
+
+# Load everything but the path and completion files.
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
+	source "$file"
+done
+
+# ------------------------------------------------------------------------------
+# PROMPT
+# ------------------------------------------------------------------------------
+
+autoload -U colors && colors
+
+# ------------------------------------------------------------------------------
+# AUTCOMPLETION
+# ------------------------------------------------------------------------------
+
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+	compinit
+done
+compinit -C
+
+# Load every completion after autcomplete loads.
+for file in ${(M)config_files:#*/completion.zsh}; do
+	source "$file"
+done
+
+unset config_files updated_at
+
+# Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
+# versioned repo.
+[ -f ~/.localrc ]  && . ~/.localrc
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh

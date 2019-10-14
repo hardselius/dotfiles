@@ -37,5 +37,6 @@ arg1="${1:-}"
 # INSTALL TMUX FILES
 # ------------------------------------------------------------------------------
 
+# Link .tmux directory and .tmux.conf
 ln -sf ${__dir}/tmux.conf.symlink ~/.tmux.conf
-
+ln -sf ${__dir}/tmux.symlink ~/.tmux

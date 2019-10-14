@@ -1,26 +1,17 @@
+# Make will use bash instead of sh
+SHELL := /usr/bin/env bash
 
-all: install
+# ------------------------------------------------------------------------------
+# BOOSTRAP
+# ------------------------------------------------------------------------------
 
-update:
-	git submodule update --recursive --remote
-	curl -LSso vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+.PHONY: bootstrap
+bootstrap: bootstrap_dotfiles bootstrap_zsh
 
-install:
-	cp -rf vim/ ../.vim
-	cp vimrc ~/.vimrc
-	cp zshrc ~/.zshrc
-	cp tmux.conf ~/.tmux.conf
-	cp profile ~/.profile && source ~/.profile
-	
-	# Install solarized theme
-	cp -rf ~/.vim/bundle/vim-colors-solarized/colors ~/.vim
-	cp -rf ~/.vim/bundle/vim-colors-solarized/autoload ~/.vim
+.PHONY: bootstrap_dotfiles
+bootstrap_dotfiles:
+	@source scripts/make.sh && bootstrap_dotfiles
 
-#update:
-#	cp ~/.vimrc vimrc
-#	cp ~/.zshrc zshrc
-#	cp ~/.tmux.conf tmux.conf
-#	cp ~/.profile profile
-
-apply:
-	source ~/.zshrc
+.PHONY: bootstrap_zsh
+bootstrap_zsh:
+	@source scripts/make.sh && bootstrap_zsh
