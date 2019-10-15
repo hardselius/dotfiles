@@ -1,6 +1,0 @@
-# this block is in alphabetic order
-junegunn/fzf
-mafredri/zsh-async
-rupa/z
-sindresorhus/pure
-zsh-users/zsh-completions

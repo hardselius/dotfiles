@@ -1,4 +1,12 @@
 #! /usr/bin/env zsh
+#
+# ------------------------------------------------------------------------------
+# INIT
+# ------------------------------------------------------------------------------
+
+# Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
+# versioned repo.
+[ -f ~/.localrc ]  && . ~/.localrc
 
 # ------------------------------------------------------------------------------
 # EXPORT
@@ -30,7 +38,7 @@ for file in  ${(M)config_files:#*/path.zsh}; do
 done
 
 # Load anitbody plugins.
-source ~/.zsh_plugins.sh
+#source ~/.zsh_plugins.sh
 
 # Load everything but the path and completion files.
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
@@ -47,11 +55,50 @@ autoload -U colors && colors
 # AUTCOMPLETION
 # ------------------------------------------------------------------------------
 
+# enable completion
 autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-	compinit
-done
-compinit -C
+compinit
+
+autoload bashcompinit
+bashcompinit
+
+zmodload -i zsh/complist
+
+WORDCHARS=''
+
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+# autocompletion with an arrow-key driven interface
+zstyle ':completion:*:*:*:*:*' menu select
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+        usbmux uucp vcsa wwwrun xfs '_*'
+
+zstyle '*' single-ignored show
+
+# Automatically update PATH entries
+zstyle ':completion:*' rehash true
+
+# Keep directories and files separated
+zstyle ':completion:*' list-dirs-first true
 
 # Load every completion after autcomplete loads.
 for file in ${(M)config_files:#*/completion.zsh}; do
@@ -60,6 +107,16 @@ done
 
 unset config_files updated_at
 
-# Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
-# versioned repo.
-[ -f ~/.localrc ]  && . ~/.localrc
+
+# ------------------------------------------------------------------------------
+# PLUGINS
+# ------------------------------------------------------------------------------
+
+source "$HOME/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+
+zplugin light romkatv/powerlevel10k
+zplugin snippet https://github.com/sainnhe/dotfiles/blob/master/.zsh-theme-gruvbox-material-dark
+
+zplugin light zsh-users/zsh-completions

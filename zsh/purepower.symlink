@@ -1,0 +1,6 @@
+[[ -o 'interactive' ]] || 'return'
+
+>&2 'print' '-r' '--' ${(%):-'%BPure Power%b lives on as builtin %Blean%b style. Type this command to reach it:
+
+  %2Fp10k%f %Bconfigure%b
+'}
