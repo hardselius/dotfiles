@@ -63,6 +63,3 @@ unset config_files updated_at
 # Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
 # versioned repo.
 [ -f ~/.localrc ]  && . ~/.localrc
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
