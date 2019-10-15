@@ -155,7 +155,7 @@ function install_apps {
 }
 
 function run_antibody {
-  antibody bundle <"$__root/vim/plugins.txt" >~/.zsh_plugins.sh
+  antibody bundle <"$__root/zsh/plugins.txt" >~/.zsh_plugins.sh
   antibody update
 }
 
