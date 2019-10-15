@@ -1,4 +1,6 @@
 # this block is in alphabetic order
-romkatv/powerlevel10k
+junegunn/fzf
+mafredri/zsh-async
 rupa/z
+sindresorhus/pure
 zsh-users/zsh-completions

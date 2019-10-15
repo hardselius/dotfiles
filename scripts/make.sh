@@ -13,8 +13,6 @@ __file="${__dir}/$( basename "${BASH_SOURCE[0]}" )"
 __base="$( basename ${__file} .sh )"
 __root="$( cd "$( dirname "${__dir}" )" ; pwd )"
 
-echo "$__dir"
-echo "$( dirname "${__dir}" )"
 arg1="${1:-}"
 
 # shellcheck source=scripts/common.sh
@@ -69,7 +67,6 @@ function bootstrap_gitconfig {
     success "gitconfig"
   fi
 }
-
 
 function link_file {
   local src=$1 dst=$2
@@ -155,6 +152,11 @@ function install_apps {
   else
     fail "Error installing Applications"
   fi
+}
+
+function run_antibody {
+  antibody bundle <"$__root/vim/plugins.txt" >~/.zsh_plugins.sh
+  antibody update
 }
 
 function find_zsh {

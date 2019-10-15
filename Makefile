@@ -6,12 +6,16 @@ SHELL := /usr/bin/env bash
 # ------------------------------------------------------------------------------
 
 .PHONY: bootstrap
-bootstrap: bootstrap_dotfiles bootstrap_zsh
+bootstrap: dotfiles zsh
 
-.PHONY: bootstrap_dotfiles
-bootstrap_dotfiles:
+.PHONY: dotfiles
+dotfiles:
 	@source scripts/make.sh && bootstrap_dotfiles
 
 .PHONY: bootstrap_zsh
-bootstrap_zsh:
+zsh:
 	@source scripts/make.sh && bootstrap_zsh
+
+.PHONY: antibody
+antibody:
+	@source scripts/make.sh && run_antibody
