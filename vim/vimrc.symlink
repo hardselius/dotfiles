@@ -6,7 +6,6 @@
 call plug#begin()
 
 Plug 'morhetz/gruvbox'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
@@ -20,28 +19,26 @@ Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " ------------------------------------------------------------------------------
-" SETTINGS
+" SECTION: SETTINGS
 " ------------------------------------------------------------------------------
 
 set nocompatible
-filetype off
+
 filetype plugin indent on
+syntax enable
+
+set autoindent                 " Minimal automatic indent for any filetype.
+set backspace=indent,eol,start " Proper backspace behaviour.
+set hidden                     " Possibility to have more than one unsaved
+                               " buffers.
+set incsearch                  " Shows the match while typing
+set hlsearch                   " Highlight found matches
 
 set ttyfast
 
-if !has('nvim')
-  set ttymouse=xterm2
-  set ttyscroll=3
-endif
-
 set laststatus=2
-set encoding=utf-8             " Set default encoding to UTF-8
-set autoread                   " Automatically reread changed files without asking
-set autoindent
-set backspace=indent,eol,start " Makes backspace key more powerful
-set incsearch                  " Shows the match while typing
-set hlsearch                   " Highlight found matches
-set mouse=a                    " Enable mouse mode
+set encoding=utf-8 " Set default encoding to UTF-8
+set autoread       " Automatically reread changed files without asking
 
 set noerrorbells             " No beeps
 set number                   " Show line numbers
@@ -51,7 +48,6 @@ set nobackup                 " Don't create annoying backup files
 set splitright               " Split vertical windows right to the current
 set splitbelow               " Split horizontal windows below to the current
 set autowrite                " Automatically save before :next, :make etc.
-set hidden                   " If hidden is not set, TextEdit might fail
 set fileformats=unix,dos,mac " Prefer Unix over Windows over OS 9 formats
 set noshowmatch              " Do not show matching brackets by flickering
 set noshowmode               " We show the mode with airline or lightline
@@ -86,7 +82,6 @@ if has('persistent_undo')
 endif
 
 " Color
-syntax enable
 "set background=dark
 colorscheme gruvbox
 
@@ -116,12 +111,12 @@ augroup filetypedetext
 augroup end
 
 " ------------------------------------------------------------------------------
-" STATUSLINE
+" SECTION: STATUSLINE
 " ------------------------------------------------------------------------------
 
 
 " ------------------------------------------------------------------------------
-" MAPPINGS
+" SECTION: MAPPINGS
 " ------------------------------------------------------------------------------
 
 " First off, we need to map leader. We have mappings that depends on it. With
@@ -153,7 +148,7 @@ nnoremap <silent> <leader>q :q!<CR>
 nnoremap <space> zz
 
 " Remove search highlight
-function s:clear_highlight()
+function! s:clear_highlight()
   let @/ = ""
   cal go#guru#ClearSameIds()
 endfunction
@@ -171,12 +166,6 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
 " Print full path
 map <C-f> :echo expand("#:p#)<CR>
 
@@ -185,7 +174,7 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 
 " ------------------------------------------------------------------------------
-" PLUGINS
+" SECTION: PLUGINS
 " ------------------------------------------------------------------------------
 
 " Fugitive
@@ -211,4 +200,3 @@ let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
-
