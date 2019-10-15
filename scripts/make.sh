@@ -154,11 +154,6 @@ function install_apps {
   fi
 }
 
-function run_antibody {
-  antibody bundle <"$__root/zsh/plugins.txt" >~/.zsh_plugins.sh
-  antibody update
-}
-
 function find_zsh {
   if which zsh >/dev/null 2>&1 && grep "$(which zsh)" /etc/shells >/dev/null; then
     which zsh

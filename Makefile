@@ -15,7 +15,3 @@ dotfiles:
 .PHONY: bootstrap_zsh
 zsh:
 	@source scripts/make.sh && bootstrap_zsh
-
-.PHONY: antibody
-antibody:
-	@source scripts/make.sh && run_antibody
