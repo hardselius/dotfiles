@@ -8,7 +8,10 @@
 Session.vim
 .netrwhist
 
+# Ignore tmux plugins
+tmux/tmux.symlink/*
+!tmux/tmux.symlink/.keep
+
 # Ignore vim plugins
 vim/vim.symlink/*
-# Keep the .keep file so the directory is available
 !vim/vim.symlink/.keep

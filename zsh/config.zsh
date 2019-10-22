@@ -1,5 +1,6 @@
 #! /usr/bin/env zsh
-export LSCOLORS='exfxcxdxbxegedabagacad'
+
+#export LSCOLORS='exfxcxdxbxegedabagacad'
 export CLICOLOR=true
 
 fpath=($DOTFILES/functions $fpath)
