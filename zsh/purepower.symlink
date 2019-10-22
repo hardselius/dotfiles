@@ -1,4 +1,11 @@
-[[ -o 'interactive' ]] || 'return'
+# Pure Power lives on as builtin `lean` style in Powerlevel10k. Type this command to reach it:
+#
+#   p10k configure
+#
+# If you are looking for the original Pure Power, you can fetch its last version from
+# https://github.com/romkatv/dotfiles-public/blob/2d27deefd928175b80d681fc06eb2791848591fd/.purepower.
+
+[[ -o 'interactive' ]] || 'return'
 
 >&2 'print' '-r' '--' ${(%):-'%BPure Power%b lives on as builtin %Blean%b style. Type this command to reach it:
 

@@ -1,18 +1,19 @@
 "
 " Maintainer:  Martin Hardselius <martin.hardselius@gmail.com>
-" Last change: 2019 Oct 11
+" Last change: 2019 Oct 17
 "
 
 call plug#begin()
 
-Plug 'morhetz/gruvbox'
 Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
+Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -40,7 +41,6 @@ set laststatus=2
 set encoding=utf-8 " Set default encoding to UTF-8
 set autoread       " Automatically reread changed files without asking
 
-set noerrorbells             " No beeps
 set number                   " Show line numbers
 set showcmd                  " Show me what I'm typing
 set noswapfile               " Don't use swapfile
@@ -82,7 +82,6 @@ if has('persistent_undo')
 endif
 
 " Color
-"set background=dark
 colorscheme gruvbox
 
 augroup filetypedetext
@@ -140,10 +139,6 @@ autocmd BufEnter * silent! lcd %:p:h
 " Automatically resize screens to be equally the same
 autocmd VimResized * wincmd =
 
-" Fast saving
-nnoremap <leader>w :w!<CR>
-nnoremap <silent> <leader>q :q!<CR>
-
 " Center the screen
 nnoremap <space> zz
 
@@ -154,9 +149,6 @@ function! s:clear_highlight()
 endfunction
 nnoremap <silent> <leader><space> :<C-u>call <SID>clear_highlight()<CR>
 
-" Source the current Vim file
-nnoremap <leader>pr :Runtime<CR>
-
 " Close all but the current one
 nnoremap <leader>o :only<CR>
 
@@ -165,9 +157,6 @@ nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
-
-" Print full path
-map <C-f> :echo expand("#:p#)<CR>
 
 " Center on line when jumping between search results
 nnoremap n nzzzv
@@ -180,6 +169,9 @@ nnoremap N Nzzzv
 " Fugitive
 vnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gb :Gblame<CR>
+
+" netrw
+let g:netrw_liststyle = 3
 
 " vim-airline
 let g:airline_powerline_fonts=1
@@ -200,3 +192,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
+
+" vim-hashicorp-tools
+let g:terraform_align = 1
+let g:terraform_fmt_on_save = 1

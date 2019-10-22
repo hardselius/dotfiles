@@ -1,4 +1,4 @@
-#!/bin/zsh
+#! /usr/bin/env zsh
 
 # Add each topic folder to fpath so that they can add functions and completion
 # scripts.

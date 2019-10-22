@@ -1,9 +1,3 @@
-#!/bin/sh
-
-__reload_dotfiles()  {
-	PATH="$(command -p getconf PATH)"
-	. ~/.zshrc
-	cd .
-}
-
-alias reload!='__reload_dotfiles'
+#! /usr/bin/env zsh
+alias reload!='exec "$SHELL" -l'
+alias cls='clear'
