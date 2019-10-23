@@ -1,5 +1,9 @@
 #! /usr/bin/env zsh
 
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
 # versioned repo.
 [[ -f ~/.localrc ]] && source ~/.localrc
