@@ -30,6 +30,8 @@ for dump in ~/.zcompdump(N.mh+24); do
 done
 compinit -C
 
+autoload -U +X bashcompinit && bashcompinit
+
 # Load every completion after autcomplete loads.
 for file in ${(M)config_files:#*/completion.zsh}; do
 	source "$file"
