@@ -28,7 +28,7 @@ new_branch() {
 
 fire() {
   initial_branch="$( current_brach )"
-  git checkout -n "$( new_branch )"
+  git checkout -b "$( new_branch )"
 
   cd "$( git rev-parse --show-toplevel )"
 
