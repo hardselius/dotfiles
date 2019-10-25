@@ -109,6 +109,7 @@ augroup filetypedetext
   autocmd FileType yaml setlocal expandtab tabstop=2 shiftwidth=2
   autocmd FileType json setlocal expandtab tabstop=2 shiftwidth=2
   autocmd FileType vim setlocal expandtab tabstop=2 shiftwidth=2
+  autocmd FileType sh setlocal expandtab tabstop=2 shiftwidth=2
 augroup end
 
 " ------------------------------------------------------------------------------
