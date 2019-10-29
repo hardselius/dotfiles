@@ -55,8 +55,8 @@ set noshowmode               " We show the mode with airline or lightline
 set ignorecase               " Search case insensitive ...
 set smartcase                " ... but not if it begins with upper case
 set completeopt=menu,menuone
+set cursorline
 set nocursorcolumn           " Speed up syntax highlighting
-set nocursorline
 set updatetime=300
 set pumheight=10             " Completion window max size
 set conceallevel=2           " Concealed text is completely hidden
@@ -85,7 +85,14 @@ endif
 " Color
 colorscheme nord
 
-augroup filetypedetext
+highlight clear CursorLine
+highlight CursorLineNR cterm=bold
+augroup aug_cursorline
+  autocmd! ColorScheme * highlight clear CursorLine
+  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
+augroup end
+
+augroup filetypedetect
   command! -nargs=* -complete=help Help vertical belowright help <args>
   autocmd FileType help wincmd L
 
