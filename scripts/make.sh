@@ -24,12 +24,12 @@ echo ""
 
 function info {
   # shellcheck disable=SC2059
-  printf "  [ \033[00;34m..\033[0m ] $1"
+  printf "  [ \033[00;34m..\033[0m ] $1\n"
 }
 
 function user {
   # shellcheck disable=SC2059
-  printf "\r  [ \033[0;33m??\033[0m ] $1 "
+  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
 }
 
 function success {
@@ -55,9 +55,9 @@ function bootstrap_gitconfig {
     fi
 
     user " - What is your github author name?"
-    read -e git_authorname
+    read -e -r git_authorname
     user " - What is your github author email?"
-    read -e git_authoremail
+    read -e -r git_authoremail
 
     sed -e "s/AUTHORNAME/$git_authorname/g" \
       -e "s/AUTHOREMAIL/$git_authoremail/g" \
@@ -87,7 +87,7 @@ function link_file {
       else
         user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
         [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
+        read -r -n 1 action
 
         case "$action" in
           o )
@@ -155,16 +155,16 @@ function install_apps {
 }
 
 function find_zsh {
-  if which zsh >/dev/null 2>&1 && grep "$(which zsh)" /etc/shells >/dev/null; then
-    which zsh
+  if command -v zsh >/dev/null 2>&1 && grep "$(command -v zsh)" /etc/shells >/dev/null; then
+    command -v zsh
   else
     echo "/bin/zsh"
   fi
 }
 
 function bootstrap_zsh {
-  zsh="$(find_zsh)"
-  which chsh > /dev/null 2>&1 &&
+  zsh="$(command -v zsh)"
+  command -v > /dev/null 2>&1 &&
   chsh -s "$zsh" &&
   success "set $("$zsh" --version) at $zsh as default shell"
 }
@@ -173,6 +173,8 @@ function bootstrap_zsh {
 #link_dotfiles
 #setup_zsh
 #install_apps
+
+find_zsh
 
 #echo ""
 #echo "  All installed!"

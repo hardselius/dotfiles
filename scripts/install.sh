@@ -4,13 +4,13 @@
 set -eo pipefail
 
 install_pkg() {
-  if test "$(which brew)"; then
+  if command -v brew &>/dev/null; then
     brew install "$@"
   fi
 }
 
 check_dependencies() {
-  if test ! "$(which brew)"; then
+  if test ! "$(command -v brew)"; then
     if test "$(uname)" = "Darwin"; then
       echo "  Installing Homebrew for you."
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -19,10 +19,10 @@ check_dependencies() {
       exit 1
     fi
   fi
-  if test ! "$(which git)"; then
+  if test ! "$(command -v git)"; then
     install_pkg git
   fi
-  if test ! "$(which zsh)"; then
+  if test ! "$(command -v zsh)"; then
     install_pkg zsh
   fi
 }

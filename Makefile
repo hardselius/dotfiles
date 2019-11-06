@@ -1,6 +1,10 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+.PHONY: check-scripts
+check-scripts:
+	shellcheck --shell=bash **/*.*sh
+
 # ------------------------------------------------------------------------------
 # BOOSTRAP
 # ------------------------------------------------------------------------------

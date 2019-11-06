@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+# shellcheck disable=SC2206
 
 #export LSCOLORS='exfxcxdxbxegedabagacad'
 export CLICOLOR=true
@@ -51,10 +52,10 @@ zle -N down-line-or-beginning-search
 bindkey -e
 
 # fuzzy find: start to type
-bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
-bindkey "$terminfo[kcud1]" down-line-or-beginning-search
-bindkey "$terminfo[cuu1]" up-line-or-beginning-search
-bindkey "$terminfo[cud1]" down-line-or-beginning-search
+bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+bindkey "${terminfo[cuu1]}" up-line-or-beginning-search
+bindkey "${terminfo[cud1]}" down-line-or-beginning-search
 
 # backward and forward word with option+left/right
 bindkey '^[^[[D' backward-word
