@@ -169,6 +169,7 @@ augroup END
 augroup filetype_settings
 	autocmd!
 	autocmd FileType go
+      \ setlocal foldmethod=syntax|
 		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
   autocmd FileType yaml,json
       \ setlocal expandtab tabstop=2 shiftwidth=2
