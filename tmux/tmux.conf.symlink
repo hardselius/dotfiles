@@ -5,6 +5,9 @@ bind C-f send-prefix
 
 set-option -g default-shell /bin/zsh
 
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",*256col*:Tc"
+
 # Toggle last window by hitting C-f
 bind-key C-f last-window
 
@@ -68,9 +71,7 @@ bind-key l select-pane -R
 # don't suspend client
 unbind-key C-z
 
-# ---------------------------------------------------------------------------
-# STATUSLINE
-# ---------------------------------------------------------------------------
+# Section: Status line
 
 set-option -g status "on"
 
