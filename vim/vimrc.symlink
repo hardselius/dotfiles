@@ -1,147 +1,100 @@
-"
-" Maintainer:  Martin Hardselius <martin.hardselius@gmail.com>
-" Last change: 2019 Oct 29
-"
+" Section: Plugins
 
 call plug#begin()
-
-Plug 'arcticicestudio/nord-vim'
 Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'morhetz/gruvbox'
+Plug 'natebosch/vim-lsc'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
+Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
-" ------------------------------------------------------------------------------
-" SECTION: SETTINGS
-" ------------------------------------------------------------------------------
+" Section: Bootstrap
 
 set nocompatible
-
 filetype plugin indent on
-syntax enable
 
-set autoindent                 " Minimal automatic indent for any filetype.
-set backspace=indent,eol,start " Proper backspace behaviour.
-set hidden                     " Possibility to have more than one unsaved
-                               " buffers.
-set incsearch                  " Shows the match while typing
-set hlsearch                   " Highlight found matches
+" Section: Moving around, searching, patterns, and tags
 
+set incsearch  " Shows the match while typing.
+set hlsearch   " Highlight found matches.
+set ignorecase " Search case insensitive ...
+set smartcase  " ... but not if it begins with upper case.
+
+" Section: Displaying text
+
+set lazyredraw         " Don't update screen during macro/script execution
+set encoding=utf-8     " Set default encoding to UTF-8
 set ttyfast
 
-set laststatus=2
-set encoding=utf-8 " Set default encoding to UTF-8
-set autoread       " Automatically reread changed files without asking
+set display+=lastline  " Alwary try to show a paragraph's last line
+set scrolloff=1        " The number of screen lines to keep above/below cursor
+set sidescrolloff=5    " Screen cols to keep to the left/right of the cursor
 
-set number                   " Show line numbers
-set showcmd                  " Show me what I'm typing
-set noswapfile               " Don't use swapfile
-set nobackup                 " Don't create annoying backup files
-set splitright               " Split vertical windows right to the current
-set splitbelow               " Split horizontal windows below to the current
-set autowrite                " Automatically save before :next, :make etc.
-set fileformats=unix,dos,mac " Prefer Unix over Windows over OS 9 formats
-set noshowmatch              " Do not show matching brackets by flickering
-set noshowmode               " We show the mode with airline or lightline
-set ignorecase               " Search case insensitive ...
-set smartcase                " ... but not if it begins with upper case
-set completeopt=menu,menuone
-set cursorline
-set nocursorcolumn           " Speed up syntax highlighting
-set updatetime=300
-set pumheight=10             " Completion window max size
-set conceallevel=2           " Concealed text is completely hidden
+" Section: Windows
 
-set shortmess+=c   " Shut off completion messages
-set belloff+=ctrlg " If Vim beeps during completion
+set laststatus=2     " Alway display the statusbar
+set showtabline=2
+set statusline=[%n]\ %<%.99f\ %y%h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
-set lazyredraw
-
-" Copy to clipboard
-set clipboard^=unnamed
-set clipboard^=unnamedplus
-
-" Increase memory to show syntax highlighting for large files
-set maxmempattern=20000
-
-" ~/.viminfo needs to be writable and readable. Set oldfiles to 1000 last
-" recently opened files, :FzHistory uses it
-set viminfo='1000
-
-if has('persistent_undo')
-  set undofile
-  set undodir=~/.cache/vim
-endif
-
-" Color
-colorscheme nord
-
-highlight clear CursorLine
-highlight CursorLineNR cterm=bold
-augroup aug_cursorline
-  autocmd! ColorScheme * highlight clear CursorLine
-  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
-augroup end
-
-augroup filetypedetect
-  command! -nargs=* -complete=help Help vertical belowright help <args>
-  autocmd FileType help wincmd L
-
-  autocmd BufNewFile,BufRead .tmux.conf*,tmux.conf* setfiletype tmux
-  autocmd BufNewFile,BufRead .vimrc*,vimrc* setfiletype vim
-  autocmd BufNewFile,BufRead *.hcl setfiletype conf
-
-  autocmd BufNewFile,BufRead *.gotmpl set filetype=gotexttmpl
-
-  autocmd BufNewFile,BufRead *.ino setlocal noet ts=4 sw=4
-  autocmd BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
-  autocmd BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
-  autocmd BufNewFile,BufRead *.html setlocal noet ts=4 sw=4
-  autocmd BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=2 tabstop=2
-  autocmd BufNewFile,BufRead *.hcl setlocal expandtab shiftwidth=2 tabstop=2
-  autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
-  autocmd BufNewFile,BufRead *.zsh setlocal expandtab shiftwidth=2 tabstop=2
-  autocmd BufNewFile,BufRead *.proto setlocal expandtab shiftwidth=2 tabstop=2
-
-  autocmd FileType go setlocal expandtab tabstop=4 shiftwidth=4
-  autocmd FileType yaml setlocal expandtab tabstop=2 shiftwidth=2
-  autocmd FileType json setlocal expandtab tabstop=2 shiftwidth=2
-  autocmd FileType vim setlocal expandtab tabstop=2 shiftwidth=2
-  autocmd FileType sh setlocal expandtab tabstop=2 shiftwidth=2
-augroup end
-
-" ------------------------------------------------------------------------------
-" SECTION: STATUSLINE
-" ------------------------------------------------------------------------------
-
-
-" ------------------------------------------------------------------------------
-" SECTION: MAPPINGS
-" ------------------------------------------------------------------------------
-
-" First off, we need to map leader. We have mappings that depends on it. With
-" a map leader it's possible to do extra key combinations.
-let mapleader = ","
-
-" Some useful quickfix shortcuts for quickfix
-map <C-n> :cn<CR>
-map <C-m> :cm<CR>
+set hidden           " Possibility to have more than one unsaved
+                     " buffers.
+set number           " Show line numbers
+set splitright       " Split vertical windows right to the current
+set splitbelow       " Split horizontal windows below to the current
+set cursorline       " Highlight the line under the cursor
+set nocursorcolumn   " Speed up syntax highlighting
 
 " Always put the quickfix window at the bottom
 augroup quickfix
   autocmd!
   autocmd FileType qf wincmd J
   autocmd FileType qf setlocal wrap
-augroup end
+augroup END
+
+" Remove current line highlight in unfocused window
+au VimEnter,WinEnter,BufWinEnter,FocusGained,CmdwinEnter * set cursorline
+au WinLeave,FocusLost,CmdwinLeave * set nocursorline
+
+" Section: Messages and info
+
+set confirm    " Display confirmation dialog when closing an unsaved file
+set showcmd    " Show me what I'm typing
+set visualbell " Show me, don't bleep
+
+" Section: Editing text and indent
+
+set complete-=i                " Limit files searched for auto-complete
+set backspace=indent,eol,start " Proper backspace behaviour.
+set showmatch                  " Show matching brackets by flickering
+set virtualedit=block
+
+set shiftround                 " Round indentation to nearest multile of 'sw'
+set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
+set autoindent                 " Minimal automatic indent for any filetype
+
+set completeopt=menu,menuone,noinsert,noselect
+
+set clipboard^=unnamed
+set clipboard^=unnamedplus
+
+" Section: Folding and comments
+
+
+" Section: Maps
+
+" The leader
+let mapleader = ','
+
+" Close all but the current one
+nnoremap <leader>o :only<CR>
 
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
@@ -159,9 +112,6 @@ function! s:clear_highlight()
 endfunction
 nnoremap <silent> <leader><space> :<C-u>call <SID>clear_highlight()<CR>
 
-" Close all but the current one
-nnoremap <leader>o :only<CR>
-
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
@@ -172,37 +122,147 @@ nnoremap <Down> :echoe "Use j"<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" ------------------------------------------------------------------------------
-" SECTION: PLUGINS
-" ------------------------------------------------------------------------------
+" Section: Reading and writing files
 
-" Fugitive
+set fileformats=unix,dos,mac       " Prefer Unix over Windows over OS 9 formats
+set autowrite                      " Automatically save before :next, :make etc.
+set autoread                       " Automatically reread changed files without
+                                   " asking
+set noswapfile                     " Don't use swapfile
+set nobackup                       " Don't create annoying backup files
+
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.cache/vim
+endif
+
+" Remove trailing whitespace on save
+autocmd! BufWritePre * :%s/\s\+$//e
+
+" Section: Command line editing
+
+set wildmenu                      " Command-line completion.
+
+" Section: Highlighting
+
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+syntax enable
+
+" set termguicolors
+set background=dark
+colorscheme gruvbox-material
+
+highlight clear CursorLine
+highlight CursorLineNR cterm=bold
+augroup aug_cursorline
+  autocmd! ColorScheme * highlight clear CursorLine
+  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
+augroup END
+
+" Section: Filetype settings
+
+augroup filetype_settings
+	autocmd!
+	autocmd FileType go
+		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd FileType yaml,json
+      \ setlocal expandtab tabstop=2 shiftwidth=2
+	autocmd FileType sh,zsh,csh,tcsh
+      \ setlocal formatoptions-=t|
+      \ setlocal expandtab tabstop=4 shiftwidth=4
+	autocmd FileType liquid,markdown,text,txt
+      \ setlocal shiftwidth=78 linebreak keywordprg=dict
+	autocmd FileType vim
+      \ setlocal keywordprg=:help foldmethod=expr|
+      \ setlocal foldexpr=getline(v:lnum)=~'^\"\ Section:'?'>1':'='|
+      \ setlocal expandtab tabstop=2 shiftwidth=2
+augroup END
+
+" Section: Plugins
+
+" netrw
+
+let g:netrw_liststyle = 3
+let g:netrw_winsize=20
+let g:netrw_localrmdir='rm -r'
+nnoremap <leader>n :Lexplore<CR>
+
+" fugitive
+
 vnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gb :Gblame<CR>
 
-" netrw
-let g:netrw_liststyle = 3
+" vim-lsc
 
-" vim-airline
-let g:airline_powerline_fonts=1
+let g:lsc_server_commands = {
+    \  'go': {
+    \    'command': 'gopls',
+    \    'suppress_stderr': v:true,
+    \  },
+    \}
+let g:lsc_auto_map = {
+    \  'GoToDefinition': 'gd',
+    \  'FindReferences': 'gr',
+    \  'Rename': 'gR',
+    \  'ShowHover': 'K',
+    \  'Completion': 'omnifunc',
+    \}
+let g:lsc_enable_autocomplete = v:true
+let g:lsc_enable_diagnostics = v:true
+let g:lsc_reference_highlights = v:false
+let g:lsc_trace_level = 'off'
 
 " vim-go
+
+let g:go_def_mapping_enabled = 0
+let g:go_info_mode = 'gopls'
+
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = 'goimports'
 let g:go_debug_windows = {
-      \ 'vars': 'leftabove 35vnew',
-      \ 'stack': 'botright 10new',
-\ }
+    \ 'vars': 'leftabove 35vnew',
+    \ 'stack': 'botright 10new',
+    \ }
+
+let g:go_test_prepend_name = 1
+let g:go_list_type = "quickfix"
+let g:go_auto_type_info = 0
+let g:go_auto_sameids = 0
 
 let g:go_autodetect_gopath = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_enabled = ['vet', 'golint']
 
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
 let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_format_strings = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
+let g:go_gocode_propose_source = 1
 
 " vim-hashicorp-tools
+
 let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
+let g:terraform_fold_sections = 1
+
+" vim-markdown
+
+let g:markdown_conceal = 0
+let g:markdown_fenced_languages = [
+    \ 'go',
+    \ 'sh',
+    \]
+
+" Section: Fin
