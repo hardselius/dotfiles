@@ -1,253 +1,218 @@
-# Copyright (C) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
-# Copyright (C) 2017-present Sven Greb <development@svengreb.de>
+#  ____            _               _  __
+# | __ )  __ _  __| |_      _____ | |/ _|
+# |  _ \ / _` |/ _` \ \ /\ / / _ \| | |_
+# | |_) | (_| | (_| |\ V  V / (_) | |  _|
+# |____/ \__,_|\__,_| \_/\_/ \___/|_|_|
+#      _ _               _
+#   __| (_)_ __ ___ ___ | | ___  _ __ ___
+#  / _` | | '__/ __/ _ \| |/ _ \| '__/ __|
+# | (_| | | | | (_| (_) | | (_) | |  \__ \
+#  \__,_|_|_|  \___\___/|_|\___/|_|  |___/
+#
+#
+# Author: Jon Bernard
+#
 
-# Project:    Nord dircolors
-# Version:    0.2.0
-# Repository: https://github.com/arcticicestudio/nord-dircolors
-# License:    MIT
-
-COLOR tty
-
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM Eterm
 TERM ansi
-TERM *color*
-TERM con[0-9]*x[0-9]*
+TERM color-xterm
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
 TERM cons25
 TERM console
 TERM cygwin
 TERM dtterm
-TERM dvtm
-TERM dvtm-256color
-TERM Eterm
 TERM eterm-color
-TERM fbterm
 TERM gnome
 TERM gnome-256color
-TERM hurd
 TERM jfbterm
 TERM konsole
-TERM konsole-256color
 TERM kterm
 TERM linux
 TERM linux-c
+TERM mach-color
 TERM mlterm
 TERM putty
-TERM putty-256color
-TERM rxvt*
-TERM rxvt-unicode
+TERM rxvt
 TERM rxvt-256color
+TERM rxvt-cygwin
+TERM rxvt-cygwin-native
+TERM rxvt-unicode
+TERM rxvt-unicode-256color
 TERM rxvt-unicode256
-TERM screen*
+TERM screen
 TERM screen-256color
-TERM st
-TERM st-256color
+TERM screen-256color-bce
+TERM screen-bce
+TERM screen-w
+TERM screen.Eterm
+TERM screen.rxvt
+TERM screen.linux
 TERM terminator
-TERM tmux*
-TERM tmux-256color
 TERM vt100
-TERM xterm*
-TERM xterm-color
-TERM xterm-88color
+TERM xterm
+TERM xterm-16color
 TERM xterm-256color
+TERM xterm-88color
+TERM xterm-color
+TERM xterm-debian
 
-#+-----------------+
-#+ Global Defaults +
-#+-----------------+
-NORMAL 00
-RESET 0
+# Below are the color init strings for the basic file types. A color init string
+# consists of one or more of the following numeric codes:
+#
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+#
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+#
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
 
-FILE 00
-DIR 01;34
-LINK 36
-MULTIHARDLINK 04;36
+NORMAL 0;38;15                # no color code at all
+#FILE 00                        # regular file: use no color at all
+RESET 0                         # reset to "normal" color
+DIR 1;34                        # directory
+LINK 01;35                 # symbolic link. (If you set this to 'target' instead of a
+                                # numerical value, the color is as for the file pointed to.)
+MULTIHARDLINK 00                # regular file with more than one link
+FIFO 40;33                      # pipe
+SOCK 1;38;211                 # socket
+DOOR 01;35                      # door
+BLK 40;33;01                    # block device driver
+CHR 40;33;01                    # character device driver
+ORPHAN 40;31;01                 # symlink to nonexistent file, or non-stat'able file
+SETUID 37;41                    # file that is setuid (u+s)
+SETGID 30;43                    # file that is setgid (g+s)
+CAPABILITY 30;41                # file with capability
+STICKY_OTHER_WRITABLE 30;42     # dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE 30;42            # dir that is other-writable (o+w) and not sticky
+STICKY 37;44                    # dir with the sticky bit set (+t) and not other-writable
 
-FIFO 04;01;36
-SOCK 04;33
-DOOR 04;01;36
-BLK 01;33
-CHR 33
+# This is for files with execute permission:
+EXEC  1;30;32
 
-ORPHAN 31
-MISSING 01;37;41
+# archives or compressed (bright red)
+.tar 01;31
+.tgz 01;31
+.arj 01;31
+.taz 01;31
+.lzh 01;31
+.lzma 01;31
+.tlz 01;31
+.txz 01;31
+.zip 01;31
+.z 01;31
+.Z 01;31
+.dz 01;31
+.gz 01;31
+.lz 01;31
+.xz 01;31
+.bz2 01;31
+.bz 01;31
+.tbz 01;31
+.tbz2 01;31
+.tz 01;31
+.deb 01;31
+.rpm 01;31
+.jar 01;31
+.war 01;31
+.ear 01;31
+.sar 01;31
+.rar 01;31
+.ace 01;31
+.zoo 01;31
+.cpio 01;31
+.7z 01;31
+.rz 01;31
 
-EXEC 01;36
+# image formats
+.jpg 01;35
+.jpeg 01;35
+.gif 01;35
+.bmp 01;35
+.pbm 01;35
+.pgm 01;35
+.ppm 01;35
+.tga 01;35
+.xbm 01;35
+.xpm 01;35
+.tif 01;35
+.tiff 01;35
+.png 01;35
+.svg 01;35
+.svgz 01;35
+.mng 01;35
+.pcx 01;35
+.mov 01;35
+.mpg 01;35
+.mpeg 01;35
+.m2v 01;35
+.mkv 01;35
+.webm 01;35
+.ogm 01;35
+.mp4 01;35
+.m4v 01;35
+.mp4v 01;35
+.vob 01;35
+.qt 01;35
+.nuv 01;35
+.wmv 01;35
+.asf 01;35
+.rm 01;35
+.rmvb 01;35
+.flc 01;35
+.avi 01;35
+.fli 01;35
+.flv 01;35
+.gl 01;35
+.dl 01;35
+.xcf 01;35
+.xwd 01;35
+.yuv 01;35
+.cgm 01;35
+.emf 01;35
+.axv 01;35
+.anx 01;35
+.ogv 01;35
+.ogx 01;35
 
-SETUID 01;04;37
-SETGID 01;04;37
-CAPABILITY 01;37
+# audio formats
+.aac 01;33
+.au 01;33
+.flac 01;33
+.mid 01;33
+.midi 01;33
+.mka 01;33
+.mp3 01;33
+.mpc 01;33
+.ogg 01;33
+.ra 01;33
+.wav 01;33
+.axa 01;33
+.oga 01;33
+.spx 01;33
+.xspf 01;33
 
-STICKY_OTHER_WRITABLE 01;37;44
-OTHER_WRITABLE 01;04;34
-STICKY 04;37;44
-
-#+-------------------+
-#+ Extension Pattern +
-#+-------------------+
-#+--- Archives ---+
-.7z 01;32
-.ace 01;32
-.alz 01;32
-.arc 01;32
-.arj 01;32
-.bz 01;32
-.bz2 01;32
-.cab 01;32
-.cpio 01;32
-.deb 01;32
-.dz 01;32
-.ear 01;32
-.gz 01;32
-.jar 01;32
-.lha 01;32
-.lrz 01;32
-.lz 01;32
-.lz4 01;32
-.lzh 01;32
-.lzma 01;32
-.lzo 01;32
-.rar 01;32
-.rpm 01;32
-.rz 01;32
-.sar 01;32
-.t7z 01;32
-.tar 01;32
-.taz 01;32
-.tbz 01;32
-.tbz2 01;32
-.tgz 01;32
-.tlz 01;32
-.txz 01;32
-.tz 01;32
-.tzo 01;32
-.tzst 01;32
-.war 01;32
-.xz 01;32
-.z 01;32
-.Z 01;32
-.zip 01;32
-.zoo 01;32
-.zst 01;32
-
-#+--- Audio ---+
-.aac 32
-.au 32
-.flac 32
-.m4a 32
-.mid 32
-.midi 32
-.mka 32
-.mp3 32
-.mpa 32
-.mpeg 32
-.mpg 32
-.ogg 32
-.opus 32
-.ra 32
-.wav 32
-
-#+--- Customs ---+
-.3des 01;35
-.aes 01;35
-.gpg 01;35
-.pgp 01;35
-
-#+--- Documents ---+
-.doc 32
-.docx 32
-.dot 32
-.odg 32
-.odp 32
-.ods 32
-.odt 32
-.otg 32
-.otp 32
-.ots 32
-.ott 32
-.pdf 32
-.ppt 32
-.pptx 32
-.xls 32
-.xlsx 32
-
-#+--- Executables ---+
-.app 01;36
-.bat 01;36
-.btm 01;36
-.cmd 01;36
-.com 01;36
-.exe 01;36
-.reg 01;36
-
-#+--- Ignores ---+
-*~ 02;37
-.bak 02;37
-.BAK 02;37
-.log 02;37
-.log 02;37
-.old 02;37
-.OLD 02;37
-.orig 02;37
-.ORIG 02;37
-.swo 02;37
-.swp 02;37
-
-#+--- Images ---+
-.bmp 32
-.cgm 32
-.dl 32
-.dvi 32
-.emf 32
-.eps 32
-.gif 32
-.jpeg 32
-.jpg 32
-.JPG 32
-.mng 32
-.pbm 32
-.pcx 32
-.pgm 32
-.png 32
-.PNG 32
-.ppm 32
-.pps 32
-.ppsx 32
-.ps 32
-.svg 32
-.svgz 32
-.tga 32
-.tif 32
-.tiff 32
-.xbm 32
-.xcf 32
-.xpm 32
-.xwd 32
-.xwd 32
-.yuv 32
-
-#+--- Video ---+
-.anx 32
-.asf 32
-.avi 32
-.axv 32
-.flc 32
-.fli 32
-.flv 32
-.gl 32
-.m2v 32
-.m4v 32
-.mkv 32
-.mov 32
-.MOV 32
-.mp4 32
-.mpeg 32
-.mpg 32
-.nuv 32
-.ogm 32
-.ogv 32
-.ogx 32
-.qt 32
-.rm 32
-.rmvb 32
-.swf 32
-.vob 32
-.webm 32
-.wmv 32
+# documents
+.doc 01;91
+.ppt 01;91
+.xls 01;91
+.docx 01;91
+.pptx 01;91
+.xlsx 01;91
+.odt 01;91
+.ods 01;91
+.odp 01;91
+.pdf 01;91
+.tex 01;91
+.md 01;91
