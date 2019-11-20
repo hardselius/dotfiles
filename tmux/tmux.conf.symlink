@@ -112,3 +112,5 @@ set-option -g status-left-length "80"
 set-option -g status-right-style none
 set-option -g status-right-length "80"
 set-window-option -g window-status-separator " "
+
+# vim: set filetype=tmux:
