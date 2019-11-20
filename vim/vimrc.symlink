@@ -6,6 +6,11 @@ Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'morhetz/gruvbox'
 Plug 'natebosch/vim-lsc'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'sainnhe/gruvbox-material'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
@@ -13,7 +18,6 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
 " Section: Bootstrap
@@ -21,12 +25,8 @@ call plug#end()
 set nocompatible
 filetype plugin indent on
 
-" Section: Moving around, searching, patterns, and tags
-
-set incsearch  " Shows the match while typing.
-set hlsearch   " Highlight found matches.
-set ignorecase " Search case insensitive ...
-set smartcase  " ... but not if it begins with upper case.
+set modeline
+set nomodelineexpr
 
 " Section: Displaying text
 
@@ -169,7 +169,6 @@ augroup END
 augroup filetype_settings
 	autocmd!
 	autocmd FileType go
-      \ setlocal foldmethod=syntax|
 		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
   autocmd FileType yaml,json
       \ setlocal expandtab tabstop=2 shiftwidth=2
@@ -191,6 +190,7 @@ augroup END
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
+
 nnoremap <leader>n :Lexplore<CR>
 
 " fugitive
@@ -198,25 +198,50 @@ nnoremap <leader>n :Lexplore<CR>
 vnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gb :Gblame<CR>
 
-" vim-lsc
+" vim-lsp
 
-let g:lsc_server_commands = {
-    \  'go': {
-    \    'command': 'gopls',
-    \    'suppress_stderr': v:true,
-    \  },
-    \}
-let g:lsc_auto_map = {
-    \  'GoToDefinition': 'gd',
-    \  'FindReferences': 'gr',
-    \  'Rename': 'gR',
-    \  'ShowHover': 'K',
-    \  'Completion': 'omnifunc',
-    \}
-let g:lsc_enable_autocomplete = v:true
-let g:lsc_enable_diagnostics = v:true
-let g:lsc_reference_highlights = v:false
-let g:lsc_trace_level = 'off'
+if executable('gopls')
+  au User lsp_setup call lsp#register_server({
+      \ 'name': 'gopls',
+      \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+      \ 'whitelist': ['go'],
+      \ })
+  autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
+let g:lsp_signs_enabled = 1             " enable signs
+let g:lsp_diagnostics_echo_cursor = 1   " enable echo under cursor when in normal mode
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'}
+let g:lsp_highlight_references_enabled = 1
+
+augroup filetype_lsp_settings
+  autocmd!
+
+  " Jumps
+  autocmd FileType go nmap <leader>gd <plug>(lsp-definition)
+  autocmd FileType go nmap <leader>gt <plug>(lsp-type-definition)
+
+  " The commands will populate the quickfix window
+  autocmd FileType go nmap <leader>gr <plug>(lsp-references)
+  autocmd FileType go nmap <leader>gi <plug>(lsp-implementation)
+
+  " Rename
+  autocmd FileType go nmap <leader>gR <plug>(lsp-rename)
+augroup END
+
+let g:asyncomplete_auto_popup = 0
+
+function! s:check_back_space() abort
+  let col=col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " vim-go
 
