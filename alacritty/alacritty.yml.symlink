@@ -33,3 +33,5 @@ font:
   italic:
     family: Fira Code
     style: Light
+
+# vim: set filetype=yaml:
