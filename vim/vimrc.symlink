@@ -1,133 +1,197 @@
-" Section: Plugins
+" Section: Plug {{{
 
 call plug#begin()
-Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'tag': '*'}
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'morhetz/gruvbox'
-Plug 'natebosch/vim-lsc'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'sainnhe/gruvbox-material'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 call plug#end()
 
-" Section: Bootstrap
+" }}}
+
+" Section: Bootstrap {{{
 
 set nocompatible
-filetype plugin indent on
 
-set modeline
-set nomodelineexpr
+" }}}
 
-" Section: Displaying text
+" Section: Minimal Config {{{
+
+" This section is a good minimal configuration for any .vimrc. It's inspired
+" by Tim Pope's vim-sensible.
+
+if has('autocmd')
+  filetype plugin indent on
+endif
+
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
+set autoindent                 " Minimal automatic indent for any filetype
+set backspace=indent,eol,start " Proper backspace behaviour.
+set complete-=i                " Limit files searched for auto-complete
+
+set incsearch                  " Shows the match while typing.
+set laststatus=2               " Alway display the statusbar
+set ruler
+set wildmenu                   " Command-line completion.
+set scrolloff=1                " The number of screen lines to keep above/below cursor
+set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
+set display+=lastline          " Alwary try to show a paragraph's last line
+
+set autoread                   " Auto reread changed files without asking
+set sessionoptions-=options    " Don't store options
+set viewoptions-=options       " Don't store options
+
+if &history < 1000
+  set history=1000             " Set command history to 1000
+endif
+if !empty(&viminfo)
+  set viminfo^=!
+endif
+
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^Eterm'
+  set t_Co=16
+endif
+
+" Load matchit.vim, but only if the user hasn't installed a newer version.
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+" Clear search highlight
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Undo stuff in interactive mode
+if empty(mapcheck('<C-U>', 'i'))
+  inoremap <C-U> <C-G>u<C-U>
+endif
+if empty(mapcheck('<C-W>', 'i'))
+  inoremap <C-W> <C-G>u<C-W>
+endif
+
+" }}}
+
+" Section: Moving around, searching {{{
+
+set hlsearch   " Highlight found matches.
+set ignorecase " Search case insensitive ...
+set smartcase  " ... but not if it begins with upper case.
+set include=
+set path=.,,
+
+" }}}
+
+" Section: Displaying text {{{
 
 set lazyredraw         " Don't update screen during macro/script execution
 set encoding=utf-8     " Set default encoding to UTF-8
 set ttyfast
 
-set display+=lastline  " Alwary try to show a paragraph's last line
-set scrolloff=1        " The number of screen lines to keep above/below cursor
-set sidescrolloff=5    " Screen cols to keep to the left/right of the cursor
+" }}}
 
-" Section: Windows
+" Section: Color theme and highlighting {{{
 
-set laststatus=2     " Alway display the statusbar
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+set background=dark
+colorscheme gruvbox-material
+
+set cursorline       " Highlight the line under the cursor
+set nocursorcolumn   " Speed up syntax highlighting
+
+highlight clear CursorLine
+highlight CursorLineNR cterm=bold
+augroup aug_cursorline
+  autocmd! ColorScheme * highlight clear CursorLine
+  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
+augroup END
+
+" }}}
+
+" Section: Windows {{{
+
 set showtabline=2
 set statusline=[%n]\ %<%.99f\ %y%h%w%m%r%=%-14.(%l,%c%V%)\ %P
+
+nnoremap <C-j> <C-w>w
+nnoremap <C-k> <C-w>W
 
 set hidden           " Possibility to have more than one unsaved
                      " buffers.
 set number           " Show line numbers
 set splitright       " Split vertical windows right to the current
 set splitbelow       " Split horizontal windows below to the current
-set cursorline       " Highlight the line under the cursor
-set nocursorcolumn   " Speed up syntax highlighting
-
-" Always put the quickfix window at the bottom
-augroup quickfix
-  autocmd!
-  autocmd FileType qf wincmd J
-  autocmd FileType qf setlocal wrap
-augroup END
 
 " Remove current line highlight in unfocused window
 au VimEnter,WinEnter,BufWinEnter,FocusGained,CmdwinEnter * set cursorline
 au WinLeave,FocusLost,CmdwinLeave * set nocursorline
 
-" Section: Messages and info
+" Automatically resize screens to be equally the same
+autocmd VimResized * wincmd =
+
+let g:netrw_liststyle = 3
+let g:netrw_winsize=20
+let g:netrw_localrmdir='rm -r'
+
+" }}}
+
+" Section: Messages and info {{{
 
 set confirm    " Display confirmation dialog when closing an unsaved file
 set showcmd    " Show me what I'm typing
 set visualbell " Show me, don't bleep
 
-" Section: Editing text and indent
+" }}}
 
-set complete-=i                " Limit files searched for auto-complete
-set backspace=indent,eol,start " Proper backspace behaviour.
-set showmatch                  " Show matching brackets by flickering
-set virtualedit=block
+" Section: Editing text and indent {{{
 
-set shiftround                 " Round indentation to nearest multile of 'sw'
-set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
-set autoindent                 " Minimal automatic indent for any filetype
+set showmatch         " Show matching brackets by flickering
+set virtualedit=block " Allow virtual editing in Visual block mode.
+set shiftround        " Round indentation to nearest multile of 'sw'
+set smarttab          " Insert 'ts' spaces when <Tab> is pressed
 
 set completeopt=menu,menuone,noinsert,noselect
-
 set clipboard^=unnamed
 set clipboard^=unnamedplus
 
-" Section: Folding and comments
+" }}}
 
+" Section: Folding {{{
 
-" Section: Maps
+if has('folding')
+  set foldmethod=marker " Fold based on marker
+  set foldopen+=jump    " Also open fold on far jumps, e.g g or G
+  set foldenable        " Don't fold files by default on open
+  set foldlevelstart=10 " Start with a foldlevel of 10
+endif
 
-" The leader
-let mapleader = ','
+" }}}
 
-" Close all but the current one
-nnoremap <leader>o :only<CR>
-
-" Enter automatically into the files directory
-autocmd BufEnter * silent! lcd %:p:h
-
-" Automatically resize screens to be equally the same
-autocmd VimResized * wincmd =
-
-" Center the screen
-nnoremap <space> zz
-
-" Remove search highlight
-function! s:clear_highlight()
-  let @/ = ""
-  cal go#guru#ClearSameIds()
-endfunction
-nnoremap <silent> <leader><space> :<C-u>call <SID>clear_highlight()<CR>
-
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
-
-" Center on line when jumping between search results
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-" Section: Reading and writing files
+" Section: Reading and writing files {{{
 
 set fileformats=unix,dos,mac       " Prefer Unix over Windows over OS 9 formats
 set autowrite                      " Automatically save before :next, :make etc.
-set autoread                       " Automatically reread changed files without
-                                   " asking
 set noswapfile                     " Don't use swapfile
 set nobackup                       " Don't create annoying backup files
 
@@ -139,32 +203,53 @@ endif
 " Remove trailing whitespace on save
 autocmd! BufWritePre * :%s/\s\+$//e
 
-" Section: Command line editing
+" }}}
 
-set wildmenu                      " Command-line completion.
+" Section: Command line editing {{{
 
-" Section: Highlighting
+set wildcharm=<C-z>
 
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
+" }}}
 
-syntax enable
+" Section: Mappings {{{
 
-" set termguicolors
-set background=dark
-colorscheme gruvbox-material
+" The leader
+let mapleader = ','
 
-highlight clear CursorLine
-highlight CursorLineNR cterm=bold
-augroup aug_cursorline
-  autocmd! ColorScheme * highlight clear CursorLine
-  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
-augroup END
+nnoremap <leader>e :e **/*<C-z><S-Tab>
+nnoremap <leader>n :Lexplore<CR>
 
-" Section: Filetype settings
+vnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gb :Gblame<CR>
+
+" Userful insert mode mappings
+inoremap <M-o>      <C-O>o
+inoremap <M-O>      <C-O>O
+inoremap <M-i>      <Left>
+inoremap <M-I>      <C-O>^
+inoremap <M-A>      <C-O>$
+inoremap <C-J>      <Down>
+inoremap <C-K><C-K> <Up>
+
+nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
+nmap cd <C-W>.
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Center the screen
+nnoremap <space> zz
+
+" Center on line when jumping between search results
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" }}}
+
+" Section: Filetype settings {{{
 
 augroup filetype_settings
 	autocmd!
@@ -176,27 +261,27 @@ augroup filetype_settings
       \ setlocal formatoptions-=t|
       \ setlocal expandtab tabstop=4 shiftwidth=4
 	autocmd FileType liquid,markdown,text,txt
-      \ setlocal shiftwidth=78 linebreak keywordprg=dict
+      \ setlocal textwidth=78 linebreak keywordprg=dict
 	autocmd FileType vim
       \ setlocal keywordprg=:help foldmethod=expr|
       \ setlocal foldexpr=getline(v:lnum)=~'^\"\ Section:'?'>1':'='|
       \ setlocal expandtab tabstop=2 shiftwidth=2
 augroup END
 
-" Section: Plugins
+" }}}
 
-" netrw
+" Section: Misc {{{
 
-let g:netrw_liststyle = 3
-let g:netrw_winsize=20
-let g:netrw_localrmdir='rm -r'
+set modeline       " Enable modeline
+set nomodelineexpr " ... but not expressions
 
-nnoremap <leader>n :Lexplore<CR>
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
 
-" fugitive
+" }}}
 
-vnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gb :Gblame<CR>
+" Section: Plugins {{{
 
 " vim-lsp
 
@@ -219,15 +304,22 @@ augroup filetype_lsp_settings
   autocmd!
 
   " Jumps
-  autocmd FileType go nmap <leader>gd <plug>(lsp-definition)
-  autocmd FileType go nmap <leader>gt <plug>(lsp-type-definition)
+  autocmd FileType go nmap gd <plug>(lsp-definition)
 
   " The commands will populate the quickfix window
-  autocmd FileType go nmap <leader>gr <plug>(lsp-references)
-  autocmd FileType go nmap <leader>gi <plug>(lsp-implementation)
+  autocmd FileType go nmap ga <plug>(lsp-code-action)
+  autocmd FileType go nmap gA <plug>(lsp-document-diagnostics)
+  autocmd FileType go nmap gi <plug>(lsp-implementation)
+  autocmd FileType go nmap gr <plug>(lsp-references)
 
   " Rename
-  autocmd FileType go nmap <leader>gR <plug>(lsp-rename)
+  autocmd FileType go nmap gR <plug>(lsp-rename)
+
+  " Folding
+  autocmd FileType go setlocal
+      \ foldmethod=expr
+      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+      \ foldtext=lsp#ui#vim#folding#foldtext()
 augroup END
 
 let g:asyncomplete_auto_popup = 0
@@ -245,37 +337,20 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " vim-go
 
-let g:go_def_mapping_enabled = 0
-let g:go_info_mode = 'gopls'
-
-let g:go_fmt_fail_silently = 1
+let g:go_def_mapping_enabled = 0 " This is handled by the lsp client
 let g:go_fmt_command = 'goimports'
+let g:go_fmt_fail_silently = 1
+let g:go_list_type = "quickfix"
 let g:go_debug_windows = {
     \ 'vars': 'leftabove 35vnew',
     \ 'stack': 'botright 10new',
     \ }
 
-let g:go_test_prepend_name = 1
-let g:go_list_type = "quickfix"
-let g:go_auto_type_info = 0
-let g:go_auto_sameids = 0
-
-let g:go_autodetect_gopath = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_enabled = ['vet', 'golint']
-
-let g:go_highlight_space_tab_error = 0
-let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_extra_types = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
-let g:go_highlight_format_strings = 1
-let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
-let g:go_gocode_propose_source = 1
+let g:go_highlight_types = 1
+let g:go_highlight_extra_types = 1
 
 " vim-hashicorp-tools
 
@@ -291,4 +366,6 @@ let g:markdown_fenced_languages = [
     \ 'sh',
     \]
 
-" Section: Fin
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0
