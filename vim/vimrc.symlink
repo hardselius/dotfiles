@@ -5,11 +5,8 @@ Plug 'fatih/vim-go', { 'tag': '*'}
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'morhetz/gruvbox'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'sainnhe/gruvbox-material'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
@@ -132,7 +129,6 @@ augroup END
 " Section: Windows {{{
 
 set showtabline=2
-set statusline=[%n]\ %<%.99f\ %y%h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
@@ -153,6 +149,12 @@ autocmd VimResized * wincmd =
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
+
+" }}}
+
+" Section: Statusline {{{
+
+set statusline=[%n]\ %<%.99f\ %y%h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
 " }}}
 
@@ -219,8 +221,8 @@ let mapleader = ','
 nnoremap <leader>e :e **/*<C-z><S-Tab>
 nnoremap <leader>n :Lexplore<CR>
 
-vnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gb :Gblame<CR>
+" Close all windows but the current
+nnoremap <leader>o :only<CR>
 
 " Userful insert mode mappings
 inoremap <M-o>      <C-O>o
@@ -247,6 +249,16 @@ nnoremap <space> zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+" Center on line when moving up and down
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+
+" Remap H and L (top, bottom of screen to left and right end of line)
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L g_
+
 " }}}
 
 " Section: Filetype settings {{{
@@ -254,6 +266,7 @@ nnoremap N Nzzzv
 augroup filetype_settings
 	autocmd!
 	autocmd FileType go
+      \ setlocal foldmethod=syntax|
 		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
   autocmd FileType yaml,json
       \ setlocal expandtab tabstop=2 shiftwidth=2
@@ -281,70 +294,25 @@ endif
 
 " }}}
 
-" Section: Plugins {{{
+" Plugin: vim-fugitive (git) {{{
+nnoremap <leader>gs :Gstatus<CR>
+vnoremap <leader>gB :Gblame<CR>
+nnoremap <leader>gB :Gblame<CR>
+nnoremap <leader>gl :silent! Glog<CR>
+nnoremap <leader>gps :Dispatch! git push<CR>
+nnoremap <leader>gpl :Dispatch! git pull<CR>
+" }}}
 
-" vim-lsp
+" Plugin: fatih/vim-go {{{
 
-if executable('gopls')
-  au User lsp_setup call lsp#register_server({
-      \ 'name': 'gopls',
-      \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-      \ 'whitelist': ['go'],
-      \ })
-  autocmd BufWritePre *.go LspDocumentFormatSync
-endif
-
-let g:lsp_signs_enabled = 1             " enable signs
-let g:lsp_diagnostics_echo_cursor = 1   " enable echo under cursor when in normal mode
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '‼'}
-let g:lsp_highlight_references_enabled = 1
-
-augroup filetype_lsp_settings
-  autocmd!
-
-  " Jumps
-  autocmd FileType go nmap gd <plug>(lsp-definition)
-
-  " The commands will populate the quickfix window
-  autocmd FileType go nmap ga <plug>(lsp-code-action)
-  autocmd FileType go nmap gA <plug>(lsp-document-diagnostics)
-  autocmd FileType go nmap gi <plug>(lsp-implementation)
-  autocmd FileType go nmap gr <plug>(lsp-references)
-
-  " Rename
-  autocmd FileType go nmap gR <plug>(lsp-rename)
-
-  " Folding
-  autocmd FileType go setlocal
-      \ foldmethod=expr
-      \ foldexpr=lsp#ui#vim#folding#foldexpr()
-      \ foldtext=lsp#ui#vim#folding#foldtext()
-augroup END
-
-let g:asyncomplete_auto_popup = 0
-
-function! s:check_back_space() abort
-  let col=col('.') - 1
-  return !col || getline('.')[col - 1] =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" vim-go
-
-let g:go_def_mapping_enabled = 0 " This is handled by the lsp client
-let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
-let g:go_list_type = "quickfix"
+let g:go_fmt_command = 'goimports'
 let g:go_debug_windows = {
     \ 'vars': 'leftabove 35vnew',
     \ 'stack': 'botright 10new',
     \ }
+
+let g:go_list_type = "quickfix"
 
 let g:go_highlight_operators = 1
 let g:go_highlight_functions = 1
@@ -352,13 +320,60 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
 let g:go_highlight_extra_types = 1
 
-" vim-hashicorp-tools
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+augroup go
+  autocmd!
+
+  " Go to declaration / definition
+  autocmd FileType go nmap <silent> <leader>v <plug>(go-def-vertical)
+  autocmd FileType go nmap <silent> <leader>s <plug>(go-def-split)
+  autocmd FileType go nmap <silent> <leader>d <plug>(go-def-tab)
+
+  " Refactoring
+  autocmd FileType go nmap <silent> <leader>R <plug>(go-rename)
+
+  " Show documentation
+  autocmd FileType go nmap <silent> <leader>h <plug>(go-doc-vertical)
+  autocmd FileType go nmap <silent> <leader>H <plug>(go-doc-browser)
+
+  " Info and linting
+  autocmd FileType go nmap <silent> <leader>i <plug>(go-info)
+  autocmd FileType go nmap <silent> <leader>l <plug>(go-metalinter)
+
+  " Building and testing
+  autocmd FileType go nmap <silent> <leader>mb :<C-u>call <SID>build_go_files()<CR>
+  autocmd FileType go nmap <silent> <leader>mt  <plug>(go-test)
+  autocmd FileType go nmap <silent> <leader>mr  <plug>(go-run)
+  autocmd FileType go nmap <silent> <leader>me  <plug>(go-install)
+  autocmd FileType go nmap <silent> <leader>mc <plug>(go-coverage-toggle)
+
+  " Override :GoAlternate with :A, :AV, :AS, and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" }}}
+
+" Plugin: HashiCorp Tools {{{
 
 let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
 let g:terraform_fold_sections = 1
 
-" vim-markdown
+" }}}
+
+" Plugin: tpope/vim-markdown {{{
 
 let g:markdown_conceal = 0
 let g:markdown_fenced_languages = [
