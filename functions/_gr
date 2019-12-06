@@ -1,0 +1,31 @@
+#compdef gr
+
+declare -a opts args
+args=(
+    '-h[display this help and exit]'
+    '1:path:_rr_path'
+)
+
+curcontext=$curcontext state line ret=1
+declare -A opt_args
+
+# show directories in git top level directory
+(( $+functions[_rr_path] )) ||
+
+_rr_path() {
+    local root_path
+
+    if [[ $( git rev-parse --is-inside-work-tree 2> /dev/null ) != 'true' ]]; then
+        return 1
+    fi
+
+    root_path=$( git rev-parse --show-toplevel )
+    _path_files -W "$root_path" -/
+}
+
+_arguments -C $opts \
+    $args && ret=0
+
+return $ret
+
+# vim: filetype=zsh
