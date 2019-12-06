@@ -3,7 +3,7 @@ SHELL := /usr/bin/env bash
 
 .PHONY: check-scripts
 check-scripts:
-	shellcheck --shell=bash **/*.*sh
+	shellcheck --shell=bash **/*.*sh functions/*
 
 # ------------------------------------------------------------------------------
 # BOOSTRAP
