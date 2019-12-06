@@ -337,6 +337,7 @@ augroup go
   autocmd FileType go nmap <silent> <leader>v <plug>(go-def-vertical)
   autocmd FileType go nmap <silent> <leader>s <plug>(go-def-split)
   autocmd FileType go nmap <silent> <leader>d <plug>(go-def-tab)
+  autocmd FileType go nmap <silent> <leader>r <plug>(go-referrers)
 
   " Refactoring
   autocmd FileType go nmap <silent> <leader>R <plug>(go-rename)
