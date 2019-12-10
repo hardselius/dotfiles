@@ -45,6 +45,11 @@ set -g history-limit 1000000
 set -g set-titles on
 set -g set-titles-string "#T"
 
+# Open new splits and windows with the current working directory
+bind '"' split-window -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
+bind c new-window -c "#{pane_current_path}"
+
 # -----------------------------------------------------------------------------
 # KEY BINDINGS
 # -----------------------------------------------------------------------------
