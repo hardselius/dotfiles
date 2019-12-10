@@ -8,11 +8,20 @@ fi
 # versioned repo.
 [[ -f ~/.localrc ]] && source ~/.localrc
 
+# -----------------------------------------------------------------------------
+# ENVIRONMENT
+# -----------------------------------------------------------------------------
+
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/dotfiles"
 
 # project folder that we can `c [tab]` to
-export PROJECTS="$HOME/dev"
+export PROJECTS="$HOME/projects"
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+# -----------------------------------------------------------------------------
+# LOAD CONFIGURATION
+# -----------------------------------------------------------------------------
 
 # All our zsh files
 typeset -U config_files
@@ -22,6 +31,8 @@ config_files=($DOTFILES/*/*.zsh)
 for file in  ${(M)config_files:#*/path.zsh}; do
 	source  "$file"
 done
+
+typeset -U PATH
 
 # Load everything but the path and completion files.
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
@@ -52,3 +63,6 @@ zplugin light zsh-users/zsh-completions
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+
+complete -o nospace -C /usr/local/bin/terraform terraform
