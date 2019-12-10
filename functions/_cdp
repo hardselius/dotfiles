@@ -1,2 +1,2 @@
-#compdef c
+#compdef cdp
 _files -W "$PROJECTS" -/

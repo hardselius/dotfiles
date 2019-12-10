@@ -1,2 +1,2 @@
-#compdef h
+#compdef cdh
 _files -W "$HOME" -/
