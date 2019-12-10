@@ -1,7 +1,7 @@
 " Section: Plug {{{
 
 call plug#begin()
-Plug 'fatih/vim-go', { 'tag': '*'}
+Plug 'fatih/vim-go'
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'morhetz/gruvbox'
@@ -14,6 +14,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'wakatime/vim-wakatime'
 call plug#end()
 
 " }}}
@@ -87,11 +88,14 @@ endif
 
 " Section: Moving around, searching {{{
 
-set hlsearch   " Highlight found matches.
-set ignorecase " Search case insensitive ...
-set smartcase  " ... but not if it begins with upper case.
+set hlsearch                  " Highlight found matches.
+set ignorecase                " Search case insensitive ...
+set smartcase                 " ... but not if it begins with upper case.
 set include=
 set path=.,,
+
+set grepprg=rg\ --vimgrep\ $* " Use ripgrep
+set grepformat=%f:%l:%c:%m
 
 " }}}
 
@@ -224,6 +228,9 @@ nnoremap <leader>n :Lexplore<CR>
 " Close all windows but the current
 nnoremap <leader>o :only<CR>
 
+" Close both the quickfix and location list
+nnoremap <silent><leader>a :cclose<CR>:lclose<CR>
+
 " Userful insert mode mappings
 inoremap <M-o>      <C-O>o
 inoremap <M-O>      <C-O>O
@@ -268,6 +275,8 @@ augroup filetype_settings
 	autocmd FileType go
       \ setlocal foldmethod=syntax|
 		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd FileType terraform
+      \ setlocal foldnestmax=1
   autocmd FileType yaml,json
       \ setlocal expandtab tabstop=2 shiftwidth=2
 	autocmd FileType sh,zsh,csh,tcsh
@@ -298,7 +307,7 @@ endif
 nnoremap <leader>gs :Gstatus<CR>
 vnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gB :Gblame<CR>
-nnoremap <leader>gl :silent! Glog<CR>
+nnoremap <leader>gl :silent! Glog!<CR>
 nnoremap <leader>gps :Dispatch! git push<CR>
 nnoremap <leader>gpl :Dispatch! git pull<CR>
 " }}}
@@ -312,7 +321,8 @@ let g:go_debug_windows = {
     \ 'stack': 'botright 10new',
     \ }
 
-let g:go_list_type = "quickfix"
+let g:go_list_type = 'quickfix'
+let g:go_rename_command = 'gopls'
 
 let g:go_highlight_operators = 1
 let g:go_highlight_functions = 1
