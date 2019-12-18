@@ -1,6 +1,9 @@
 # OSX trash
 .DS_Store
 
+# Homebrew
+Brewfile.lock.json
+
 # Vim-related files
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
