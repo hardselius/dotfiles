@@ -1,15 +1,14 @@
 " Section: Plug {{{
 
 call plug#begin()
-Plug 'fatih/vim-go'
+Plug 'SirVer/ultisnips'
+Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
-Plug 'morhetz/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'SirVer/ultisnips'
+Plug 'romainl/Apprentice', {'tag': '*'}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', {'tag': '*'}
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -116,8 +115,8 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-set background=dark
-colorscheme gruvbox-material
+" set background=dark
+colorscheme apprentice
 
 set cursorline       " Highlight the line under the cursor
 set nocursorcolumn   " Speed up syntax highlighting

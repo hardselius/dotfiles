@@ -34,31 +34,53 @@ font:
   size: 12.0
 
   use_thin_strokes: true
+  #colors:
+  #  primary:
+  #    background: '0x282828'
+  #    foreground: '0xdfbf8e'
+  #
+  #  normal:
+  #    black:   '0x665c54'
+  #    red:     '0xea6962'
+  #    green:   '0xa9b665'
+  #    yellow:  '0xe78a4e'
+  #    blue:    '0x7daea3'
+  #    magenta: '0xd3869b'
+  #    cyan:    '0x89b482'
+  #    white:   '0xdfbf8e'
+  #
+  #  bright:
+  #    black:   '0x928374'
+  #    red:     '0xea6962'
+  #    green:   '0xa9b665'
+  #    yellow:  '0xe3a84e'
+  #    blue:    '0x7daea3'
+  #    magenta: '0xd3869b'
+  #    cyan:    '0x89b482'
+  #    white:   '0xdfbf8e'
 
-# Colors (Gruvbox Material Dark Medium)
+# Colors (Apprentice)
 colors:
   primary:
-    background: '0x282828'
-    foreground: '0xdfbf8e'
-
+    background: '0x262626'
+    forground:  '0xbcbcbc'
   normal:
-    black:   '0x665c54'
-    red:     '0xea6962'
-    green:   '0xa9b665'
-    yellow:  '0xe78a4e'
-    blue:    '0x7daea3'
-    magenta: '0xd3869b'
-    cyan:    '0x89b482'
-    white:   '0xdfbf8e'
-
+    black:   '0x1c1c1c'
+    red:     '0xaf5f5f'
+    green:   '0x5F875F'
+    yellow:  '0x87875F'
+    blue:    '0x5F87AF'
+    magenta: '0x5F5F87'
+    cyan:    '0x5F8787'
+    white:   '0x6C6C6C'
   bright:
-    black:   '0x928374'
-    red:     '0xea6962'
-    green:   '0xa9b665'
-    yellow:  '0xe3a84e'
-    blue:    '0x7daea3'
-    magenta: '0xd3869b'
-    cyan:    '0x89b482'
-    white:   '0xdfbf8e'
+    black:   '0x444444'
+    red:     '0xFF8700'
+    green:   '0x87AF87'
+    yellow:  '0xFFFFAF'
+    blue:    '0x8FAFD7'
+    magenta: '0x8787AF'
+    cyan:    '0x5FAFAF'
+    white:   '0xFFFFFF'
 
 # vim: set filetype=yaml:
