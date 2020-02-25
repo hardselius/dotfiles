@@ -1,23 +1,26 @@
-" PLUG: {{{
+" PLUGINS: {{{
 
-call plug#begin()
-Plug 'SirVer/ultisnips'
-Plug 'fatih/vim-go', {'tag': 'v1.22'}
-Plug 'godlygeek/tabular'
-Plug 'hashivim/vim-hashicorp-tools'
-Plug 'romainl/Apprentice', {'tag': '*'}
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive', {'tag': '*'}
-Plug 'tpope/vim-markdown'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'wakatime/vim-wakatime'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-call plug#end()
+command! PackUpdate call local#pack#pack_init() | call minpac#update('', { 'do': 'call minpac#status()' })
+command! PackClean  call local#pack#pack_init() | call minpac#clean()
+command! PackStatus call local#pack#pack_init() | call minpac#status()
+
+packadd! Apprentice
+packadd! fzf
+packadd! fzf.vim
+packadd! tabular
+packadd! ultisnips
+packadd! vim-commentary
+packadd! vim-eunuch
+packadd! vim-fugitive
+packadd! vim-repeat
+packadd! vim-surround
+packadd! vim-unimpaired
+packadd! vim-vinegar
+packadd! vim-wakatime
+
+" Language specific
+packadd! vim-go
+packadd! vim-markdown
 
 " }}}
 
