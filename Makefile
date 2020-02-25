@@ -1,21 +1,19 @@
-# Make will use bash instead of sh
-SHELL := /usr/bin/env bash
 
-.PHONY: check-scripts
-check-scripts:
-	shellcheck --shell=bash **/*.*sh functions/*
+.PHONY: default
+default: help
 
-# ------------------------------------------------------------------------------
-# BOOSTRAP
-# ------------------------------------------------------------------------------
+.PHONY: lsrc
+## lsrc: Run lsrc
+lsrc:
+	RCRC="$(CURDIR)/rcrc" lsrc
 
-.PHONY: bootstrap
-bootstrap: dotfiles zsh
+.PHONY: rcup
+## rcup: Run rcup
+rcup:
+	RCRC="$(CURDIR)/rcrc" rcup
 
-.PHONY: dotfiles
-dotfiles:
-	@source scripts/make.sh && bootstrap_dotfiles
-
-.PHONY: bootstrap_zsh
-zsh:
-	@source scripts/make.sh && bootstrap_zsh
+.PHONY: help
+## help: Prints this help message
+help:
+	@echo "Usage: \n"
+	@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'

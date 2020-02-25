@@ -1,0 +1,2 @@
+EXCLUDES="README*.md LICENSE Brewfile functions zsh tmux bin Makefile"
+UNDOTTED="bin"

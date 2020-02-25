@@ -1,7 +1,0 @@
-
-[submodule "tmux/tmux.symlink/plugins/tpm"]
-	path = tmux/tmux.symlink/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-[submodule "zsh/zplugin.symlink/bin"]
-	path = zsh/zplugin.symlink/bin
-	url = https://github.com/zdharma/zplugin.git
