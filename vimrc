@@ -20,6 +20,7 @@ packadd! vim-wakatime
 
 " Language specific
 packadd! vim-go
+packadd! vim-hashicorp-tools
 packadd! vim-markdown
 
 " }}}
@@ -36,7 +37,6 @@ runtime macros/matchit.vim
 set autoindent                 " Minimal automatic indent for any filetype
 set backspace=indent,eol,start " Proper backspace behaviour.
 set complete-=i                " Limit files searched for auto-complete
-set laststatus=2               " Alway display the statusbar
 set ruler                      " Show the line and column number of the cursor position.
 set wildmenu                   " Command-line completion.
 set scrolloff=1                " The number of screen lines to keep above/below cursor
@@ -132,8 +132,8 @@ endif
 
 " STATUSLINE: {{{
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-set statusline=[%n]\ %<%.99f\ %y%h%w%m%r%=%-14.(%l,%c%V%)\ %P
+set laststatus=2               " Alway display the statusbar
+set statusline=%!local#statusline#buildstatusline()
 
 " }}}
 
