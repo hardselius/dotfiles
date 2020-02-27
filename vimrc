@@ -249,7 +249,8 @@ let g:netrw_localrmdir='rm -r'
 
 " Plugin: vim-fugitive (git)
 " ------------------------------------------------------------------------------
-nnoremap <leader>gs :Gstatus<CR>
+nmap <leader>gs :Gstatus<CR>gg<c-n>
+nnoremap <leader>gd :Gdiff<CR>
 vnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gl :silent! Glog!<CR>
