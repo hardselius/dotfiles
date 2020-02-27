@@ -1,14 +1,11 @@
 #! /usr/bin/env zsh
 
-# 1. INIT
-# 2. ALIASES
-
+# INIT {{{
+# -----------------------------------------------------------------------------
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# INIT {{{
-# -----------------------------------------------------------------------------
 # Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
 # versioned repo.
 [[ -f ~/.localrc ]] && source ~/.localrc
@@ -16,7 +13,7 @@ fi
 export GPG_TTY="$TTY"
 # }}}
 
-# 2. ALIASES {{{
+# ALIASES {{{
 # -----------------------------------------------------------------------------
 alias reload!='exec "$SHELL" -l'
 alias cls='clear'
@@ -54,6 +51,10 @@ fi
 gi() {
 	curl -s "https://www.gitignore.io./api/$*";
 }
+
+# Load custom functions
+fpath=($DOTFILES/functions $fpath)
+autoload -U "$DOTFILES"/functions/*(:t)
 # }}}
 
 # HISTORY {{{
@@ -73,6 +74,78 @@ setopt hist_verify
 setopt inc_append_history
 # share command history data
 setopt share_history
+# }}}
+
+# AUTOCOMPLETION {{{
+# -----------------------------------------------------------------------------
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
+autoload -U +X bashcompinit && bashcompinit
+
+zstyle ':completion:*' completer _oldlist _expand _complete _match _ignored _approximate
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' insert-tab pending
+zstyle ':completion:*' menu select=2
+
+# Automatically update PATH entries
+zstyle ':completion:*' rehash true
+
+# Keep directories and files separated
+zstyle ':completion:*' list-dirs-first true
+# }}}
+
+# KEY BINDINGS {{{
+# -----------------------------------------------------------------------------
+# Use emacs-like key bindings by default:
+bindkey -e
+
+if [[ "${terminfo[kpp]}" != "" ]]; then
+  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
+fi
+
+if [[ "${terminfo[knp]}" != "" ]]; then
+  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
+fi
+
+if [[ "${terminfo[khome]}" != "" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
+fi
+
+if [[ "${terminfo[kend]}" != "" ]]; then
+  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
+fi
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
+fi
+
+bindkey '^?' backward-delete-char                     # [Backspace] - delete backward
+if [[ "${terminfo[kdch1]}" != "" ]]; then
+  bindkey "${terminfo[kdch1]}" delete-char            # [Delete] - delete forward
+else
+  bindkey "^[[3~" delete-char
+  bindkey "^[3;5~" delete-char
+  bindkey "\e[3~" delete-char
+fi
+
+# https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+#autoload -U up-line-or-beginning-search
+#autoload -U down-line-or-beginning-search
+#zle -N up-line-or-beginning-search
+#zle -N down-line-or-beginning-search
+
+# [Ctrl-r] - Search backward incrementally for a specified string. The string
+# may begin with ^ to anchor the search to the beginning of the line.
+# Uses fzf if installed, default otherwise.
+if test -d /usr/local/opt/fzf/shell; then
+	# shellcheck disable=SC1091
+	. /usr/local/opt/fzf/shell/key-bindings.zsh
+else
+	bindkey '^r' history-incremental-search-backward
+fi
 # }}}
 
 # PLUGINS {{{
@@ -105,90 +178,7 @@ zplug load
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
 
-# AUTOCOMPLETION {{{
+# MISC. CONFIGURATION {{{
 # -----------------------------------------------------------------------------
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
-
-autoload -U +X bashcompinit && bashcompinit
-
-zstyle ':completion:*' completer _oldlist _expand _complete _match _ignored _approximate
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' insert-tab pending
-zstyle ':completion:*' menu select=2
-
-# Automatically update PATH entries
-zstyle ':completion:*' rehash true
-
-# Keep directories and files separated
-zstyle ':completion:*' list-dirs-first true
-# }}}
-
-# KEY BINDINGS {{{
-# -----------------------------------------------------------------------------
-# Use emacs-like key bindings by default:
-bindkey -e
-
-# [Ctrl-r] - Search backward incrementally for a specified string. The string
-# may begin with ^ to anchor the search to the beginning of the line.
-bindkey '^r' history-incremental-search-backward
-
-if [[ "${terminfo[kpp]}" != "" ]]; then
-  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
-fi
-
-if [[ "${terminfo[knp]}" != "" ]]; then
-  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
-fi
-
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
-fi
-
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
-fi
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-fi
-
-bindkey '^?' backward-delete-char                     # [Backspace] - delete backward
-if [[ "${terminfo[kdch1]}" != "" ]]; then
-  bindkey "${terminfo[kdch1]}" delete-char            # [Delete] - delete forward
-else
-  bindkey "^[[3~" delete-char
-  bindkey "^[3;5~" delete-char
-  bindkey "\e[3~" delete-char
-fi
-# }}}
-
-
-# CONFIGURATION {{{
-# -----------------------------------------------------------------------------
-
-fpath=($DOTFILES/functions $fpath)
-
-autoload -U "$DOTFILES"/functions/*(:t)
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-
-
-
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-
-
-# search history with fzf if installed, default otherwise
-if test -d /usr/local/opt/fzf/shell; then
-	# shellcheck disable=SC1091
-	. /usr/local/opt/fzf/shell/key-bindings.zsh
-else
-	bindkey '^R' history-incremental-search-backward
-fi
-# }}}
-
 complete -o nospace -C /usr/local/bin/terraform terraform
-
+# }}}
