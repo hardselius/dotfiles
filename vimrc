@@ -1,10 +1,13 @@
-" PLUGINS: {{{
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" PLUGINS:
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" {{{
 
 command! PackUpdate call local#pack#pack_init() | call minpac#update('', { 'do': 'call minpac#status()' })
 command! PackClean  call local#pack#pack_init() | call minpac#clean()
 command! PackStatus call local#pack#pack_init() | call minpac#status()
 
-packadd! Apprentice
 packadd! fzf
 packadd! fzf.vim
 packadd! tabular
@@ -13,23 +16,32 @@ packadd! vim-commentary
 packadd! vim-eunuch
 packadd! vim-fugitive
 packadd! vim-repeat
+packadd! vim-orgmode
 packadd! vim-surround
 packadd! vim-tmux
 packadd! vim-tmux-focus-events
 packadd! vim-unimpaired
 packadd! vim-vinegar
 packadd! vim-wakatime
+packadd! vimwiki
 
 " Language specific
 packadd! vim-go
 packadd! vim-hashicorp-tools
 packadd! vim-markdown
 
+" Colorschemes
+packadd! Apprentice
+packadd! fogbell.vim
+
 " }}}
 
-" SETTINGS: {{{
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" SETTINGS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+" Section: General {{{
+" ------------------------------------------------------------------------------
 set nocompatible
 filetype plugin indent on
 syntax on
@@ -45,7 +57,9 @@ set scrolloff=1                " The number of screen lines to keep above/below 
 set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
 set display+=lastline          " Alwary try to show a paragraph's last line
 
-" Section: Moving around, searching
+" }}}
+
+" Section: Moving around, searching {{{
 " ------------------------------------------------------------------------------
 set incsearch                  " Shows the match while typing.
 set hlsearch                   " Highlight found matches.
@@ -56,16 +70,23 @@ set path=.,,
 set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
 set grepformat=%f:%l:%c:%m
 
-" Section: Displaying text
+" }}}
+
+" Section: Displaying text {{{
 " ------------------------------------------------------------------------------
 set lazyredraw                 " Don't update screen during macro/script execution
 set encoding=utf-8             " Set default encoding to UTF-8
 
-" Section: Color theme and highlighting
-" ------------------------------------------------------------------------------
-colorscheme apprentice
+" }}}
 
-" Section: Windows
+" Section: Color theme and highlighting {{{
+" ------------------------------------------------------------------------------
+
+colorscheme warlock
+
+" }}}
+
+" Section: Windows {{{
 " ------------------------------------------------------------------------------
 set showtabline=2
 set hidden                     " Possibility to have more than one unsaved buffers.
@@ -76,7 +97,9 @@ set splitbelow                 " Split horizontal windows below to the current
 " Automatically resize screens to be equally the same
 autocmd VimResized * wincmd =
 
-" Section: Editing text and indent
+" }}}
+
+" Section: Editing text and indent {{{
 " ------------------------------------------------------------------------------
 set showmatch                  " Show matching brackets by flickering
 set virtualedit=block          " Allow virtual editing in Visual block mode.
@@ -86,13 +109,17 @@ set completeopt=menu,menuone,noinsert,noselect
 set clipboard^=unnamed
 set clipboard^=unnamedplus
 
-" Section: Messages and info
+" }}}
+
+" Section: Messages and info {{{
 " ------------------------------------------------------------------------------
 set confirm                    " Display confirmation dialog when closing an unsaved file
 set showcmd                    " Show me what I'm typing
 set visualbell                 " Show me, don't bleep
 
-" Section: Folding
+" }}}
+
+" Section: Folding {{{
 " ------------------------------------------------------------------------------
 if has('folding')
   set foldmethod=marker        " Fold based on marker
@@ -101,7 +128,9 @@ if has('folding')
   set foldlevelstart=10        " Start with a foldlevel of 10
 endif
 
-" Section: Reading and writing files
+" }}}
+
+" Section: Reading and writing files {{{
 " ------------------------------------------------------------------------------
 set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
 set autoread                   " Auto reread changed files without asking
@@ -117,11 +146,15 @@ endif
 " Remove trailing whitespace on save
 autocmd! BufWritePre * :%s/\s\+$//e
 
-" Section: Command line editing
+" }}}
+
+" Section: Command line editing {{{
 " ------------------------------------------------------------------------------
 set wildcharm=<C-z>
 
-" Section: Misc
+" }}}
+
+" Section: Misc {{{
 " ------------------------------------------------------------------------------
 set modeline                   " Enable modeline
 set nomodelineexpr             " ... but not expressions
@@ -132,15 +165,22 @@ endif
 
 " }}}
 
-" STATUSLINE: {{{
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" STATUSLINE:
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" {{{
+
 set laststatus=2               " Alway display the statusbar
 set statusline=%!local#statusline#buildstatusline()
 
 " }}}
 
-" MAPPINGS: {{{
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" MAPPINGS:
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" {{{
 
 " Clear search highlight
 if maparg('<C-L>', 'n') ==# ''
@@ -185,8 +225,11 @@ nnoremap <C-d> <C-d>zz
 
 " }}}
 
-" FILETYPE SETTINGS: {{{
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" FILETYPE SETTINGS:
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" {{{
 
 augroup filetype_settings
 	autocmd!
@@ -210,10 +253,11 @@ augroup END
 
 " }}}
 
-" PLUGINS: {{{
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" PLUGINS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" Plugin: fzf
+" Plugin: fzf {{{
 " ------------------------------------------------------------------------------
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_command_prefix = 'Fzf'
@@ -241,13 +285,26 @@ command! -bang -nargs=* Rg
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
-" Plugin: netrw
+" }}}
+
+" Plugin: org-mode {{{
+" ------------------------------------------------------------------------------
+
+let g:org_agenda_files = ['~/Dropbox/org/*.org']
+
+let g:vimwiki_list = [{ 'path': '~/Dropbox/wiki/', 'syntax': 'markdown', 'ext': '.md' }]
+
+" }}}
+
+" Plugin: netrw {{{
 " ------------------------------------------------------------------------------
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
 
-" Plugin: vim-fugitive (git)
+" }}}
+
+" Plugin: vim-fugitive (git) {{{
 " ------------------------------------------------------------------------------
 nmap <leader>gs :Gstatus<CR>gg<c-n>
 nnoremap <leader>gd :Gdiff<CR>
@@ -255,13 +312,17 @@ vnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gl :silent! Glog!<CR>
 
-" Plugin: HashiCorp Tools
+" }}}
+
+" Plugin: HashiCorp Tools {{{
 " ------------------------------------------------------------------------------
 let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
 let g:terraform_fold_sections = 1
 
-" Plugin: tpope/vim-markdown
+" }}}
+
+" Plugin: tpope/vim-markdown {{{
 " ------------------------------------------------------------------------------
 let g:markdown_conceal = 0
 let g:markdown_fenced_languages = [
@@ -269,7 +330,9 @@ let g:markdown_fenced_languages = [
     \ 'sh',
     \]
 
-" Plugin: vim-go
+" }}}
+
+" Plugin: vim-go {{{
 " ------------------------------------------------------------------------------
 
 " Configure 'gopls' stuff

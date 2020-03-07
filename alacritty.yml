@@ -9,6 +9,7 @@ window:
     y: 2
   dynamic_padding: false
   decorations: full
+  startup_mode: Maximized
 
 # Display tabs using this many cells (changes requires restart)
 tabspaces: 4

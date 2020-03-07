@@ -25,6 +25,7 @@ brew 'timewarrior'
 # Version control {{{
 brew 'git'
 brew 'hub'
+brew 'github/gh/gh'
 # }}}
 
 # Misc. tools {{{
