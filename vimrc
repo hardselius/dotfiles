@@ -22,7 +22,6 @@ packadd! vim-tmux
 packadd! vim-tmux-focus-events
 packadd! vim-unimpaired
 packadd! vim-vinegar
-packadd! vim-wakatime
 packadd! vimwiki
 
 " Language specific
@@ -249,6 +248,11 @@ augroup filetype_settings
       \ setlocal keywordprg=:help foldmethod=expr|
       \ setlocal foldexpr=getline(v:lnum)=~'^\"\ Section:'?'>1':'='|
       \ setlocal expandtab tabstop=2 shiftwidth=2
+
+  autocmd FileType qf wincmd J
+  autocmd FileType qf nmap <buffer> q :q<cr>
+
+  autocmd BufNewFile,BufRead Brewfile set filetype=conf
 augroup END
 
 " }}}
@@ -287,12 +291,11 @@ command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>),
 
 " }}}
 
-" Plugin: org-mode {{{
+" Plugin: vimwiki {{{
 " ------------------------------------------------------------------------------
 
-let g:org_agenda_files = ['~/Dropbox/org/*.org']
-
 let g:vimwiki_list = [{ 'path': '~/Dropbox/wiki/', 'syntax': 'markdown', 'ext': '.md' }]
+let g:vimwiki_global_ext = 0
 
 " }}}
 

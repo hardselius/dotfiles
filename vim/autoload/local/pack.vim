@@ -26,7 +26,6 @@ function! local#pack#pack_init() abort
   call minpac#add('tpope/vim-surround'                 , { 'type': 'opt' })
   call minpac#add('tpope/vim-unimpaired'               , { 'type': 'opt' })
   call minpac#add('tpope/vim-vinegar'                  , { 'type': 'opt' })
-  call minpac#add('wakatime/vim-wakatime'              , { 'type': 'opt' })
   call minpac#add('vimwiki/vimwiki'                    , { 'type': 'opt' })
 
   " Colorschemes
