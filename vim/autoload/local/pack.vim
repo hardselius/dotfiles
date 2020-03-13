@@ -16,6 +16,7 @@ function! local#pack#pack_init() abort
   call minpac#add('junegunn/fzf'                       , { 'type': 'opt' })
   call minpac#add('junegunn/fzf.vim'                   , { 'type': 'opt' })
   call minpac#add('k-takata/minpac'                    , { 'type': 'opt' })
+  call minpac#add('rust-lang/rust.vim'                 , { 'type': 'opt' })
   call minpac#add('tmux-plugins/vim-tmux'              , { 'type': 'opt' })
   call minpac#add('tmux-plugins/vim-tmux-focus-events' , { 'type': 'opt' })
   call minpac#add('tpope/vim-commentary'               , { 'type': 'opt' })

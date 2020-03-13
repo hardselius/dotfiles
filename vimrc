@@ -11,6 +11,7 @@ command! PackStatus call local#pack#pack_init() | call minpac#status()
 packadd! fzf
 packadd! fzf.vim
 packadd! tabular
+packadd! tagbar
 packadd! ultisnips
 packadd! vim-commentary
 packadd! vim-eunuch
@@ -25,6 +26,7 @@ packadd! vim-vinegar
 packadd! vimwiki
 
 " Language specific
+packadd! rust.vim
 packadd! vim-go
 packadd! vim-hashicorp-tools
 packadd! vim-markdown
@@ -413,6 +415,9 @@ augroup go
   autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
   autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
   autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
+  " Quit godoc window with q
+  autocmd FileType godoc nmap <buffer> q :quit<cr>
 augroup END
 
 " }}}
