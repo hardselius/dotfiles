@@ -68,6 +68,29 @@ schemes:
       cyan:    '0x5fafaf'
       white:   '0xffffff'
 
+  warlock: &warlock
+    primary:
+      background: '0x262626'
+      forground:  '0xbcbcbc'
+    normal:
+      black:   '0x1c1c1c'
+      red:     '0x767676'
+      green:   '0x767676'
+      yellow:  '0x808080'
+      blue:    '0x808080'
+      magenta: '0x626262'
+      cyan:    '0x767676'
+      white:   '0x6c6c6c'
+    bright:
+      black:   '0x444444'
+      red:     '0x9e9e9e'
+      green:   '0x9e9e9e'
+      yellow:  '0xffffff'
+      blue:    '0xa8a8a8'
+      magenta: '0x8a8a8a'
+      cyan:    '0x949494'
+      white:   '0xffffff'
+
   gruvbox_material: &gruvbox_material
     primary:
       background: '0x282828'
@@ -91,6 +114,6 @@ schemes:
       cyan:    '0x89b482'
       white:   '0xdfbf8e'
 
-colors: *apprentice
+colors: *warlock
 
 # vim: set filetype=yaml:
