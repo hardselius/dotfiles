@@ -12,7 +12,6 @@ function! local#pack#pack_init() abort
   call minpac#add('fatih/vim-go'                       , { 'type': 'opt', 'rev': 'v1.22' })
   call minpac#add('godlygeek/tabular'                  , { 'type': 'opt' })
   call minpac#add('hashivim/vim-hashicorp-tools'       , { 'type': 'opt' })
-  call minpac#add('jceb/vim-orgmode'                   , { 'type': 'opt' })
   call minpac#add('junegunn/fzf'                       , { 'type': 'opt' })
   call minpac#add('junegunn/fzf.vim'                   , { 'type': 'opt' })
   call minpac#add('k-takata/minpac'                    , { 'type': 'opt' })

@@ -17,7 +17,6 @@ packadd! vim-commentary
 packadd! vim-eunuch
 packadd! vim-fugitive
 packadd! vim-repeat
-packadd! vim-orgmode
 packadd! vim-surround
 packadd! vim-tmux
 packadd! vim-tmux-focus-events
