@@ -8,8 +8,11 @@ export CLICOLOR=true
 export DOTFILES="$HOME/.dotfiles"
 export PATH="/usr/local/bin:$DOTFILES/bin:$PATH"
 
-# project folder that we can `c [tab]` to
+# project folder that we can `cd [tab]` to
 export PROJECTS="$HOME/projects"
+
+# notes folder
+export NOTES="$HOME/dropbox-personal/wiki"
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
