@@ -23,7 +23,6 @@ packadd! vim-tmux
 packadd! vim-tmux-focus-events
 packadd! vim-unimpaired
 packadd! vim-vinegar
-packadd! vimwiki
 
 " Language specific
 packadd! rust.vim
@@ -224,6 +223,19 @@ nnoremap N Nzzzv
 nnoremap <C-u> <C-u>zz
 nnoremap <C-d> <C-d>zz
 
+" Generate ctags for current working directory
+nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
+
+" 'Notes Grep' with ripgrep (see grepprg)
+" -i case insensitive
+" -g glob pattern
+" ! to not immediately open first search result
+command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
+nnoremap <leader>nn :Ngrep
+
+" Go to index of notes and change working directory
+nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
+
 " }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -293,14 +305,6 @@ command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>),
 
 " }}}
 
-" Plugin: vimwiki {{{
-" ------------------------------------------------------------------------------
-
-let g:vimwiki_list = [{ 'path': '~/Dropbox/wiki/', 'syntax': 'markdown', 'ext': '.md' }]
-let g:vimwiki_global_ext = 0
-
-" }}}
-
 " Plugin: netrw {{{
 " ------------------------------------------------------------------------------
 let g:netrw_liststyle = 3
@@ -327,12 +331,12 @@ let g:terraform_fold_sections = 1
 
 " }}}
 
-" Plugin: tpope/vim-markdown {{{
+" Plugin: vim-markdown {{{
 " ------------------------------------------------------------------------------
-let g:markdown_conceal = 0
-let g:markdown_fenced_languages = [
-    \ 'go',
-    \ 'sh',
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_fenced_languages = [
+    \ 'go=go',
+    \ 'bask=sh',
     \]
 
 " }}}
