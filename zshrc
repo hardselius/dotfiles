@@ -15,9 +15,10 @@ export GPG_TTY="$TTY"
 
 # ALIASES {{{
 # -----------------------------------------------------------------------------
-alias reload!='exec "$SHELL" -l'
 alias cls='clear'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias reload!='exec "$SHELL" -l'
+alias restartaudio='sudo pkill coreaudiod'
 alias tf='terraform'
 
 if command -v exa &>/dev/null; then
