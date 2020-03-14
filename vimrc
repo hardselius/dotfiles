@@ -10,6 +10,7 @@ command! PackStatus call local#pack#pack_init() | call minpac#status()
 
 packadd! fzf
 packadd! fzf.vim
+packadd! goyo.vim
 packadd! tabular
 packadd! tagbar
 packadd! ultisnips
