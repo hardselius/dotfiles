@@ -18,15 +18,10 @@ export GPG_TTY="$TTY"
 alias cls='clear'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias reload!='exec "$SHELL" -l'
-alias restartaudio='sudo pkill coreaudiod'
+alias restartaudio='sudo killall coreaudiod'
 alias tf='terraform'
 
-if command -v exa &>/dev/null; then
-    alias ls="exa -F --group-directories-first"
-    alias l="exa -lah --group-directories-first"
-    alias ll="exa -l --group-directories-first"
-    alias la="exa -a --group-directories-first"
-elif command -v gls &>/dev/null; then
+if command -v gls &>/dev/null; then
     # grc overides for ls
     #   Made possible through contributions from generous benefactors like
     #   `brew install coreutils`
