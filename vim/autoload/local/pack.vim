@@ -9,14 +9,13 @@ function! local#pack#pack_init() abort
   call minpac#init({ 'package_name': 'bundle' })
 
   call minpac#add('SirVer/ultisnips'                   , { 'type': 'opt' })
-  call minpac#add('fatih/vim-go'                       , { 'type': 'opt', 'rev': 'v1.22' })
+  call minpac#add('fatih/vim-go'                       , { 'type': 'opt' }) ", 'rev': 'v1.22' })
   call minpac#add('godlygeek/tabular'                  , { 'type': 'opt' })
   call minpac#add('hashivim/vim-hashicorp-tools'       , { 'type': 'opt' })
   call minpac#add('junegunn/fzf'                       , { 'type': 'opt' })
   call minpac#add('junegunn/fzf.vim'                   , { 'type': 'opt' })
   call minpac#add('k-takata/minpac'                    , { 'type': 'opt' })
   call minpac#add('majutsushi/tagbar'                  , { 'type': 'opt' })
-  call minpac#add('plasticboy/vim-markdown'            , { 'type': 'opt' })
   call minpac#add('rust-lang/rust.vim'                 , { 'type': 'opt' })
   call minpac#add('tmux-plugins/vim-tmux'              , { 'type': 'opt' })
   call minpac#add('tmux-plugins/vim-tmux-focus-events' , { 'type': 'opt' })
@@ -30,8 +29,10 @@ function! local#pack#pack_init() abort
   call minpac#add('junegunn/goyo.vim'                  , { 'type': 'opt' })
 
   " Colorschemes
-  call minpac#add('hardselius/warlock'      , { 'type': 'opt' })
-  call minpac#add('jaredgorski/fogbell.vim' , { 'type': 'opt' })
-  call minpac#add('pgdouyon/vim-yin-yang'   , { 'type': 'opt' })
-  call minpac#add('romainl/Apprentice'      , { 'type': 'opt', 'rev': '*'})
+  call minpac#add('andreypopp/vim-colors-plain' , { 'type': 'opt' })
+  call minpac#add('hardselius/warlock'          , { 'type': 'opt' })
+  call minpac#add('jaredgorski/fogbell.vim'     , { 'type': 'opt' })
+  call minpac#add('junegunn/seoul256.vim'       , { 'type': 'opt' })
+  call minpac#add('pgdouyon/vim-yin-yang'       , { 'type': 'opt' })
+  call minpac#add('romainl/Apprentice'          , { 'type': 'opt' })
 endfunction

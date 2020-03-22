@@ -28,11 +28,6 @@ packadd! vim-vinegar
 packadd! rust.vim
 packadd! vim-go
 packadd! vim-hashicorp-tools
-packadd! vim-markdown
-
-" Colorschemes
-packadd! Apprentice
-packadd! fogbell.vim
 
 " }}}
 
@@ -42,7 +37,6 @@ packadd! fogbell.vim
 
 " Section: General {{{
 " ------------------------------------------------------------------------------
-set nocompatible
 filetype plugin indent on
 syntax on
 
@@ -82,7 +76,7 @@ set encoding=utf-8             " Set default encoding to UTF-8
 " Section: Color theme and highlighting {{{
 " ------------------------------------------------------------------------------
 
-colorscheme warlock
+colorscheme apprentice
 
 " }}}
 
@@ -134,7 +128,6 @@ endif
 " ------------------------------------------------------------------------------
 set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
 set autoread                   " Auto reread changed files without asking
-set autowrite                  " Automatically save before :next, :make etc.
 set noswapfile                 " Don't use swapfile
 set nobackup                   " Don't create annoying backup files
 set viminfo='1000              " ~/.viminfo needs to be writeable and readable
@@ -333,8 +326,7 @@ let g:terraform_fold_sections = 1
 
 " Plugin: vim-markdown {{{
 " ------------------------------------------------------------------------------
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_fenced_languages = [
+let g:markdown_fenced_languages = [
     \ 'go=go',
     \ 'bask=sh',
     \]
@@ -353,16 +345,17 @@ let g:go_metalinter_command = 'gopls'
 let g:go_rename_command = 'gopls'
 
 let g:go_gopls_complete_unimported = 1
-
 let g:go_gopls_staticcheck = 1
-let g:go_diagnostics_enabled = 1
+
+let g:go_autodetect_gopath = 1
+let g:go_diagnostics_enabled = 0
 
 " Configure gofmt
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = 'goimports'
-autocmd FileType go let b:go_fmt_options = {
-  \ 'goimports': '-local ' .
-    \ trim(system('{cd '. shellescape(expand('%:h')) .' && go list -m;}')),
+" let g:go_fmt_command = 'goimports'
+let g:go_fmt_fail_silently = 0
+
+let g:go_fmt_options = {
+  \ 'gofmt': '-s ',
   \ }
 
 let g:go_debug_windows = {

@@ -4,13 +4,14 @@ function! local#statusline#buildstatusline()
   " let l:line .= '%*'                           " reset highlight
 
   let l:line = ''
-  let l:line .= ' [%n] '                 " buffer number
-  let l:line .= ' %<%f '                 " filename
-  let l:line .= '%( %r%m%w%q%h %)'       " flags
-  let l:line .= '%='                     " separator
-  let l:line .= ' %{&ft} '               " filetype
-  let l:line .= ' %([%{&fenc}]%)%{&ff} ' " encodings
-  let l:line .= ' %l/%L | %v '           " cursor
+  let l:line .= ' [%n] '                        " buffer number
+  let l:line .= ' %<%f '                        " filename
+  let l:line .= '%( %r%m%w%q%h %)'              " flags
+  let l:line .= '%( %{go#statusline#Show()} %)' " go statusline
+  let l:line .= '%='                            " separator
+  let l:line .= ' %{&ft} '                      " filetype
+  let l:line .= ' %([%{&fenc}]%)%{&ff} '        " encodings
+  let l:line .= ' %l/%L | %v '                  " cursor
 
   if exists('g:loaded_ale')
     if g:ale_running
@@ -30,6 +31,7 @@ function! local#statusline#buildstatusline()
       endif
     endif
   endif
+
 
   " git status
   if exists('g:loaded_fugitive')
