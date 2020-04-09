@@ -11,9 +11,6 @@ window:
   decorations: full
   startup_mode: Maximized
 
-# Display tabs using this many cells (changes requires restart)
-tabspaces: 4
-
 # Font configuration (requires restart)
 fonts:
   fira_code: &fira_code
@@ -61,78 +58,97 @@ fonts:
       y: 2
     use_thin_strokes: true
 
-font: *hack
+  cozette: &cozette
+    normal:
+      family: CozetteVector
+      style: Regular
+    bold:
+      family: CozetteVector
+      style: Regular
+    italic:
+      family: CozetteVector
+      style: Regular
+    size: 15.0
+    offset:
+      x: 0
+      y: 4
+    use_thin_strokes: true
+
+font: *cozette
 
 schemes:
   apprentice: &apprentice
     primary:
       background: '0x262626'
-      forground:  '0xbcbcbc'
+      foreground: '0xbcbcbc'
     normal:
-      black:   '0x1c1c1c'
-      red:     '0xaf5f5f'
-      green:   '0x5f875f'
-      yellow:  '0x87875f'
-      blue:    '0x5f87af'
-      magenta: '0x5f5f87'
-      cyan:    '0x5f8787'
-      white:   '0x6c6c6c'
+      black:      '0x1c1c1c'
+      red:        '0xaf5f5f'
+      green:      '0x5f875f'
+      yellow:     '0x87875f'
+      blue:       '0x5f87af'
+      magenta:    '0x5f5f87'
+      cyan:       '0x5f8787'
+      white:      '0x6c6c6c'
     bright:
-      black:   '0x444444'
-      red:     '0xff8700'
-      green:   '0x87af87'
-      yellow:  '0xffffaf'
-      blue:    '0x8fafd7'
-      magenta: '0x8787af'
-      cyan:    '0x5fafaf'
-      white:   '0xffffff'
+      black:      '0x444444'
+      red:        '0xff8700'
+      green:      '0x87af87'
+      yellow:     '0xffffaf'
+      blue:       '0x8fafd7'
+      magenta:    '0x8787af'
+      cyan:       '0x5fafaf'
+      white:      '0xffffff'
 
   warlock: &warlock
     primary:
       background: '0x262626'
       forground:  '0xbcbcbc'
     normal:
-      black:   '0x1c1c1c'
-      red:     '0x767676'
-      green:   '0x767676'
-      yellow:  '0x808080'
-      blue:    '0x808080'
-      magenta: '0x626262'
-      cyan:    '0x767676'
-      white:   '0x6c6c6c'
+      black:      '0x1c1c1c'
+      red:        '0x767676'
+      green:      '0x767676'
+      yellow:     '0x808080'
+      blue:       '0x808080'
+      magenta:    '0x626262'
+      cyan:       '0x767676'
+      white:      '0x6c6c6c'
     bright:
-      black:   '0x444444'
-      red:     '0x9e9e9e'
-      green:   '0x9e9e9e'
-      yellow:  '0xffffff'
-      blue:    '0xa8a8a8'
-      magenta: '0x8a8a8a'
-      cyan:    '0x949494'
-      white:   '0xffffff'
+      black:      '0x444444'
+      red:        '0x9e9e9e'
+      green:      '0x9e9e9e'
+      yellow:     '0xffffff'
+      blue:       '0xa8a8a8'
+      magenta:    '0x8a8a8a'
+      cyan:       '0x949494'
+      white:      '0xffffff'
 
-  gruvbox_material: &gruvbox_material
+  nord: &nord
     primary:
-      background: '0x282828'
-      foreground: '0xdfbf8e'
+      background: '0x2e3440'
+      foreground: '0xd8dee9'
+    cursor:
+      text:       '0x2e3440'
+      cursor:     '0xd8dee9'
     normal:
-      black:   '0x665c54'
-      red:     '0xea6962'
-      green:   '0xa9b665'
-      yellow:  '0xe78a4e'
-      blue:    '0x7daea3'
-      magenta: '0xd3869b'
-      cyan:    '0x89b482'
-      white:   '0xdfbf8e'
+      black:      '0x3b4252'
+      red:        '0xbf616a'
+      green:      '0xa3be8c'
+      yellow:     '0xebcb8b'
+      blue:       '0x81a1c1'
+      magenta:    '0xb48ead'
+      cyan:       '0x88c0d0'
+      white:      '0xe5e9f0'
     bright:
-      black:   '0x928374'
-      red:     '0xea6962'
-      green:   '0xa9b665'
-      yellow:  '0xe3a84e'
-      blue:    '0x7daea3'
-      magenta: '0xd3869b'
-      cyan:    '0x89b482'
-      white:   '0xdfbf8e'
+      black:      '0x4c566a'
+      red:        '0xbf616a'
+      green:      '0xa3be8c'
+      yellow:     '0xebcb8b'
+      blue:       '0x81a1c1'
+      magenta:    '0xb48ead'
+      cyan:       '0x8fbcbb'
+      white:      '0xeceff4'
 
-colors: *apprentice
+colors: *nord
 
 # vim: set filetype=yaml:
