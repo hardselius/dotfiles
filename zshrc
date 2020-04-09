@@ -2,9 +2,9 @@
 
 # INIT {{{
 # -----------------------------------------------------------------------------
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
 # versioned repo.
@@ -173,6 +173,7 @@ zplug load
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
+
 
 # MISC. CONFIGURATION {{{
 # -----------------------------------------------------------------------------
