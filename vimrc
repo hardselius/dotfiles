@@ -17,17 +17,25 @@ packadd! ultisnips
 packadd! vim-commentary
 packadd! vim-eunuch
 packadd! vim-fugitive
+packadd! vim-gitgutter
 packadd! vim-repeat
 packadd! vim-surround
-packadd! vim-tmux
-packadd! vim-tmux-focus-events
 packadd! vim-unimpaired
 packadd! vim-vinegar
+
+" tmux
+packadd! vim-tmux
+packadd! vim-tmux-focus-events
 
 " Language specific
 packadd! rust.vim
 packadd! vim-go
 packadd! vim-hashicorp-tools
+
+" Colorschemes
+packadd! nord-vim
+
+let g:nord_uniform_diff_background = 1
 
 " }}}
 
@@ -50,6 +58,7 @@ set wildmenu                   " Command-line completion.
 set scrolloff=1                " The number of screen lines to keep above/below cursor
 set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
 set display+=lastline          " Alwary try to show a paragraph's last line
+set cursorline
 
 " }}}
 
@@ -75,8 +84,7 @@ set encoding=utf-8             " Set default encoding to UTF-8
 
 " Section: Color theme and highlighting {{{
 " ------------------------------------------------------------------------------
-
-colorscheme apprentice
+colorscheme nord
 
 " }}}
 
@@ -136,8 +144,9 @@ if has('persistent_undo')
   set undodir=~/.cache/vim
 endif
 
+" TODO: Maybe make a function aut of this instead?
 " Remove trailing whitespace on save
-autocmd! BufWritePre * :%s/\s\+$//e
+" autocmd! BufWritePre * :%s/\s\+$//e
 
 " }}}
 
@@ -241,7 +250,7 @@ augroup filetype_settings
 	autocmd!
 	autocmd FileType go
       \ setlocal foldmethod=syntax|
-		  \ setlocal noexpandtab tabstop=4 shiftwidth=4
+		  \ setlocal noexpandtab tabstop=8 shiftwidth=8
   autocmd FileType terraform
       \ setlocal foldnestmax=1
   autocmd FileType yaml,json
@@ -265,6 +274,16 @@ augroup END
 " }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" COOMMANDS:
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" {{{
+
+command! Vimrc :vs $MYVIMRC
+
+" }}}
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " PLUGINS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -272,7 +291,6 @@ augroup END
 " ------------------------------------------------------------------------------
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_command_prefix = 'Fzf'
-" let g:fzf_layout = {'left': '30%'}
 
 " Search
 nmap <C-p> :FzfHistory<cr>
@@ -328,19 +346,25 @@ let g:terraform_fold_sections = 1
 " ------------------------------------------------------------------------------
 let g:markdown_fenced_languages = [
     \ 'go=go',
-    \ 'bask=sh',
+    \ 'bash=sh',
     \]
 
 " }}}
 
 " Plugin: vim-go {{{
 " ------------------------------------------------------------------------------
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = 'goimports'
+let g:go_fmt_options = {
+  \ 'gofmt': '-s ',
+  \ }
+let g:go_debug_windows = {
+    \ 'vars': 'leftabove 35vnew',
+    \ 'stack': 'botright 10new',
+    \ }
 
 " Configure 'gopls' stuff
 let g:go_gopls_enabled = 1
-let g:go_info_mode = 'gopls'
-let g:go_def_mode = 'gopls'
-let g:go_referrers_mode = 'gopls'
 let g:go_metalinter_command = 'gopls'
 let g:go_rename_command = 'gopls'
 
@@ -348,28 +372,19 @@ let g:go_gopls_complete_unimported = 1
 let g:go_gopls_staticcheck = 1
 
 let g:go_autodetect_gopath = 1
-let g:go_diagnostics_enabled = 0
-
-" Configure gofmt
-" let g:go_fmt_command = 'goimports'
-let g:go_fmt_fail_silently = 0
-
-let g:go_fmt_options = {
-  \ 'gofmt': '-s ',
-  \ }
-
-let g:go_debug_windows = {
-    \ 'vars': 'leftabove 35vnew',
-    \ 'stack': 'botright 10new',
-    \ }
-
-" let g:go_list_type = 'quickfix'
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_enabled = ['vet', 'golint']
 
 let g:go_highlight_operators = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
 let g:go_highlight_extra_types = 1
+
+let g:go_fold_enable = []
+
+nmap <C-g> :GoDecls<cr>
+imap <C-g> <esc>:GoDecls<cr>
 
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
