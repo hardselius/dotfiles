@@ -13,51 +13,6 @@ window:
 
 # Font configuration (requires restart)
 fonts:
-  fira_code: &fira_code
-    normal:
-      family: Fira Code
-      style: Light
-    bold:
-      family: Fira Code
-      style: Medium
-    italic:
-      family: Fira Code
-      style: Light
-    size: 12.0
-    use_thin_strokes: true
-
-  source_code_pro: &source_code_pro
-    normal:
-      family: Source Code Pro
-      style: Regular
-    bold:
-      family: Source Code Pro
-      style: Semibold
-    italic:
-      family: Source Code Pro
-      style: Italic
-    size: 13.0
-    offset:
-      x: 0
-      y: 0
-    use_thin_strokes: true
-
-  source_code_pro: &hack
-    normal:
-      family: Hack Nerd Font
-      style: Regular
-    bold:
-      family: Hack Nerd Font
-      style: Bold
-    italic:
-      family: Source Code Pro
-      style: Italic
-    size: 12.0
-    offset:
-      x: 0
-      y: 2
-    use_thin_strokes: true
-
   cozette: &cozette
     normal:
       family: CozetteVector
