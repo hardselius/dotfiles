@@ -35,8 +35,6 @@ packadd! vim-hashicorp-tools
 " Colorschemes
 packadd! nord-vim
 
-let g:nord_uniform_diff_background = 1
-
 " }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,6 +82,7 @@ set encoding=utf-8             " Set default encoding to UTF-8
 
 " Section: Color theme and highlighting {{{
 " ------------------------------------------------------------------------------
+let g:nord_uniform_diff_background = 1
 colorscheme nord
 
 " }}}
