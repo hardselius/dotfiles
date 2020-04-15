@@ -11,6 +11,8 @@
 [[ -f ~/.localrc ]] && source ~/.localrc
 
 export GPG_TTY="$TTY"
+test -r ~/.dir_colors && eval $(gdircolors ~/.dir_colors)
+
 # }}}
 
 # ALIASES {{{
