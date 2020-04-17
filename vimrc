@@ -85,6 +85,13 @@ set encoding=utf-8             " Set default encoding to UTF-8
 let g:nord_uniform_diff_background = 1
 colorscheme nord
 
+highlight clear CursorLine
+highlight CursorLineNR cterm=bold
+augroup cursosline
+  autocmd! ColorScheme * highlight clear CursorLine
+  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
+augroup END
+
 " }}}
 
 " Section: Windows {{{
