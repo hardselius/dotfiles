@@ -360,10 +360,7 @@ let g:markdown_fenced_languages = [
 " Plugin: vim-go {{{
 " ------------------------------------------------------------------------------
 let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = 'goimports'
-let g:go_fmt_options = {
-  \ 'gofmt': '-s ',
-  \ }
+let g:go_fmt_command = 'gopls'
 let g:go_debug_windows = {
     \ 'vars': 'leftabove 35vnew',
     \ 'stack': 'botright 10new',
@@ -373,6 +370,8 @@ let g:go_debug_windows = {
 let g:go_gopls_enabled = 1
 let g:go_metalinter_command = 'gopls'
 let g:go_rename_command = 'gopls'
+let g:go_imports_mode = 'gopls'
+let g:go_imports_autosave = 1
 
 let g:go_gopls_complete_unimported = 1
 let g:go_gopls_staticcheck = 1
