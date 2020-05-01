@@ -7,7 +7,6 @@ function! local#statusline#buildstatusline()
   let l:line .= ' [%n] '                        " buffer number
   let l:line .= ' %<%f '                        " filename
   let l:line .= '%( %r%m%w%q%h %)'              " flags
-  let l:line .= '%( %{go#statusline#Show()} %)' " go statusline
   let l:line .= '%='                            " separator
   let l:line .= ' %{&ft} '                      " filetype
   let l:line .= ' %([%{&fenc}]%)%{&ff} '        " encodings

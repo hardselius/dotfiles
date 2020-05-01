@@ -2,8 +2,6 @@
 " PLUGINS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" {{{
-
 command! PackUpdate call local#pack#pack_init() | call minpac#update('', { 'do': 'call minpac#status()' })
 command! PackClean  call local#pack#pack_init() | call minpac#clean()
 command! PackStatus call local#pack#pack_init() | call minpac#status()
@@ -13,36 +11,39 @@ packadd! fzf.vim
 packadd! goyo.vim
 packadd! tabular
 packadd! tagbar
-packadd! ultisnips
+
 packadd! vim-commentary
 packadd! vim-eunuch
-packadd! vim-fugitive
-packadd! vim-gitgutter
 packadd! vim-repeat
 packadd! vim-surround
 packadd! vim-unimpaired
 packadd! vim-vinegar
+packadd! vim-sleuth
+
+" git
+packadd! vim-fugitive
+packadd! vim-gitgutter
 
 " tmux
 packadd! vim-tmux
 packadd! vim-tmux-focus-events
 
 " Language specific
-packadd! rust.vim
-packadd! vim-go
-packadd! vim-hashicorp-tools
+packadd! vim-polyglot
+
+" LSP
+packadd! vista.vim
+packadd! async.vim
+packadd! vim-lsp
+packadd! vim-lsp-settings
 
 " Colorschemes
 packadd! nord-vim
-
-" }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " SETTINGS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" Section: General {{{
-" ------------------------------------------------------------------------------
 filetype plugin indent on
 syntax on
 
@@ -58,10 +59,6 @@ set sidescrolloff=5            " Screen cols to keep to the left/right of the cu
 set display+=lastline          " Alwary try to show a paragraph's last line
 set cursorline
 
-" }}}
-
-" Section: Moving around, searching {{{
-" ------------------------------------------------------------------------------
 set incsearch                  " Shows the match while typing.
 set hlsearch                   " Highlight found matches.
 set ignorecase                 " Search case insensitive ...
@@ -71,17 +68,9 @@ set path=.,,
 set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
 set grepformat=%f:%l:%c:%m
 
-" }}}
-
-" Section: Displaying text {{{
-" ------------------------------------------------------------------------------
 set lazyredraw                 " Don't update screen during macro/script execution
 set encoding=utf-8             " Set default encoding to UTF-8
 
-" }}}
-
-" Section: Color theme and highlighting {{{
-" ------------------------------------------------------------------------------
 let g:nord_uniform_diff_background = 1
 colorscheme nord
 
@@ -92,10 +81,6 @@ augroup cursosline
   autocmd! ColorScheme * highlight CursorLineNR cterm=bold
 augroup END
 
-" }}}
-
-" Section: Windows {{{
-" ------------------------------------------------------------------------------
 set showtabline=2
 set hidden                     " Possibility to have more than one unsaved buffers.
 set number                     " Show line numbers
@@ -105,10 +90,6 @@ set splitbelow                 " Split horizontal windows below to the current
 " Automatically resize screens to be equally the same
 autocmd VimResized * wincmd =
 
-" }}}
-
-" Section: Editing text and indent {{{
-" ------------------------------------------------------------------------------
 set showmatch                  " Show matching brackets by flickering
 set virtualedit=block          " Allow virtual editing in Visual block mode.
 set shiftround                 " Round indentation to nearest multile of 'sw'
@@ -117,18 +98,10 @@ set completeopt=menu,menuone,noinsert,noselect
 set clipboard^=unnamed
 set clipboard^=unnamedplus
 
-" }}}
-
-" Section: Messages and info {{{
-" ------------------------------------------------------------------------------
 set confirm                    " Display confirmation dialog when closing an unsaved file
 set showcmd                    " Show me what I'm typing
 set visualbell                 " Show me, don't bleep
 
-" }}}
-
-" Section: Folding {{{
-" ------------------------------------------------------------------------------
 if has('folding')
   set foldmethod=marker        " Fold based on marker
   set foldopen+=jump           " Also open fold on far jumps, e.g g or G
@@ -136,10 +109,6 @@ if has('folding')
   set foldlevelstart=10        " Start with a foldlevel of 10
 endif
 
-" }}}
-
-" Section: Reading and writing files {{{
-" ------------------------------------------------------------------------------
 set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
 set autoread                   " Auto reread changed files without asking
 set noswapfile                 " Don't use swapfile
@@ -150,20 +119,8 @@ if has('persistent_undo')
   set undodir=~/.cache/vim
 endif
 
-" TODO: Maybe make a function aut of this instead?
-" Remove trailing whitespace on save
-" autocmd! BufWritePre * :%s/\s\+$//e
-
-" }}}
-
-" Section: Command line editing {{{
-" ------------------------------------------------------------------------------
 set wildcharm=<C-z>
 
-" }}}
-
-" Section: Misc {{{
-" ------------------------------------------------------------------------------
 set modeline                   " Enable modeline
 set nomodelineexpr             " ... but not expressions
 
@@ -171,24 +128,12 @@ if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
 
-" }}}
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" STATUSLINE:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-" {{{
-
 set laststatus=2               " Alway display the statusbar
 set statusline=%!local#statusline#buildstatusline()
-
-" }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " MAPPINGS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-" {{{
 
 " Clear search highlight
 if maparg('<C-L>', 'n') ==# ''
@@ -198,17 +143,8 @@ endif
 " The leader
 let mapleader = ','
 
-nnoremap <leader>e :e **/*<C-z><S-Tab>
-nnoremap <leader>n :Lexplore<CR>
-
-" Close all windows but the current
-nnoremap <leader>o :only<CR>
-
 " Close both the quickfix and location list
 nnoremap <silent><leader>a :cclose<CR>:lclose<CR>
-
-nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
-nmap cd <C-W>.
 
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
@@ -219,9 +155,6 @@ nnoremap <Down> :echoe "Use j"<CR>
 " Visual linewise up and down
 nnoremap j gj
 nnoremap k gk
-
-" Center the screen
-nnoremap <space> zz
 
 " Center on line when jumping between search results
 nnoremap n nzzzv
@@ -244,67 +177,32 @@ nnoremap <leader>nn :Ngrep
 " Go to index of notes and change working directory
 nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
 
-" }}}
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" FILETYPE SETTINGS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-" {{{
-
-augroup filetype_settings
-	autocmd!
-	autocmd FileType go
-      \ setlocal foldmethod=syntax|
-		  \ setlocal noexpandtab tabstop=8 shiftwidth=8
-  autocmd FileType terraform
-      \ setlocal foldnestmax=1
-  autocmd FileType yaml,json
-      \ setlocal expandtab tabstop=2 shiftwidth=2
-	autocmd FileType sh,zsh,csh,tcsh
-      \ setlocal formatoptions-=t|
-      \ setlocal expandtab tabstop=4 shiftwidth=4
-	autocmd FileType liquid,markdown,text,txt
-      \ setlocal textwidth=78 linebreak keywordprg=dict
-	autocmd FileType vim
-      \ setlocal keywordprg=:help foldmethod=expr|
-      \ setlocal foldexpr=getline(v:lnum)=~'^\"\ Section:'?'>1':'='|
-      \ setlocal expandtab tabstop=2 shiftwidth=2
-
-  autocmd FileType qf wincmd J
-  autocmd FileType qf nmap <buffer> q :q<cr>
-
-  autocmd BufNewFile,BufRead Brewfile set filetype=conf
-augroup END
-
-" }}}
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " COOMMANDS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" {{{
-
 command! Vimrc :vs $MYVIMRC
-
-" }}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " PLUGINS:
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" Plugin: fzf {{{
-" ------------------------------------------------------------------------------
+" Git: gitgutter and fugitive
+
+" Enable gitguter realtime upadating
+let g:gitgutter_realtime = 1
+let g:gitgutter_eager = 1
+set updatetime=250
+
+nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
+nmap cd <C-W>.
+
+" FZF:
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_command_prefix = 'Fzf'
 
-" Search
-nmap <C-p> :FzfHistory<cr>
-imap <C-p> <esc>:<C-u>FzfHistory<cr>
-
-" Search across files in the current directory
-nmap <C-b> :FzfFiles<cr>
-imap <C-b> <esc>:<C-u>FzfFiles<cr>
+" Fuzzy comand finder space shortcut 
+nnorema <space> :FzfCommands<cr> 
 
 let g:rg_command = '
   \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
@@ -320,33 +218,30 @@ command! -bang -nargs=* Rg
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
-" }}}
+" LSP: lsp and vista config
 
-" Plugin: netrw {{{
-" ------------------------------------------------------------------------------
+let g:lsp_diagnostics_enabled = 0
+let g:vista_executive_for = {
+  \ 'go': 'vim_lsp',
+  \ 'terraform': 'vim_lsp',
+	\ }
+let g:vista_ignore_kinds = ['Variable']
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" netrw
+let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
-
-" }}}
-
-" Plugin: vim-fugitive (git) {{{
-" ------------------------------------------------------------------------------
-nmap <leader>gs :Gstatus<CR>gg<c-n>
-nnoremap <leader>gd :Gdiff<CR>
-vnoremap <leader>gB :Gblame<CR>
-nnoremap <leader>gB :Gblame<CR>
-nnoremap <leader>gl :silent! Glog!<CR>
-
-" }}}
-
-" Plugin: HashiCorp Tools {{{
-" ------------------------------------------------------------------------------
-let g:terraform_align = 1
-let g:terraform_fmt_on_save = 1
-let g:terraform_fold_sections = 1
-
-" }}}
 
 " Plugin: vim-markdown {{{
 " ------------------------------------------------------------------------------
@@ -354,89 +249,5 @@ let g:markdown_fenced_languages = [
     \ 'go=go',
     \ 'bash=sh',
     \]
-
-" }}}
-
-" Plugin: vim-go {{{
-" ------------------------------------------------------------------------------
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = 'gopls'
-let g:go_debug_windows = {
-    \ 'vars': 'leftabove 35vnew',
-    \ 'stack': 'botright 10new',
-    \ }
-
-" Configure 'gopls' stuff
-let g:go_gopls_enabled = 1
-let g:go_metalinter_command = 'gopls'
-let g:go_rename_command = 'gopls'
-let g:go_imports_mode = 'gopls'
-let g:go_imports_autosave = 1
-
-let g:go_gopls_complete_unimported = 1
-let g:go_gopls_staticcheck = 1
-
-let g:go_autodetect_gopath = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_enabled = ['vet', 'golint']
-
-let g:go_highlight_operators = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_extra_types = 1
-
-let g:go_fold_enable = []
-
-nmap <C-g> :GoDecls<cr>
-imap <C-g> <esc>:GoDecls<cr>
-
-" run :GoBuild or :GoTestCompile based on the go file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-augroup go
-  autocmd!
-
-  " Introspection (diagnostics, documentation, signature help)
-  autocmd FileType go nmap <silent> gm <plug>(go-info)
-  autocmd FileType go nmap <silent> gl <plug>(go-diagnostics)
-
-  " Navigation (definition, implementation, document symbols, references)
-  " TODO: document symbol
-  " autocmd FileType go nmap <silent> go <plug>()
-  " TODO: implementation
-  " autocmd FileType go nmap <silent> gI <plug>()
-  autocmd FileType go nmap <silent> gr <plug>(go-referrers)
-
-  " Edit assistence (rename, code actions)
-  autocmd FileType go nmap <silent> gR <plug>(go-rename)
-  " TODO: code actions
-  " autocmd FileType go nmap <silent> ga <plug>()
-
-  " Leader mappings
-  autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
-  autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
-  autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
-  autocmd FileType go nmap <silent> <leader>e  <Plug>(go-install)
-  autocmd FileType go nmap <silent> <leader>l  <Plug>(go-lint)
-
-  " Override :GoAlternate with :A, :AV, :AS, and :AT
-  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-
-  " Quit godoc window with q
-  autocmd FileType godoc nmap <buffer> q :quit<cr>
-augroup END
-
-" }}}
 
 " vim:foldmethod=marker:foldlevel=1
