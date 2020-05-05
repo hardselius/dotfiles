@@ -1,6 +1,4 @@
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" PLUGINS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" Section: Packages {{{
 
 command! PackUpdate call local#pack#pack_init() | call minpac#update('', { 'do': 'call minpac#status()' })
 command! PackClean  call local#pack#pack_init() | call minpac#clean()
@@ -12,13 +10,8 @@ packadd! goyo.vim
 packadd! tabular
 packadd! tagbar
 
-packadd! vim-commentary
-packadd! vim-eunuch
 packadd! vim-repeat
-packadd! vim-surround
 packadd! vim-unimpaired
-packadd! vim-vinegar
-packadd! vim-sleuth
 
 " git
 packadd! vim-fugitive
@@ -37,12 +30,9 @@ packadd! async.vim
 packadd! vim-lsp
 packadd! vim-lsp-settings
 
-" Colorschemes
-packadd! nord-vim
+" }}}
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" SETTINGS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" Section: Settings {{{
 
 filetype plugin indent on
 syntax on
@@ -71,8 +61,7 @@ set grepformat=%f:%l:%c:%m
 set lazyredraw                 " Don't update screen during macro/script execution
 set encoding=utf-8             " Set default encoding to UTF-8
 
-let g:nord_uniform_diff_background = 1
-colorscheme nord
+colorscheme apprentice
 
 highlight clear CursorLine
 highlight CursorLineNR cterm=bold
@@ -96,7 +85,6 @@ set shiftround                 " Round indentation to nearest multile of 'sw'
 set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
 set completeopt=menu,menuone,noinsert,noselect
 set clipboard^=unnamed
-set clipboard^=unnamedplus
 
 set confirm                    " Display confirmation dialog when closing an unsaved file
 set showcmd                    " Show me what I'm typing
@@ -131,9 +119,9 @@ endif
 set laststatus=2               " Alway display the statusbar
 set statusline=%!local#statusline#buildstatusline()
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" MAPPINGS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" }}}
+
+" Section: Mapings {{{
 
 " Clear search highlight
 if maparg('<C-L>', 'n') ==# ''
@@ -145,12 +133,6 @@ let mapleader = ','
 
 " Close both the quickfix and location list
 nnoremap <silent><leader>a :cclose<CR>:lclose<CR>
-
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
 
 " Visual linewise up and down
 nnoremap j gj
@@ -167,27 +149,18 @@ nnoremap <C-d> <C-d>zz
 " Generate ctags for current working directory
 nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
 
-" 'Notes Grep' with ripgrep (see grepprg)
-" -i case insensitive
-" -g glob pattern
-" ! to not immediately open first search result
-command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
-nnoremap <leader>nn :Ngrep
-
 " Go to index of notes and change working directory
 nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" COOMMANDS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" }}}
+
+" Section: Commands {{{
 
 command! Vimrc :vs $MYVIMRC
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" PLUGINS:
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" }}}
 
-" Git: gitgutter and fugitive
+" Section: Plugins {{{
 
 " Enable gitguter realtime upadating
 let g:gitgutter_realtime = 1
@@ -197,7 +170,6 @@ set updatetime=250
 nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
 nmap cd <C-W>.
 
-" FZF:
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_command_prefix = 'Fzf'
 
@@ -218,8 +190,6 @@ command! -bang -nargs=* Rg
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
-" LSP: lsp and vista config
-
 let g:lsp_diagnostics_enabled = 0
 let g:vista_executive_for = {
   \ 'go': 'vim_lsp',
@@ -233,7 +203,7 @@ function! s:on_lsp_buffer_enabled() abort
 endfunction
 
 augroup lsp_install
-    au!
+    autocmd!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
@@ -243,11 +213,6 @@ let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
 
-" Plugin: vim-markdown {{{
-" ------------------------------------------------------------------------------
-let g:markdown_fenced_languages = [
-    \ 'go=go',
-    \ 'bash=sh',
-    \]
+" }}}
 
 " vim:foldmethod=marker:foldlevel=1

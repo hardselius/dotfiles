@@ -8,19 +8,14 @@ function! local#pack#pack_init() abort
   packadd minpac
   call minpac#init({ 'package_name': 'bundle' })
 
-  call minpac#add('k-takata/minpac'                    , { 'type': 'opt' })
-
-  call minpac#add('godlygeek/tabular'                  , { 'type': 'opt' })
-  call minpac#add('junegunn/fzf'                       , { 'type': 'opt' })
-  call minpac#add('junegunn/fzf.vim'                   , { 'type': 'opt' })
-  call minpac#add('junegunn/goyo.vim'                  , { 'type': 'opt' })
-  call minpac#add('majutsushi/tagbar'                  , { 'type': 'opt' })
-  call minpac#add('tpope/vim-commentary'               , { 'type': 'opt' })
-  call minpac#add('tpope/vim-eunuch'                   , { 'type': 'opt' })
-  call minpac#add('tpope/vim-repeat'                   , { 'type': 'opt' })
-  call minpac#add('tpope/vim-surround'                 , { 'type': 'opt' })
-  call minpac#add('tpope/vim-unimpaired'               , { 'type': 'opt' })
-  call minpac#add('tpope/vim-vinegar'                  , { 'type': 'opt' })
+  call minpac#add('k-takata/minpac'      , { 'type': 'opt' })
+  call minpac#add('godlygeek/tabular'    , { 'type': 'opt' })
+  call minpac#add('junegunn/fzf'         , { 'type': 'opt' })
+  call minpac#add('junegunn/fzf.vim'     , { 'type': 'opt' })
+  call minpac#add('junegunn/goyo.vim'    , { 'type': 'opt' })
+  call minpac#add('majutsushi/tagbar'    , { 'type': 'opt' })
+  call minpac#add('tpope/vim-repeat'     , { 'type': 'opt' })
+  call minpac#add('tpope/vim-unimpaired' , { 'type': 'opt' })
 
   " git
   call minpac#add('tpope/vim-fugitive'     , { 'type': 'opt'    , 'rev': 'v3.2' })
@@ -35,7 +30,6 @@ function! local#pack#pack_init() abort
   call minpac#add('prabirshrestha/vim-lsp'   , { 'type': 'opt' })
   call minpac#add('mattn/vim-lsp-settings'   , { 'type': 'opt' })
 
-  call minpac#add('tpope/vim-sleuth' , { 'type': 'opt' })
 
   "  tmux
   call minpac#add('tmux-plugins/vim-tmux'              , { 'type': 'opt' })
