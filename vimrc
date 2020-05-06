@@ -29,152 +29,145 @@ packadd! vista.vim
 packadd! async.vim
 packadd! vim-lsp
 packadd! vim-lsp-settings
-
 " }}}
 
-" Section: Settings {{{
-
+" Section: Basic {{{
 filetype plugin indent on
 syntax on
 
 runtime macros/matchit.vim
 
-set autoindent                 " Minimal automatic indent for any filetype
-set backspace=indent,eol,start " Proper backspace behaviour.
-set complete-=i                " Limit files searched for auto-complete
 set ruler                      " Show the line and column number of the cursor position.
-set wildmenu                   " Command-line completion.
-set scrolloff=1                " The number of screen lines to keep above/below cursor
-set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
-set display+=lastline          " Alwary try to show a paragraph's last line
-set cursorline
+" }}}
 
-set incsearch                  " Shows the match while typing.
+" Section: Moving around, searching, patterns, and tags {{{
 set hlsearch                   " Highlight found matches.
-set ignorecase                 " Search case insensitive ...
-set smartcase                  " ... but not if it begins with upper case.
+set ignorecase                 " Search case insensitive.
 set include=
+set incsearch                  " Shows the match while typing.
 set path=.,,
-set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
-set grepformat=%f:%l:%c:%m
+set smartcase                  " Case sensitive if search begins with upper case.
+" }}}
 
+" Section: Displaying text {{{
+set complete-=i                " Limit files searched for auto-complete
+set display=lastline           " Always try to show a paragraph's last line
 set lazyredraw                 " Don't update screen during macro/script execution
-set encoding=utf-8             " Set default encoding to UTF-8
+set scrolloff=999              " The number of screen lines to keep above/below cursor
+set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
+" }}}
 
-colorscheme apprentice
-
-highlight clear CursorLine
-highlight CursorLineNR cterm=bold
-augroup cursosline
-  autocmd! ColorScheme * highlight clear CursorLine
-  autocmd! ColorScheme * highlight CursorLineNR cterm=bold
-augroup END
-
-set showtabline=2
-set hidden                     " Possibility to have more than one unsaved buffers.
+" Section: Windows {{{
+set laststatus=2               " Alway display the statusbar
 set number                     " Show line numbers
-set splitright                 " Split vertical windows right to the current
+set showtabline=2
 set splitbelow                 " Split horizontal windows below to the current
+set splitright                 " Split vertical windows right to the current
+set statusline=%!local#statusline#buildstatusline()
 
-" Automatically resize screens to be equally the same
 autocmd VimResized * wincmd =
+" }}}
 
-set showmatch                  " Show matching brackets by flickering
-set virtualedit=block          " Allow virtual editing in Visual block mode.
-set shiftround                 " Round indentation to nearest multile of 'sw'
-set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
-set completeopt=menu,menuone,noinsert,noselect
-set clipboard^=unnamed
-
+" Section: Messages and info {{{
 set confirm                    " Display confirmation dialog when closing an unsaved file
 set showcmd                    " Show me what I'm typing
 set visualbell                 " Show me, don't bleep
-
-if has('folding')
-  set foldmethod=marker        " Fold based on marker
-  set foldopen+=jump           " Also open fold on far jumps, e.g g or G
-  set foldenable               " Don't fold files by default on open
-  set foldlevelstart=10        " Start with a foldlevel of 10
-endif
-
-set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
-set autoread                   " Auto reread changed files without asking
-set noswapfile                 " Don't use swapfile
-set nobackup                   " Don't create annoying backup files
-set viminfo='1000              " ~/.viminfo needs to be writeable and readable
-if has('persistent_undo')
-  set undofile
-  set undodir=~/.cache/vim
-endif
-
-set wildcharm=<C-z>
-
-set modeline                   " Enable modeline
-set nomodelineexpr             " ... but not expressions
-
-if filereadable(expand('~/.vimrc.local'))
-  source ~/.vimrc.local
-endif
-
-set laststatus=2               " Alway display the statusbar
-set statusline=%!local#statusline#buildstatusline()
-
 " }}}
 
-" Section: Mapings {{{
+" Section: Editing text and indent {{{
+set autoindent                 " Minimal automatic indent for any filetype
+set backspace=indent,eol,start " Proper backspace behaviour.
+set clipboard^=unnamed
+set completeopt=menu,menuone,noinsert,noselect
+set shiftround                 " Round indentation to nearest multile of 'sw'
+set showmatch                  " Show matching brackets by flickering
+set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
+set virtualedit=block,onemore  " Allow virtual editing in Visual block mode.
+" }}}
 
-" Clear search highlight
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+" Section: Folding and comments {{{
+if has('folding')
+    set foldenable         " Don't fold files by default on open
+    set foldlevelstart=10  " Start with a foldlevel of 10
+    set foldmethod=marker  " Fold based on marker
+    set foldopen+=jump     " Also open fold on far jumps, e.g g or G
 endif
+" }}}
 
-" The leader
+" Sections: Maps {{{
 let mapleader = ','
 
-" Close both the quickfix and location list
-nnoremap <silent><leader>a :cclose<CR>:lclose<CR>
+if maparg('<C-L>', 'n') ==# ''
+    nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
 
-" Visual linewise up and down
-nnoremap j gj
-nnoremap k gk
-
-" Center on line when jumping between search results
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-" Center on line when moving up and down
-nnoremap <C-u> <C-u>zz
-nnoremap <C-d> <C-d>zz
+nnoremap <silent> <C-w>z :wincmd z<Bar>cclose<Bar>lclose<CR>
+nnoremap <silent> <C-w>Q :tabclose<CR>
+nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
+nmap cd <C-W>.
 
 " Generate ctags for current working directory
 nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
 
 " Go to index of notes and change working directory
 nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
-
 " }}}
 
-" Section: Commands {{{
-
-command! Vimrc :vs $MYVIMRC
-
+" Section: Reading and writing files {{{
+set autoread                   " Auto reread changed files without asking
+set encoding=utf-8             " Set default encoding to UTF-8
+set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
+set hidden                     " Possibility to have more than one unsaved buffers.
+set nobackup                   " Don't create annoying backup files
+set noswapfile                 " Don't use swapfile
+set updatetime=250
+set viminfo='1000              " ~/.viminfo needs to be writeable and readable
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.cache/vim
+endif
 " }}}
 
-" Section: Plugins {{{
+" Section: Command line editing {{{
+set wildcharm=<C-z>
+set wildmenu                   " Command-line completion.
+" }}}
 
-" Enable gitguter realtime upadating
+" Section: External commands {{{
+set grepformat=%f:%l:%c:%m
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
+endif
+
+" Automatically open, but do not go to (if there are errors) the quickfix /
+" location list window, or close it when is has become empty.
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+" }}}
+
+" Section: Highlighting {{{
+colorscheme apprentice
+
+set cursorline
+highlight clear CursorLine
+highlight CursorLineNR cterm=bold
+augroup cursorline
+    autocmd! ColorScheme * highlight clear CursorLine
+    autocmd! ColorScheme * highlight CursorLineNR cterm=bold
+augroup END
+" }}}
+
+" Section: Plugin settings {{{
+
 let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 1
-set updatetime=250
-
-nnoremap <silent> <C-w>. :if exists(':Wcd')<Bar>exe 'Wcd'<Bar>elseif exists(':Lcd')<Bar>exe 'Lcd'<Bar>elseif exists(':Glcd')<Bar>exe 'Glcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
-nmap cd <C-W>.
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_command_prefix = 'Fzf'
 
-" Fuzzy comand finder space shortcut 
-nnorema <space> :FzfCommands<cr> 
+nnoremap <space> :FzfCommands<cr> 
+nnoremap <leader>ff :FzfFiles<cr>
+nnoremap <leader>fb :FzfBuffers<cr>
 
 let g:rg_command = '
   \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
@@ -194,7 +187,7 @@ let g:lsp_diagnostics_enabled = 0
 let g:vista_executive_for = {
   \ 'go': 'vim_lsp',
   \ 'terraform': 'vim_lsp',
-	\ }
+  \ }
 let g:vista_ignore_kinds = ['Variable']
 
 function! s:on_lsp_buffer_enabled() abort
@@ -207,12 +200,10 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-" netrw
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
-
 " }}}
 
-" vim:foldmethod=marker:foldlevel=1
+" vim:expandtab:shiftwidth=4:foldmethod=marker:foldlevel=1
