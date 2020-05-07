@@ -53,6 +53,7 @@ set smartcase                  " Case sensitive if search begins with upper case
 set complete-=i                " Limit files searched for auto-complete
 set display=lastline           " Always try to show a paragraph's last line
 set lazyredraw                 " Don't update screen during macro/script execution
+set linebreak                  " Don't break long lines in between words
 set scrolloff=999              " The number of screen lines to keep above/below cursor
 set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
 " }}}
@@ -119,18 +120,34 @@ set encoding=utf-8             " Set default encoding to UTF-8
 set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
 set hidden                     " Possibility to have more than one unsaved buffers.
 set nobackup                   " Don't create annoying backup files
-set noswapfile                 " Don't use swapfile
 set updatetime=250
 set viminfo='1000              " ~/.viminfo needs to be writeable and readable
-if has('persistent_undo')
-  set undofile
-  set undodir=~/.cache/vim
+
+if exists('+undofile')
+    set undofile
+endif
+
+if v:version >= 700
+    set viminfo=!,'20,<50,s10,h
+endif
+if !empty($SUDO_USER) && $USER !=# $SUDO_USER
+  setglobal viminfo=
+  setglobal directory-=~/tmp
+  setglobal backupdir-=~/tmp
+elseif exists('+undofile')
+  setglobal undodir=~/.cache/vim/undo
+  if !isdirectory(&undodir)
+    call mkdir(&undodir, 'p')
+  endif
 endif
 " }}}
 
 " Section: Command line editing {{{
 set wildcharm=<C-z>
 set wildmenu                   " Command-line completion.
+
+cnoremap <C-O>      <Up>
+cnoremap <C-R><C-L> <C-R>=substitute(getline('.'), 'ˆ\s*', '', '')<CR>
 " }}}
 
 " Section: External commands {{{
