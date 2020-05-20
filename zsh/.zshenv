@@ -6,7 +6,8 @@ export CLICOLOR=true
 
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/.dotfiles"
-export PATH="/usr/local/bin:$DOTFILES/bin:$PATH"
+export ZSH_FUNCTIONS="$HOME/.zsh/functions"
+export PATH="/usr/local/bin:$ZSH_FUNCTIONS:$PATH"
 
 # project folder that we can `cd [tab]` to
 export PROJECTS="$HOME/projects"

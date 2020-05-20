@@ -17,6 +17,7 @@
 	cp-branch-name    = !git rev-parse --abbrev-ref HEAD | pbcopy
 	delete-local-merged = !zsh -ic git-delete-local-merged
 	add-upstream      = !zsh -ic add-upstream
+	prettylog         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
 [color]
 	diff    = auto
@@ -25,7 +26,7 @@
 	ui      = true
 
 [core]
-	excludesfile      = ~/.gitignore
+	excludesfile      = ~/.gitignore_global
 	editor            = vim
 	compression       = -1
 	autocrlf          = input

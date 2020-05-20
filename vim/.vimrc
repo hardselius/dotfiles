@@ -1,20 +1,3 @@
-" Section: Packages {{{
-command! PackUpdate call local#pack#pack_init() | call minpac#update('', { 'do': 'call minpac#status()' })
-command! PackClean  call local#pack#pack_init() | call minpac#clean()
-command! PackStatus call local#pack#pack_init() | call minpac#status()
-
-packadd! vim-commentary
-packadd! vim-repeat
-packadd! vim-surround
-packadd! vim-polyglot
-packadd! vim-tmux
-packadd! vim-tmux-focus-events
-packadd! vista.vim
-packadd! async.vim
-packadd! vim-lsp
-packadd! vim-lsp-settings
-" }}}
-
 " Section: Basic {{{
 filetype plugin indent on
 syntax on
@@ -27,11 +10,10 @@ let $MYVIMDIR="~/.vim"
 " }}}
 
 " Section: Moving around, searching, patterns, and tags {{{
-set hlsearch                   " Highlight found matches.
 set ignorecase                 " Search case insensitive.
 set include=
 set incsearch                  " Shows the match while typing.
-set path=.,,                   " Search relative to current file
+set path=.,,**                 " Search relative to current file
 set smartcase                  " Case sensitive if search begins with upper case.
 " }}}
 
@@ -87,6 +69,10 @@ set wildmenu                   " Command-line completion.
 cnoremap <C-R><C-L> <C-R>=substitute(getline('.'), 'ˆ\s*', '', '')<CR>
 " }}}
 
+" Section: Statusline {{{
+
+" }}}
+
 " Section: External commands {{{
 set grepformat=%f:%l:%c:%m
 if executable('rg')
@@ -100,6 +86,14 @@ colorscheme apprentice
 " }}}
 
 " Sections: Mappings {{{
+set notimeout                  " Don't timeout on mappings
+set ttimeout                   " Do timeout on terminal key codes
+set ttimeoutlen=50             " Timeout after 50ms
+
+" Re-detect filetypes
+nnoremap <leader>t :filetype<CR>
+" Fast switching to alternate file
+nnoremap ,a :buffer#<CR>
 " Faster buffer navigation
 nnoremap ,b :buffer *
 " Command-line like forward-search
@@ -110,10 +104,8 @@ cnoremap <C-j> <Down>
 nnoremap ,g :g//#<Left><Left>
 " Faster project based editing
 nnoremap ,e :e  **/*<C-z><S-Tab>
-
-if maparg('<C-L>', 'n') ==# ''
-    nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
+" Make the directory for the current file path
+nnoremap ,m :!mkdir -p %:h<CR>
 
 " Path-based file navigation
 nnoremap ,f :find *
@@ -134,11 +126,21 @@ nnoremap ]a :next<CR>
 nnoremap [A :first<CR>
 nnoremap ]A :last<CR>
 
-" Generate ctags for current working directory
-nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
-
 " Go to index of notes and change working directory
 nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
+
+" Symbol-based navigation
+nnoremap ,t :tjump /
+nnoremap ,d :dlist /
+nnoremap ,i :ilist /
+
+" Scratch buffer
+command! SC vnew | setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+" command! -nargs=+ -complete=file_in_path -bar Grep silent! grep! <args> | redraw!
+command! -nargs=+ -complete=file -bar Grep silent! grep! <args> | copen 10 | redraw!
+
+nnoremap <silent> ,G :Grep
+cnoremap <expr> <CR> cmdline#AutoComplete()
 " }}}
 
 " Section: Autocommands {{{
@@ -149,26 +151,7 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
 
 " Section: Plugin settings {{{
-
 let g:go_highlight_functions = 1
-let g:go_code_completion_enabled = 0
-
-let g:lsp_diagnostics_enabled = 1
-let g:vista_executive_for = {
-  \ 'go': 'vim_lsp',
-  \ 'terraform': 'vim_lsp',
-  \ }
-let g:vista_ignore_kinds = ['Variable']
-
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-endfunction
-
-augroup lsp_install
-    autocmd!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
 
 let g:netrw_liststyle = 3
 let g:netrw_winsize=20

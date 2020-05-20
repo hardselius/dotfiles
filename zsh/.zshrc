@@ -51,8 +51,8 @@ gi() {
 }
 
 # Load custom functions
-fpath=($DOTFILES/functions $fpath)
-autoload -U "$DOTFILES"/functions/*(:t)
+fpath=($ZSH_FUNCTIONS $fpath)
+autoload -U "$ZSH_FUNCTIONS"/*(:t)
 # }}}
 
 # HISTORY {{{

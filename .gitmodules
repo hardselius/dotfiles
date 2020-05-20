@@ -1,0 +1,18 @@
+[submodule "submodules/vim-go"]
+	path = submodules/vim-go
+	url = https://github.com/fatih/vim-go.git
+[submodule "submodules/vim-commentary"]
+	path = submodules/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
+[submodule "submodules/vim-repeat"]
+	path = submodules/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "submodules/vim-surround"]
+	path = submodules/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "submodules/vim-polyglot"]
+	path = submodules/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot.git
+[submodule "submodules/Apprentice"]
+	path = submodules/Apprentice
+	url = https://github.com/romainl/Apprentice
