@@ -150,6 +150,10 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
 
+" Section: Plugins {{{
+packadd! vim-goimports
+" }}}
+
 " Section: Plugin settings {{{
 let g:go_highlight_functions = 1
 

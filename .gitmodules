@@ -16,3 +16,6 @@
 [submodule "submodules/Apprentice"]
 	path = submodules/Apprentice
 	url = https://github.com/romainl/Apprentice
+[submodule "submodules/vim-goimports"]
+	path = submodules/vim-goimports
+	url = https://github.com/mattn/vim-goimports
