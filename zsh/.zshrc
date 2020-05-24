@@ -98,42 +98,24 @@ zstyle ':completion:*' list-dirs-first true
 
 # KEY BINDINGS {{{
 # -----------------------------------------------------------------------------
-# Use emacs-like key bindings by default:
-bindkey -e
 
-if [[ "${terminfo[kpp]}" != "" ]]; then
-  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
-fi
+# Use vim-like key bindings by default
+bindkey -v
 
-if [[ "${terminfo[knp]}" != "" ]]; then
-  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
-fi
+# Remove mode change delay
+export KEYTIMEOUT=1
 
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
-fi
+vi-search-fix() {
+	zle vi-cmd-mode
+	zle .vi-history-search-backward
+}
 
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
-fi
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-fi
+autoload vi-search-fix
+zle -N vi-search-fix
+bindkey -M viins '\e/' vi-search-fix
 
-bindkey '^?' backward-delete-char                     # [Backspace] - delete backward
-if [[ "${terminfo[kdch1]}" != "" ]]; then
-  bindkey "${terminfo[kdch1]}" delete-char            # [Delete] - delete forward
-else
-  bindkey "^[[3~" delete-char
-  bindkey "^[3;5~" delete-char
-  bindkey "\e[3~" delete-char
-fi
-
-# https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-#autoload -U up-line-or-beginning-search
-#autoload -U down-line-or-beginning-search
-#zle -N up-line-or-beginning-search
-#zle -N down-line-or-beginning-search
+# Fix backspace
+bindkey "^?" backward-delete-char
 
 # [Ctrl-r] - Search backward incrementally for a specified string. The string
 # may begin with ^ to anchor the search to the beginning of the line.
