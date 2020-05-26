@@ -74,8 +74,8 @@ cnoremap <C-R><C-L> <C-R>=substitute(getline('.'), 'ˆ\s*', '', '')<CR>
 " }}}
 
 " Section: External commands {{{
-set grepformat=%f:%l:%c:%m
 if executable('rg')
+    set grepformat=%f:%l:%c:%m
     set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
 endif
 " }}}
