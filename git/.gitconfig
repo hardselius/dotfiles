@@ -4,6 +4,7 @@
 	signingkey = 84D80CE9A803D1C5
 
 [alias]
+	ctags             = !.git/hooks/ctags
 	co                = checkout
 	promote           = !$ZSH/bin/git-promote
 	wtf               = !$ZSH/bin/git-wtf
@@ -92,3 +93,5 @@
 	diff = diff-so-fancy | less --tabs=4 -RFX
 	log = diff-so-fancy | less --tabs=4 -RFX
 	show = diff-so-fancy | less --tabs=4 -RFX
+[init]
+	templatedir = ~/.git_template
