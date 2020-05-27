@@ -2,66 +2,68 @@
 filetype plugin indent on
 syntax on
 runtime macros/matchit.vim
+set autoindent                 " Minimal automatic indent for any filetype.
+set backspace=indent,eol,start " Proper backspace behaviour.
 set hidden                     " Possibility to have more than one unsaved buffers.
 set incsearch                  " Shows the match while typing.
-set ruler                      " Show the line and column number of the cursor position.
+set ruler                      " Shows the current line number at the bottom-right
+                               " of the screen.
 set wildmenu                   " Command-line completion.
 " }}}
 
 " Section: Moving around, searching, patterns, and tags {{{
 set ignorecase                 " Search case insensitive.
 set path=.,,**                 " Search relative to current file
-set smartcase                  " Case sensitive if search begins with upper case.
+set smartcase                  " Case sensitive if search begins with upper
+                               " case.
 " }}}
 
 " Section: Displaying text {{{
-set complete-=i                " Limit files searched for auto-complete
-set display=lastline           " Always try to show a paragraph's last line
-set lazyredraw                 " Don't update screen during macro/script execution
-set linebreak                  " Don't break long lines in between words
-set scrolloff=2                " The number of screen lines to keep above/below cursor
-set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor
+set complete-=i                " Limit files searched for auto-complete.
+set display=lastline           " Always try to show a paragraph's last line.
+set lazyredraw                 " Don't update screen during macro/script execution.
+set linebreak                  " Don't break long lines in between words.
+set scrolloff=2                " The number of screen lines to keep above/below cursor.
+set sidescrolloff=5            " Screen cols to keep to the left/right of the cursor.
 " }}}
 
 " Section: Windows {{{
-set laststatus=2               " Alway display the statusbar
-set number                     " Show line numbers
+set laststatus=2               " Alway display the statusbar.
+set number                     " Show line numbers.
 set showtabline=2
-set splitbelow                 " Split horizontal windows below to the current
-set splitright                 " Split vertical windows right to the current
+set splitbelow                 " Split horizontal windows below to the current.
+set splitright                 " Split vertical windows right to the current.
 
 autocmd VimResized * wincmd =
 " }}}
 
 " Section: Messages and info {{{
-set confirm                    " Display confirmation dialog when closing an unsaved file
-set showcmd                    " Show me what I'm typing
-set visualbell                 " Show me, don't bleep
+set showcmd                    " Show me what I'm typing.
+set visualbell                 " Show me, don't bleep.
 " }}}
 
 " Section: Editing text and indent {{{
-set autoindent                 " Minimal automatic indent for any filetype
-set backspace=indent,eol,start " Proper backspace behaviour.
-set clipboard^=unnamed         " System clipboard
-set completeopt+=menuone       " Show completion menu even if only one item
+set clipboard^=unnamed         " System clipboard.
+set completeopt+=menuone       " Show completion menu even if only one item.
 set shiftround                 " Round indentation to nearest multile of 'sw'
-set showmatch                  " Show matching brackets by flickering
-set smarttab                   " Insert 'ts' spaces when <Tab> is pressed
+set showmatch                  " Show matching brackets by flickering.
+set smarttab                   " Insert 'ts' spaces when <Tab> is pressed.
 set virtualedit=block,onemore  " Allow virtual editing in Visual block mode.
+set nojoinspaces               " Use one space, not two, after punctuation.
 " }}}
 
 " Section: Reading and writing files {{{
-set autoread                   " Auto reread changed files without asking
-set encoding=utf-8             " Set default encoding to UTF-8
-set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
+set autoread                   " Auto reread changed files without asking.
+set encoding=utf-8             " Set default encoding to UTF-8.
+set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats.
 set updatetime=50
 
 if has('vms')
-    set nobackup               " Do not keep a backup file, use versions instead
+    set nobackup               " Do not keep a backup file, use versions instead.
 else
-    set backup                 " Keep a backup file (restore previous version)
+    set backup                 " Keep a backup file (restore previous version).
     if has('persistent_undo')
-        set undofile           " Keep an undo file (undo changes after closing)
+        set undofile           " Keep an undo file (undo changes after closing).
     endif
 endif
 " }}}
