@@ -2,17 +2,14 @@
 filetype plugin indent on
 syntax on
 runtime macros/matchit.vim
-" }}}
-
-" Section: Variables {{{
-let $MYVIMRC="~/.vimrc"
-let $MYVIMDIR="~/.vim"
+set hidden                     " Possibility to have more than one unsaved buffers.
+set incsearch                  " Shows the match while typing.
+set ruler                      " Show the line and column number of the cursor position.
+set wildmenu                   " Command-line completion.
 " }}}
 
 " Section: Moving around, searching, patterns, and tags {{{
 set ignorecase                 " Search case insensitive.
-set include=
-set incsearch                  " Shows the match while typing.
 set path=.,,**                 " Search relative to current file
 set smartcase                  " Case sensitive if search begins with upper case.
 " }}}
@@ -29,7 +26,6 @@ set sidescrolloff=5            " Screen cols to keep to the left/right of the cu
 " Section: Windows {{{
 set laststatus=2               " Alway display the statusbar
 set number                     " Show line numbers
-set ruler                      " Show the line and column number of the cursor position.
 set showtabline=2
 set splitbelow                 " Split horizontal windows below to the current
 set splitright                 " Split vertical windows right to the current
@@ -58,19 +54,21 @@ set virtualedit=block,onemore  " Allow virtual editing in Visual block mode.
 set autoread                   " Auto reread changed files without asking
 set encoding=utf-8             " Set default encoding to UTF-8
 set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
-set hidden                     " Possibility to have more than one unsaved buffers.
-set updatetime=250
-set viminfo=!,'20,<50,s10,h
+set updatetime=50
+
+if has('vms')
+    set nobackup               " Do not keep a backup file, use versions instead
+else
+    set backup                 " Keep a backup file (restore previous version)
+    if has('persistent_undo')
+        set undofile           " Keep an undo file (undo changes after closing)
+    endif
+endif
 " }}}
 
 " Section: Command line editing {{{
 set wildcharm=<C-z>
-set wildmenu                   " Command-line completion.
 cnoremap <C-R><C-L> <C-R>=substitute(getline('.'), 'ˆ\s*', '', '')<CR>
-" }}}
-
-" Section: Statusline {{{
-
 " }}}
 
 " Section: External commands {{{
