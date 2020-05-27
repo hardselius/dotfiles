@@ -24,6 +24,7 @@
 
 [commit]
 	gpgsign = true
+	verbose = true
 
 [gpg]
 	program = gpg
