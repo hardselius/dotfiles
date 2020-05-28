@@ -130,10 +130,14 @@ nnoremap ,F :find <C-R>=fnameescape(expand('%:p:h')).'**/*'<CR>
 nnoremap ,V :vertical splitfind <C-R>=fnameescape(expand('%:p:h')).'**/*'<CR>
 
 " Quickfix list navication
-nnoremap [c :cnext<CR>
-nnoremap ]c :cprevious<CR>
-nnoremap [l :lnext<CR>
-nnoremap ]l :lprevious<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]q :cnext<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [l :lprevious<CR>
+nnoremap ]l :lnext<CR>
+nnoremap [L :lfirst<CR>
+nnoremap ]L :llast<CR>
 nnoremap <silent> <C-w>z :wincmd z<Bar>cclose<Bar>lclose<CR>
 
 " Argslist navigation
