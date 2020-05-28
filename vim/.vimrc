@@ -78,6 +78,22 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m
     set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
 endif
+
+function! Grep(...)
+    return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
+endfunction
+
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
+
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
+cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+
+augroup quickfix
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* nested cwindow
+    autocmd QuickFixCmdPost    l* nested lwindow
+augroup END
 " }}}
 
 " Section: Highlighting {{{
@@ -136,18 +152,9 @@ nnoremap ,i :ilist /
 
 " Scratch buffer
 command! SC vnew | setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
-" command! -nargs=+ -complete=file_in_path -bar Grep silent! grep! <args> | redraw!
-command! -nargs=+ -complete=file -bar Grep silent! grep! <args> | copen 10 | redraw!
 
-nnoremap <silent> ,G :Grep
+nnoremap ,G :Grep 
 cnoremap <expr> <CR> cmdline#AutoComplete()
-" }}}
-
-" Section: Autocommands {{{
-" Automatically open, but do not go to (if there are errors) the quickfix /
-" location list window, or close it when is has become empty.
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
 
 " Section: Plugins {{{
