@@ -26,12 +26,12 @@ colorscheme apprentice
 
 " Section: External commands {{{
 if executable('rg')
-    set grepformat=%f:%l:%c:%m
-    set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
+  set grepformat=%f:%l:%c:%m
+  set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
 endif
 
 function! Grep(...)
-    return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
+  return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
 endfunction
 
 command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
@@ -41,9 +41,9 @@ cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'G
 cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
 
 augroup quickfix
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* nested cwindow
-    autocmd QuickFixCmdPost    l* nested lwindow
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* nested cwindow
+  autocmd QuickFixCmdPost    l* nested lwindow
 augroup END
 " }}}
 
@@ -108,5 +108,3 @@ let g:netrw_liststyle = 3
 let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
 " }}}
-
-" vim:expandtab:shiftwidth=4:foldmethod=marker:foldlevel=1
