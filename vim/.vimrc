@@ -21,7 +21,7 @@ set tags=./tags;,tags;         " Tags relative to current file + dir + parents r
 set virtualedit=block          " Allow virtual editing in Visual block mode.
 set wildcharm=<C-z>            " Macro-compatible command-line wildchar.
 
-colorscheme apprentice
+colorscheme jellybeans
 " }}}
 
 " Section: External commands {{{
