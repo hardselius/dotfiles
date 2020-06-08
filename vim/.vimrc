@@ -13,6 +13,7 @@ set wildmenu                   " Command-line completion.
 
 set autoread                   " Auto reread changed files without asking.
 set clipboard^=unnamed         " System clipboard.
+set laststatus=2               " Always show status line.
 set noswapfile                 " No swapfiles.
 set number                     " Show line numbers.
 set path=.,,**                 " Search relative to current file.
@@ -26,8 +27,8 @@ colorscheme jellybeans
 
 " Section: External commands {{{
 if executable('rg')
-  set grepformat=%f:%l:%c:%m
-  set grepprg=rg\ --vimgrep\ $*  " Use ripgrep
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+  set grepprg=rg\ --vimgrep\ --no-heading\ --hidden\ $*  " Use ripgrep
 endif
 
 function! Grep(...)
@@ -61,7 +62,7 @@ cnoremap <C-j> <Down>
 " Fast global commands
 nnoremap ,g :g//#<Left><Left>
 " Faster project based editing
-nnoremap ,e :e  **/*<C-z><S-Tab>
+nnoremap ,e :e **/*<C-z><S-Tab>
 " Make the directory for the current file path
 nnoremap ,m :!mkdir -p %:h<CR>
 
@@ -80,7 +81,7 @@ nnoremap [A :first<CR>
 nnoremap ]A :last<CR>
 
 " Go to index of notes and change working directory
-nnoremap <leader>ni :e $NOTES/index.md<cr>:cd $NOTES<cr>
+nnoremap <Leader>ni :e $NOTES/index.md<CR>:cd $NOTES<CR>
 
 " Symbol-based navigation
 nnoremap ,t :tjump /
@@ -92,7 +93,7 @@ command! SC vnew | setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
 
 "Redirect output of command into scratch buffer
 command! -nargs=1 -complete=command -bar -range Redir silent call redir#Redir(<q-args>, <range>, <line1>, <line2>)
-nnoremap ,r :Redir
+nnoremap ,r :Redir<Space>
 
 nnoremap ,G :Grep 
 cnoremap <expr> <CR> cmdline#AutoComplete()
@@ -103,8 +104,8 @@ runtime macros/matchit.vim
 packadd! vim-goimports
 
 let g:go_highlight_functions = 1
+let g:terraform_fmt_on_save = 1
 
 let g:netrw_liststyle = 3
-let g:netrw_winsize=20
 let g:netrw_localrmdir='rm -r'
 " }}}
