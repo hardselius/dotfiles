@@ -22,3 +22,6 @@
 [submodule "submodules/badwolf"]
 	path = submodules/badwolf
 	url = https://github.com/sjl/badwolf
+[submodule "submodules/jellybeans"]
+	path = submodules/jellybeans
+	url = https://github.com/nanotech/jellybeans.vim
