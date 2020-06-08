@@ -1,2 +1,0 @@
-#compdef cdh
-_files -W "$HOME" -/

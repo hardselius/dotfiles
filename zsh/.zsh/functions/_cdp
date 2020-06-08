@@ -1,2 +1,0 @@
-#compdef cdp
-_files -W "$PROJECTS" -/

@@ -1,2 +1,0 @@
-#compdef cdg
-_files -W "$GOPATH"/src/github.com -/

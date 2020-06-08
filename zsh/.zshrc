@@ -1,22 +1,33 @@
-#! /usr/bin/env zsh
+PATH=$PATH:~/go/bin
+PATH=$PATH:$(go env GOPATH)/bin
 
-# INIT {{{
-# -----------------------------------------------------------------------------
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+typeset -U PATH
 
-# Use .localrc for SUPER SECRET CRAP that you don't want in yor public,
-# versioned repo.
+export GOPATH=$(go env GOPATH)
+
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export EDITOR="vim"
+export CLICOLOR=true
+# notes folder
+export NOTES="$HOME/dropbox-personal/wiki"
+
+# FZF
+export FZF_DEFAULT_COMMAND='fd --type file --color=always --follow --hidden --exclude .git'
+export FZF_DEFAULT_OPTS="--ansi"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+export CDPATH=.:~:~/projects
+
 [[ -f ~/.localrc ]] && source ~/.localrc
 
 export GPG_TTY="$TTY"
 test -r ~/.dir_colors && eval $(gdircolors ~/.dir_colors)
 
-# }}}
-
-# ALIASES {{{
 # -----------------------------------------------------------------------------
+# ALIASES
+# -----------------------------------------------------------------------------
+
 alias cls='clear'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias reload!='exec "$SHELL" -l'
@@ -42,21 +53,10 @@ else
     alias ll="ls -l"
 fi
 
-if command -v hub >/dev/null 2>&1; then
-	alias git='hub'
-fi
-
-gi() {
-	curl -s "https://www.gitignore.io./api/$*";
-}
-
-# Load custom functions
-fpath=($ZSH_FUNCTIONS $fpath)
-autoload -U "$ZSH_FUNCTIONS"/*(:t)
-# }}}
-
-# HISTORY {{{
 # -----------------------------------------------------------------------------
+# HISTORY
+# -----------------------------------------------------------------------------
+
 ## Command history configuration
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
@@ -74,8 +74,10 @@ setopt inc_append_history
 setopt share_history
 # }}}
 
-# AUTOCOMPLETION {{{
 # -----------------------------------------------------------------------------
+# AUTOCOMPLETION
+# -----------------------------------------------------------------------------
+
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
   compinit
@@ -96,7 +98,8 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' list-dirs-first true
 # }}}
 
-# KEY BINDINGS {{{
+# -----------------------------------------------------------------------------
+# KEY BINDINGS
 # -----------------------------------------------------------------------------
 
 # Use vim-like key bindings by default
@@ -120,16 +123,28 @@ bindkey "^?" backward-delete-char
 # [Ctrl-r] - Search backward incrementally for a specified string. The string
 # may begin with ^ to anchor the search to the beginning of the line.
 # Uses fzf if installed, default otherwise.
-if test -d /usr/local/opt/fzf/shell; then
-	# shellcheck disable=SC1091
-	. /usr/local/opt/fzf/shell/key-bindings.zsh
-else
-	bindkey '^r' history-incremental-search-backward
-fi
+# if test -d /usr/local/opt/fzf/shell; then
+# 	# shellcheck disable=SC1091
+# 	. /usr/local/opt/fzf/shell/key-bindings.zsh
+# else
+# 	bindkey '^r' history-incremental-search-backward
+# fi
+
+# Allow Ctrl-z to toggle between suspend and resume.
+function resume {  
+    fg
+    zle push-input 
+    BUFFER=""
+    zle accept-line
+} 
+zle -N resume
+bindkey "^Z" resume
 # }}}
 
-# PLUGINS {{{
 # -----------------------------------------------------------------------------
+# PLUGINS
+# -----------------------------------------------------------------------------
+
 # Check if zplug is installed
 if [[ ! -d ~/.zplug ]]; then
   git clone https://github.com/zplug/zplug ~/.zplug
@@ -156,10 +171,9 @@ zplug load
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# }}}
 
-
-# MISC. CONFIGURATION {{{
 # -----------------------------------------------------------------------------
+# MISC. CONFIGURATION
+# -----------------------------------------------------------------------------
+
 complete -o nospace -C /usr/local/bin/terraform terraform
-# }}}
