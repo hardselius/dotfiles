@@ -2,7 +2,7 @@
 default: help
 
 .PHONY: update-submodules
-## Update submodules to latest tips of remote branches
+## update-submodules: Update submodules to latest tips of remote branches
 update-submodules:
 	git submodule update --recursive --remote
 
