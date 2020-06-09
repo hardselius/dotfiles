@@ -1,6 +1,3 @@
-[submodule "submodules/vim-go"]
-	path = submodules/vim-go
-	url = https://github.com/fatih/vim-go.git
 [submodule "submodules/vim-commentary"]
 	path = submodules/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
