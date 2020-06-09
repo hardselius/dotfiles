@@ -19,9 +19,6 @@
 [submodule "submodules/vim-goimports"]
 	path = submodules/vim-goimports
 	url = https://github.com/mattn/vim-goimports
-[submodule "submodules/badwolf"]
-	path = submodules/badwolf
-	url = https://github.com/sjl/badwolf
 [submodule "submodules/jellybeans"]
 	path = submodules/jellybeans
 	url = https://github.com/nanotech/jellybeans.vim
