@@ -102,8 +102,8 @@ cnoremap <expr> <CR> cmdline#AutoComplete()
 " Section: Plugins {{{
 runtime macros/matchit.vim
 packadd! vim-goimports
+packadd! vim-terraform
 
-let g:go_highlight_functions = 1
 let g:terraform_fmt_on_save = 1
 
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
