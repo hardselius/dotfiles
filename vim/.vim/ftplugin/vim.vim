@@ -2,7 +2,7 @@
 set expandtab
 set foldmethod=marker
 set shiftwidth=2
-set tabstop=2
+set softtabstop=2
 
 " Automatically source .vimrc on save
 augroup Vimrc
