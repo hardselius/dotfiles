@@ -1,2 +1,31 @@
 # Snippets for Terraform
 
+snippet provider "Provider" b
+provider "${1}" {
+  ${0}
+}
+endsnippet
+
+snippet resource "Resource" b
+resource "${1}" "${2}" {
+  ${0}
+}
+endsnippet
+
+snippet data "Data" b
+data "${1}" "${2}" {
+  ${0}
+}
+endsnippet
+
+snippet variable "Variable" b
+variable "${1}" {
+  ${0}
+}
+endsnippet
+
+snippet output "Output" b
+output "${1}" {
+  ${0}
+}
+endsnippet
