@@ -22,3 +22,6 @@
 [submodule "submodules/vim-terraform"]
 	path = submodules/vim-terraform
 	url = https://github.com/hashivim/vim-terraform
+[submodule "submodules/editorconfig-vim"]
+	path = submodules/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim
