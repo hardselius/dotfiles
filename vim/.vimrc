@@ -1,9 +1,14 @@
-" Section: Basic {{{
+" Basic {{{
 filetype plugin indent on
 syntax on
 " }}}
 
-" Section: Settings {{{
+" Variable Assignments {{{
+let $MYVIMRC="~/.vimrc"
+let $MYVIMDIR="~/.vim"
+" }}}
+
+" Settings {{{
 set autoindent                 " Minimal automatic indent for any filetype.
 set backspace=indent,eol,start " Proper backspace behaviour.
 set hidden                     " Prefer hiding over unloading buffers.
@@ -25,7 +30,7 @@ set wildcharm=<C-z>            " Macro-compatible command-line wildchar.
 colorscheme jellybeans
 " }}}
 
-" Section: External commands {{{
+" External commands {{{
 if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
   set grepprg=rg\ --vimgrep\ --no-heading\ --hidden\ $*  " Use ripgrep
@@ -48,9 +53,9 @@ augroup quickfix
 augroup END
 " }}}
 
-" Sections: Mappings {{{
+" Mappings {{{
 " Re-detect filetypes
-nnoremap <leader>t :filetype<CR>
+nnoremap <leader>t :filetype detect<CR>
 " Fast switching to alternate file
 nnoremap ,a :buffer#<CR>
 " Faster buffer navigation
@@ -80,7 +85,12 @@ nnoremap ]a :next<CR>
 nnoremap [A :first<CR>
 nnoremap ]A :last<CR>
 
-" Go to index of notes and change working directory
+" Useful for accessing commonly-used files
+nnoremap <leader>v :e $MYVIMRC<CR>
+nnoremap <leader>f :e <C-R>='$MYVIMDIR/ftplugin/'.&filetype.'.vim'<CR><CR>
+nnoremap <leader>i :e <C-R>='$MYVIMDIR/indent/'.&filetype.'.vim'<CR><CR>
+nnoremap <leader>z :e ~/.zshrc<CR>
+nnoremap <leader>s :UltiSnipsEdit<CR>
 nnoremap <Leader>ni :e $NOTES/index.md<CR>:cd $NOTES<CR>
 
 " Symbol-based navigation
@@ -99,7 +109,7 @@ nnoremap ,G :Grep
 cnoremap <expr> <CR> cmdline#AutoComplete()
 " }}}
 
-" Section: Plugins {{{
+" Plugins {{{
 runtime macros/matchit.vim
 
 let g:terraform_fmt_on_save = 1
