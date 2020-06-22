@@ -25,3 +25,6 @@
 [submodule "submodules/editorconfig-vim"]
 	path = submodules/editorconfig-vim
 	url = https://github.com/editorconfig/editorconfig-vim
+[submodule "submodules/tagbar"]
+	path = submodules/tagbar
+	url = https://github.com/majutsushi/tagbar
