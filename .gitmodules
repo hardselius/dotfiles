@@ -16,9 +16,6 @@
 [submodule "submodules/jellybeans"]
 	path = submodules/jellybeans
 	url = https://github.com/nanotech/jellybeans.vim
-[submodule "submodules/ultisnips"]
-	path = submodules/ultisnips
-	url = https://github.com/SirVer/ultisnips
 [submodule "submodules/vim-terraform"]
 	path = submodules/vim-terraform
 	url = https://github.com/hashivim/vim-terraform

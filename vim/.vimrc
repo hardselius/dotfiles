@@ -114,12 +114,6 @@ runtime macros/matchit.vim
 
 let g:terraform_fmt_on_save = 1
 
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-cnoreabbrev resnip call UltiSnips#RefreshSnippets() 
-
 let g:netrw_liststyle = 3
 let g:netrw_localrmdir='rm -r'
 " }}}
