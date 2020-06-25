@@ -28,3 +28,6 @@
 [submodule "submodules/tagbar"]
 	path = submodules/tagbar
 	url = https://github.com/majutsushi/tagbar
+[submodule "submodules/vim-nix"]
+	path = submodules/vim-nix
+	url = https://github.com/LnL7/vim-nix
