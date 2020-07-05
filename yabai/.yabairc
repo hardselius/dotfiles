@@ -38,6 +38,7 @@ yabai -m config --space 3 layout             float
 yabai -m rule --add app='Airmail' manage=off
 yabai -m rule --add app='Dash' manage=off
 yabai -m rule --add app='Mail' manage=off
+yabai -m rule --add app='Messages' manage=off
 yabai -m rule --add app='Music' manage=off
 yabai -m rule --add app='System Preferences' manage=off
 yabai -m rule --add app='Station' manage=off
