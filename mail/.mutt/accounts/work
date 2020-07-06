@@ -1,0 +1,32 @@
+set from = "martin.hardselius@netlight.com"
+set sendmail = "msmtp -a work"
+
+# Set folders
+set spoolfile = "+work/INBOX"
+set mbox = "+work/archive"
+set postponed = "+work/drafts"
+set record = "+work/sent"
+set trash = "+work/trash"
+
+# custom signaure
+set signature = ~/.mutt/signatures/work
+
+color status red default
+
+macro index o "<shell-escape>mbsync work<enter>" "run mbsync to sync mail for this account"
+
+macro index,pager s \
+  "<enter-command>set my_old_resolve=\$resolve noresolve<enter>\
+  <tag-prefix><clear-flag>n<enter-command>set resolve=\$my_old_resolve<enter>\
+  <save-message>+work/junk<enter>" \
+  "mark as read and move to junk folder"
+
+macro index,pager a \
+  "<save-message>+work/archive<enter>"  \
+  "move message to the archive"
+
+macro index,pager i \
+  "<save-message>+work/INBOX<enter>"  \
+  "move message to the inbox"
+
+# vim: ft=muttrc

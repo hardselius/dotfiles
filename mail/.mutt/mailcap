@@ -1,0 +1,21 @@
+# MS Word documents
+application/msword; ~/.mutt/view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.ms-excel; ~/.mutt/view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.openxmlformats-officedocument.presentationml.presentation; ~/.mutt/view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.oasis.opendocument.text; ~/.mutt/view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+
+# Images
+image/jpg; ~/.mutt/quicklook.sh %s jpg
+image/jpeg; ~/.mutt/quicklook.sh %s jpg
+image/pjpeg; ~/.mutt/quicklook.sh %s jpg
+image/png; ~/.mutt/quicklook.sh %s png
+image/gif; ~/.mutt/quicklook.sh %s gif
+video/mp4; ~/.mutt/quicklook.sh %s mp4
+application/pdf; ~/.mutt/quicklook.sh %s pdf
+
+# HTML
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/plain; nvim %s
+
+# Unidentified files
+application/octet-stream; ~/.mutt/view-attachment.sh %s "-"
