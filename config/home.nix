@@ -5,6 +5,7 @@ let
   tmp_directoru = "/tmp";
   ca-bundle_crt = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   lib = pkgs.stdenv.lib;
+  localcondfig = import <localconfig>;
 
 in rec {
   nixpkgs = {
