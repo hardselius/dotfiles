@@ -1,8 +1,13 @@
 .PHONY: default
 default: help
 
+.PHONY: stow
+## stow: stows relevant directories
+stow:
+	stow -t $(HOME) vim
+
 .PHONY: update-submodules
-## update-submodules: Update submodules to latest tips of remote branches
+## update-submodules: Updates submodules to latest tips of remote branches
 update-submodules:
 	git submodule update --recursive --remote
 
