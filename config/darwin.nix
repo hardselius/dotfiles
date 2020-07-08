@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }@args:
 
-let home_directory = "/Users/martin";
-    xdg_configHome = "${home_directory}/.config";
-    xdg_dataHome   = "${home_directory}/.local/share";
-    tmp_directory  = "/tmp";
-    localcondfig   = import <localconfig>;
+let
+  home_directory = "/Users/martin";
+  xdg_configHome = "${home_directory}/.config";
+  xdg_dataHome = "${home_directory}/.local/share";
+  tmp_directory = "/tmp";
+  localcondfig = import <localconfig>;
 
 in rec {
   system = {
@@ -46,12 +47,12 @@ in rec {
       allowUnsupportedSystem = false;
     };
 
-    overlays =
-      let path = ../overlays; in with builtins;
-      map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                      pathExists (path + ("/" + n + "/default.nix")))
-                  (attrNames (readDir path)));
+    overlays = let path = ../overlays;
+    in with builtins;
+    map (n: import (path + ("/" + n))) (filter (n:
+      match ".*\\.nix" n != null
+      || pathExists (path + ("/" + n + "/default.nix")))
+      (attrNames (readDir path)));
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -77,9 +78,9 @@ in rec {
       ];
 
       LC_ALL = "en_US.UTF-8";
-      LANG   = "en_US.UTF-8";
+      LANG = "en_US.UTF-8";
       EDITOR = "${pkgs.vim_configurable}/bin/vim";
-      PAGER  = "less";
+      PAGER = "less";
     };
   };
 
@@ -94,7 +95,7 @@ in rec {
 
   # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh = {
-    enable = true;  # default shell on catalina
+    enable = true; # default shell on catalina
     enableCompletion = true;
     enableBashCompletion = true;
     enableFzfCompletion = true;
@@ -105,7 +106,7 @@ in rec {
       :d() {
           eval "$(direnv hook zsh)"
       }
-      
+
       :r() {
           direnv reload
       }
@@ -158,4 +159,3 @@ in rec {
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
 }
-

@@ -1,9 +1,10 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 
-let home_directory = builtins.getEnv "HOME";
-    tmp_directoru  = "/tmp";
-    ca-bundle_crt  = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-    lib            = pkgs.stdenv.lib;
+let
+  home_directory = builtins.getEnv "HOME";
+  tmp_directoru = "/tmp";
+  ca-bundle_crt = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+  lib = pkgs.stdenv.lib;
 
 in rec {
   nixpkgs = {
@@ -13,12 +14,12 @@ in rec {
       allowUnsupportedSystem = false;
     };
 
-    overlays =
-      let path = ../overlays; in with builtins;
-      map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                      pathExists (path + ("/" + n + "/default.nix")))
-                  (attrNames (readDir path)));
+    overlays = let path = ../overlays;
+    in with builtins;
+    map (n: import (path + ("/" + n))) (filter (n:
+      match ".*\\.nix" n != null
+      || pathExists (path + ("/" + n + "/default.nix")))
+      (attrNames (readDir path)));
   };
 
   home = {
@@ -26,7 +27,7 @@ in rec {
     homeDirectory = "${home_directory}";
     stateVersion = "20.09";
 
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
   programs = {
@@ -40,9 +41,7 @@ in rec {
       browsers = [ "firefox" ];
     };
 
-    direnv = {
-      enable = true;
-    };
+    direnv = { enable = true; };
 
     dircolors = import ./home/dircolors.nix;
 
@@ -60,10 +59,10 @@ in rec {
 
       sessionVariables = {
         CLICOLOR = true;
-        NOTES    = "$HOME/dropbox-personal/wiki";
-        CDPATH   = ".:~:~/projects";
-        GPG_TTY  = "$TTY";
-        GOPATH   = "$(go env GOPATH)";
+        NOTES = "$HOME/dropbox-personal/wiki";
+        CDPATH = ".:~:~/projects";
+        GPG_TTY = "$TTY";
+        GOPATH = "$(go env GOPATH)";
       };
 
       shellAliases = {
@@ -93,43 +92,43 @@ in rec {
       };
 
       aliases = {
-        authors    = "!${pkgs.git}/bin/git log --pretty=format:%aN"
-                   + " | ${pkgs.coreutils}/bin/sort"
-                   + " | ${pkgs.coreutils}/bin/uniq -c"
-                   + " | ${pkgs.coreutils}/bin/sort -rn";
-        ctags      = "!.git/hooks/ctags";
-        l          = "log --graph --pretty=format:'%Cred%h%Creset"
-                   + " —%Cblue%d%Creset %s %Cgreen(%cr)%Creset'"
-                   + " --abbrev-commit --date=relative --show-notes=*";
+        authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
+          + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
+          + " | ${pkgs.coreutils}/bin/sort -rn";
+        ctags = "!.git/hooks/ctags";
+        l = "log --graph --pretty=format:'%Cred%h%Creset"
+          + " —%Cblue%d%Creset %s %Cgreen(%cr)%Creset'"
+          + " --abbrev-commit --date=relative --show-notes=*";
       };
 
       extraConfig = {
         core = {
-          editor            = "${pkgs.vim_configurable}/bin/vim";
-          excludesfile      = "${xdg.configHome}/git/gitignore_global";
-          trustctime        = false;
-          pager             = "${pkgs.gitAndTools.delta}/bin/delta"
-                            # + " --diff-so-fancy";
-                            + " --plus-color=\"green\""
-                            + " --minus-color=\"red\""
-                            + " --theme='ansi-dark'";
-          logAllRefUpdates  = true;
+          editor = "${pkgs.vim_configurable}/bin/vim";
+          excludesfile = "${xdg.configHome}/git/gitignore_global";
+          trustctime = false;
+          pager = "${pkgs.gitAndTools.delta}/bin/delta"
+            # + " --diff-so-fancy";
+            + " --plus-color=\"green\"" + " --minus-color=\"red\""
+            + " --theme='ansi-dark'";
+          logAllRefUpdates = true;
           precomposeunicode = true;
-          whitespace        = "trailing-space,space-before-tab";
+          whitespace = "trailing-space,space-before-tab";
         };
 
-        init.templatedir       = "${xdg.configHome}/git/template";
-        interactive.diffFilter = "${pkgs.gitAndTools.delta}/bin/delta --color-only";
-        branch.autosetupmerge  = true;
-        commit.gpgsign         = true;
-        github.user            = "hardselius";
-        credential.helper      = "${pkgs.gitAndTools.pass-git-helper}/bin/pass-git-helper";
+        init.templatedir = "${xdg.configHome}/git/template";
+        interactive.diffFilter =
+          "${pkgs.gitAndTools.delta}/bin/delta --color-only";
+        branch.autosetupmerge = true;
+        commit.gpgsign = true;
+        github.user = "hardselius";
+        credential.helper =
+          "${pkgs.gitAndTools.pass-git-helper}/bin/pass-git-helper";
         # ghi.token              = "!${pkgs.pass}/bin/pass show api.github.com | head -1";
-        hub.protocol           = "${pkgs.openssh}/bin/ssh";
-        mergetool.keepBackup   = true;
-        pull.rebase            = true;
-        rebase.autosquash      = true;
-        rerere.enabled         = true;
+        hub.protocol = "${pkgs.openssh}/bin/ssh";
+        mergetool.keepBackup = true;
+        pull.rebase = true;
+        rebase.autosquash = true;
+        rerere.enabled = true;
 
         http = {
           sslCAinfo = "${ca-bundle_crt}";
@@ -137,17 +136,15 @@ in rec {
         };
 
         color = {
-          status      = "auto";
-          diff        = "auto";
-          branch      = "auto";
+          status = "auto";
+          diff = "auto";
+          branch = "auto";
           interactive = "auto";
-          ui          = "auto";
-          sh          = "auto";
+          ui = "auto";
+          sh = "auto";
         };
 
-        push = {
-          default = "tracking";
-        };
+        push = { default = "tracking"; };
 
         merge = {
           conflictstyle = "diff3";
@@ -155,11 +152,11 @@ in rec {
         };
 
         "color \"sh\"" = {
-          branch      = "yellow reverse";
-          workdir     = "blue bold";
-          dirty       = "red";
+          branch = "yellow reverse";
+          workdir = "blue bold";
+          dirty = "red";
           dirty-stash = "red";
-          repo-state  = "red";
+          repo-state = "red";
         };
 
         annex = {
@@ -180,16 +177,14 @@ in rec {
     enable = true;
 
     configHome = "${home_directory}/.config";
-    dataHome   = "${home_directory}/.local/share";
-    cacheHome  = "${home_directory}/.cache";
+    dataHome = "${home_directory}/.local/share";
+    cacheHome = "${home_directory}/.cache";
 
     configFile."git/template" = {
       recursive = true;
       source = ../git/.git_template;
     };
 
-    configFile."git/gitignore_global" = {
-      source = ../git/.gitignore_global;
-    };
+    configFile."git/gitignore_global" = { source = ../git/.gitignore_global; };
   };
 }

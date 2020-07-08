@@ -4,7 +4,7 @@ with pkgs; [
   # khard # TODO: build fails
   # ripmime # TODO: darwin not supported
   # vdirsyncerStable # TODO: broken
-  ( pass.withExtensions ( ext: with ext; [ pass-otp pass-genphrase ]))
+  (pass.withExtensions (ext: with ext; [ pass-otp pass-genphrase ]))
   cacert
   coreutils
   curl
@@ -29,12 +29,14 @@ with pkgs; [
   msmtp
   mu
   neomutt
+  nixfmt
   passff-host
   pkgs.darwin-zsh-completions
   ripgrep
   rsync
   rustup
   shellcheck
+  skhd
   stow
   terraform
   universal-ctags
@@ -42,9 +44,7 @@ with pkgs; [
   vim_configurable
   w3m
   wget
+  yabai
   zsh
   zsh-powerlevel10k
-
-  skhd
-  yabai
 ]

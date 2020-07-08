@@ -1,10 +1,8 @@
 {
   enable = true;
   settings = {
-    env = {
-      TERM = "xterm-256color";
-    };
-    
+    env = { TERM = "xterm-256color"; };
+
     window = {
       dimensions = {
         columns = 160;
@@ -35,7 +33,7 @@
       };
       size = 14.0;
     };
-    
+
     colors = {
       bright = {
         black = "#bdbdbd";

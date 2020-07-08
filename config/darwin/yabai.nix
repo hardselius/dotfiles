@@ -20,7 +20,7 @@
     normal_window_border_color = "0xff505050";
     insert_window_border_color = "0xffd75f5f";
     active_window_opacity = 1.0;
-    normal_window_opacity = 0.90;
+    normal_window_opacity = 0.9;
     split_ratio = 0.66;
     auto_balance = "off";
     mouse_modifier = "fn";
