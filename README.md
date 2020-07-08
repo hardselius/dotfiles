@@ -20,3 +20,11 @@ I manage my dotfiles using [GNU-stow](https://www.gnu.org/software/stow/). The h
 ```
 stow vim zsh ...
 ```
+
+## nix-darwin and home-manager
+
+Clone this repo to `$HOME/.config/nixpkgs`
+
+```
+$ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin.nix
+```
