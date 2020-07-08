@@ -54,7 +54,6 @@ in rec {
       history = {
         size = 50000;
         save = 500000;
-        path = "${dotDir}/history";
         ignoreDups = true;
         share = true;
       };
