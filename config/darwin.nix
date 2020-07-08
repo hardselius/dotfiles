@@ -59,12 +59,12 @@ in rec {
   # $ nix-env -qaP | grep wget
   environment = {
     # Use a custom configuration.nix location.
-    # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/config/darwin.nix
-    darwinConfig = "$HOME/.config/nixpkgs/config/darwin.nix";
+    # $ darwin-rebuild switch -I darwin-config=$HOME/.dotfiles/config/darwin.nix
+    darwinConfig = "$HOME/.dotfiles/config/darwin.nix";
     systemPackages = import ./packages.nix { inherit pkgs; };
 
     variables = {
-      HOME_MANAGER_CONFIG = "${xdg_configHome}/nixpkgs/config/home.nix";
+      HOME_MANAGER_CONFIG = "$HOME/.dotfiles/config/home.nix";
 
       MANPATH = [
         "${home_directory}/.nix-profile/share/man"
