@@ -1,30 +1,30 @@
 [submodule "submodules/vim-commentary"]
 	path = submodules/vim-commentary
-	url = https://github.com/tpope/vim-commentary.git
+	url = git@github.com:tpope/vim-commentary.git
 [submodule "submodules/vim-repeat"]
 	path = submodules/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
+	url = git@github.com:tpope/vim-repeat.git
 [submodule "submodules/vim-surround"]
 	path = submodules/vim-surround
-	url = https://github.com/tpope/vim-surround.git
+	url = git@github.com:tpope/vim-surround.git
 [submodule "submodules/Apprentice"]
 	path = submodules/Apprentice
-	url = https://github.com/romainl/Apprentice
+	url = git@github.com:romainl/Apprentice
 [submodule "submodules/vim-goimports"]
 	path = submodules/vim-goimports
-	url = https://github.com/mattn/vim-goimports
+	url = git@github.com:mattn/vim-goimports
 [submodule "submodules/jellybeans"]
 	path = submodules/jellybeans
-	url = https://github.com/nanotech/jellybeans.vim
+	url = git@github.com:nanotech/jellybeans.vim
 [submodule "submodules/vim-terraform"]
 	path = submodules/vim-terraform
-	url = https://github.com/hashivim/vim-terraform
+	url = git@github.com:hashivim/vim-terraform
 [submodule "submodules/editorconfig-vim"]
 	path = submodules/editorconfig-vim
-	url = https://github.com/editorconfig/editorconfig-vim
+	url = git@github.com:editorconfig/editorconfig-vim
 [submodule "submodules/tagbar"]
 	path = submodules/tagbar
-	url = https://github.com/majutsushi/tagbar
+	url = git@github.com:majutsushi/tagbar
 [submodule "submodules/vim-nix"]
 	path = submodules/vim-nix
-	url = https://github.com/LnL7/vim-nix
+	url = git@github.com:LnL7/vim-nix
