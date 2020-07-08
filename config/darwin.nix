@@ -1,6 +1,12 @@
 { config, lib, pkgs, ... }@args:
 
-{
+let home_directory = "/Users/martin";
+    xdg_configHome = "${home_directory}/.config";
+    xdg_dataHome   = "${home_directory}/.local/share";
+    tmp_directory  = "/tmp";
+    localcondfig   = import <localconfig>;
+
+in rec {
   system = {
     defaults = {
       NSGlobalDomain = {
@@ -33,32 +39,54 @@
     };
   };
 
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowBroken = false;
+      allowUnsupportedSystem = false;
+    };
+
+    overlays =
+      let path = ../overlays; in with builtins;
+      map (n: import (path + ("/" + n)))
+          (filter (n: match ".*\\.nix" n != null ||
+                      pathExists (path + ("/" + n + "/default.nix")))
+                  (attrNames (readDir path)));
+  };
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment = {
+    # Use a custom configuration.nix location.
+    # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/config/darwin.nix
+    darwinConfig = "$HOME/.config/nixpkgs/config/darwin.nix";
     systemPackages = import ./packages.nix { inherit pkgs; };
 
     variables = {
+      HOME_MANAGER_CONFIG = "${xdg_configHome}/nixpkgs/config/home.nix";
+
+      MANPATH = [
+        "${home_directory}/.nix-profile/share/man"
+        "${home_directory}/.nix-profile/man"
+        "${config.system.path}/share/man"
+        "${config.system.path}/man"
+        "/usr/local/share/man"
+        "/usr/share/man"
+        "/Developer/usr/share/man"
+        "/usr/X11/man"
+      ];
+
       LC_ALL = "en_US.UTF-8";
       LANG   = "en_US.UTF-8";
       EDITOR = "${pkgs.vim_configurable}/bin/vim";
+      PAGER  = "less";
     };
   };
 
   services = {
-    yabai = {
-      enable = true;
-      package = pkgs.yabai;
-    };
-
-    skhd = {
-      enable = true;
-    };
+    yabai = import ./darwin/yabai.nix { inherit pkgs; };
+    skhd = import ./darwin/skhd.nix { inherit pkgs; };
   };
-
-  # Use a custom configuration.nix location.
-  # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
-  # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
   # Auto upgrade nix package and the daemon service.
   # services.nix-daemon.enable = true;
@@ -93,25 +121,38 @@
 
     interactiveShellInit = ''
       bindkey -v
+      export KEYTIMEOUT=1
+
+      vi-search-fix() {
+        zle vi-cmd-mode
+        zle .vi-history-search-backward
+      }
+      autoload vi-search-fix
+      zle -N vi-search-fix
+      bindkey -M viins '\e/' vi-search-fix
+
+      bindkey "^?" backward-delete-char
+
+      resume() {
+        fg
+        zle push-input
+        BUFFER=""
+        zle accept-line
+      }
+      zle -N resume
+      bindkey "^Z" resume
     '';
 
     promptInit = ''
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
+      autoload -U promptinit; promptinit
+      prompt pure
     '';
   };
 
   programs.nix-index.enable = true;
 
   # programs.fish.enable = true;
-
-  nixpkgs = {
-    overlays =
-      let path = ./overlays; in with builtins;
-      map (n: import (path + ("/" + n)))
-          (filter (n: match ".*\\.nix" n != null ||
-                      pathExists (path + ("/" + n + "/default.nix")))
-                  (attrNames (readDir path)));
-  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

@@ -4,6 +4,8 @@ with pkgs; [
   # khard # TODO: build fails
   # ripmime # TODO: darwin not supported
   # vdirsyncerStable # TODO: broken
+  ( pass.withExtensions ( ext: with ext; [ pass-otp pass-genphrase ]))
+  cacert
   coreutils
   curl
   direnv
@@ -12,6 +14,7 @@ with pkgs; [
   fzf
   getopt
   git
+  gitAndTools.delta
   gitAndTools.diff-so-fancy
   gitAndTools.pass-git-helper
   gnumake
@@ -26,7 +29,8 @@ with pkgs; [
   msmtp
   mu
   neomutt
-  pass
+  passff-host
+  pkgs.darwin-zsh-completions
   ripgrep
   rsync
   rustup
@@ -40,6 +44,4 @@ with pkgs; [
   wget
   zsh
   zsh-powerlevel10k
-
-  pkgs.darwin-zsh-completions
 ]
