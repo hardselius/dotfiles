@@ -64,6 +64,7 @@ in rec {
         CDPATH = ".:~:~/projects";
         GPG_TTY = "$TTY";
         GOPATH = "$(go env GOPATH)";
+        PATH = "$PATH:$GOPATH/bin";
       };
 
       shellAliases = {
@@ -77,6 +78,18 @@ in rec {
 
         if ! pgrep -x "gpg-agent" > /dev/null; then
             ${pkgs.gnupg}/bin/gpgconf --launch gpg-agent
+        fi
+      '';
+
+      initExtra = ''
+        # The next line updates PATH for the Google Cloud SDK.
+        if [ -f '/Users/martin/google-cloud-sdk/path.zsh.inc' ]; then
+          . '/Users/martin/google-cloud-sdk/path.zsh.inc'
+        fi
+
+        # The next line enables shell command completion for gcloud.
+        if [ -f '/Users/martin/google-cloud-sdk/completion.zsh.inc' ]; then
+          . '/Users/martin/google-cloud-sdk/completion.zsh.inc'
         fi
       '';
     };
