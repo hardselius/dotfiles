@@ -28,3 +28,6 @@
 [submodule "submodules/vim-nix"]
 	path = submodules/vim-nix
 	url = git@github.com:LnL7/vim-nix
+[submodule "submodules/tabular"]
+	path = submodules/tabular
+	url = git@github.com:godlygeek/tabular.git
