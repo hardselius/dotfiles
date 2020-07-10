@@ -1,7 +1,11 @@
 { pkgs }:
 
 with pkgs; [
+  # isync
   # khard # TODO: build fails
+  # msmtp
+  # mu
+  # neomutt
   # ripmime # TODO: darwin not supported
   # vdirsyncerStable # TODO: broken
   (pass.withExtensions (ext: with ext; [ pass-otp pass-genphrase ]))
@@ -22,13 +26,10 @@ with pkgs; [
   go
   gpgme
   htop
-  isync
   jq
   less
   lorri
-  msmtp
-  mu
-  neomutt
+  niv
   nixfmt
   passff-host
   pkgs.darwin-zsh-completions

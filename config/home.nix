@@ -48,8 +48,8 @@ in rec {
 
     zsh = rec {
       enable = true;
-
       dotDir = ".config/zsh";
+      defaultKeymap = "viins";
 
       history = {
         size       = 50000;
@@ -147,7 +147,7 @@ in rec {
         branch.autosetupmerge  = true;
         commit.gpgsign         = true;
         github.user            = "hardselius";
-        credential.helper      = "${pkgs.gitAndTools.pass-git-helper}/bin/pass-git-helper";
+        # credential.helper      = "${pkgs.gitAndTools.pass-git-helper}/bin/pass-git-helper";
         # ghi.token              = "!${pkgs.pass}/bin/pass show api.github.com | head -1";
         hub.protocol           = "${pkgs.openssh}/bin/ssh";
         mergetool.keepBackup   = true;
