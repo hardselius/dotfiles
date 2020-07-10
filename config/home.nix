@@ -116,6 +116,7 @@ in rec {
         clone   = "clone --recursive";
         co      = "checkout";
         ctags   = "!.git/hooks/ctags";
+        root    = "!pwd";
         spull   = "!${pkgs.git}/bin/git stash"
                 + " && ${pkgs.git}/bin/git pull"
                 + " && ${pkgs.git}/bin/git stash pop";
@@ -131,7 +132,6 @@ in rec {
       extraConfig = {
         core = {
           editor            = "${pkgs.vim_configurable}/bin/vim";
-          excludesfile      = "${xdg.configHome}/git/gitignore_global";
           trustctime        = false;
           pager             = "${pkgs.gitAndTools.delta}/bin/delta"
                             # + " --diff-so-fancy";
@@ -195,6 +195,8 @@ in rec {
           smudge = "${pkgs.git}/bin/git media smudge %f";
         };
       };
+
+      ignores = import ./home/gitignore.nix;
     };
   };
 
@@ -209,7 +211,5 @@ in rec {
       recursive = true;
       source = ../git/.git_template;
     };
-
-    configFile."git/gitignore_global" = { source = ../git/.gitignore_global; };
   };
 }
