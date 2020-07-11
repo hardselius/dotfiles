@@ -99,7 +99,7 @@ in rec {
       enable = true;
 
       userName = "Martin Hardselius";
-      userEmail = "martin.hardselius@gmail.com";
+      userEmail = "martin@hardselius.dev";
 
       signing = {
         key = "84D80CE9A803D1C5";
