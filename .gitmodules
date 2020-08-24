@@ -31,3 +31,6 @@
 [submodule "submodules/tabular"]
 	path = submodules/tabular
 	url = git@github.com:godlygeek/tabular.git
+[submodule "submodules/gruvbox"]
+	path = submodules/gruvbox
+	url = git@github.com:morhetz/gruvbox.git
