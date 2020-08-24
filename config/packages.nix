@@ -1,13 +1,6 @@
 { pkgs }:
 
 with pkgs; [
-  # isync
-  # khard # TODO: build fails
-  # msmtp
-  # mu
-  # neomutt
-  # ripmime # TODO: darwin not supported
-  # vdirsyncerStable # TODO: broken
   (pass.withExtensions (ext: with ext; [ pass-otp pass-genphrase ]))
   cacert
   coreutils
