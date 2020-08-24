@@ -26,6 +26,7 @@ with pkgs; [
   go
   gpgme
   htop
+  imagemagick
   jq
   less
   lorri
