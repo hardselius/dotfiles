@@ -31,7 +31,67 @@ in rec {
     packages = with pkgs; [ ];
   };
 
+  accounts.email = {
+
+    certificatesFile = "${ca-bundle_crt}";
+
+    accounts.fastmail = {
+      primary = true;
+      address = programs.git.userEmail;
+      realName = programs.git.userName;
+      userName = programs.git.userEmail;
+      passwordCommand = "${pkgs.pass}/bin/pass show mail.fastmail.com";
+
+      gpg = {
+        key = programs.git.signing.key;
+      };
+
+      imap = {
+        host = "imap.fastmail.com";
+        port = 993;
+        tls = {
+          enable = true;
+        };
+      };
+
+      mbsync = {
+        enable = true;
+        create = "both";
+        expunge = "both";
+      };
+
+      msmtp = {
+        enable = true;
+      };
+
+      neomutt = {
+        enable = true;
+      };
+
+      smtp = {
+        host = "smtp.fastmail.com";
+        port = 587;
+        tls = {
+          enable = true;
+          useStartTls = true;
+        };
+      };
+    };
+  };
+
   programs = {
+    neomutt = {
+      enable = true;
+      vimKeys = true;
+
+      sidebar = {
+        enable = true;
+      };
+    };
+
+    mbsync.enable = true;
+    msmtp.enable = true;
+
     home-manager = {
       enable = true;
       path = "${home_directory}/src/nix/home-manager";
