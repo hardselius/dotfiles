@@ -25,6 +25,7 @@ set path=.,,**                 " Search relative to current file.
 set shiftround                 " Round indentation to nearest multile of 'sw'
 set tags=./tags;,tags;         " Tags relative to current file + dir + parents recursively.
 set virtualedit=block          " Allow virtual editing in Visual block mode.
+set visualbell t_vb=           " No beep or flash
 set wildcharm=<C-z>            " Macro-compatible command-line wildchar.
 
 colorscheme jellybeans
