@@ -88,6 +88,12 @@ in rec {
   #   yabai = import ./darwin/yabai.nix { inherit pkgs; };
   #   skhd = import ./darwin/skhd.nix { inherit pkgs; };
   # };
+
+  fonts = {
+    enableFontDir = true;
+    fonts = [
+      pkgs.cozette
+    ];
   };
 
   # Auto upgrade nix package and the daemon service.
