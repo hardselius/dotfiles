@@ -84,9 +84,10 @@ in rec {
     };
   };
 
-  services = {
-    yabai = import ./darwin/yabai.nix { inherit pkgs; };
-    skhd = import ./darwin/skhd.nix { inherit pkgs; };
+  # services = {
+  #   yabai = import ./darwin/yabai.nix { inherit pkgs; };
+  #   skhd = import ./darwin/skhd.nix { inherit pkgs; };
+  # };
   };
 
   # Auto upgrade nix package and the daemon service.
