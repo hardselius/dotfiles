@@ -32,14 +32,7 @@ in rec {
   };
 
   programs = {
-    neomutt = {
-      enable = true;
-      vimKeys = true;
-
-      sidebar = {
-        enable = true;
-      };
-    };
+    neomutt = import ./home/neomutt.nix;
 
     mbsync.enable = true;
     msmtp.enable = true;
