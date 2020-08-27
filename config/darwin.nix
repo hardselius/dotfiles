@@ -84,6 +84,21 @@ in rec {
     };
   };
 
+  # TODO: Figure out how the hell to do this
+  # launchd.daemons.spotifyd = {
+  #   serviceConfig = {
+  #     Label = "rustlang.spotifyd";
+  #     ProgramArguments = [
+  #       "${pkgs.spotifyd}/bin/spotifyd"
+  #       "--config-path=/Users/martin/.config/spotifyd/spotifyd.conf"
+  #       "--no-daemon"
+  #     ];
+  #     UserName = "martin";
+  #     ThrottleInterval = 30;
+  #     KeepAlive = true;
+  #   };
+  # };
+
   # services = {
   #   yabai = import ./darwin/yabai.nix { inherit pkgs; };
   #   skhd = import ./darwin/skhd.nix { inherit pkgs; };

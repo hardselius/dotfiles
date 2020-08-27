@@ -216,6 +216,28 @@ in rec {
       recursive = true;
       source = ../git/.git_template;
     };
+
+    configFile."spotifyd/spotifyd.conf".text = ''
+      [global]
+      username = martinhardselius
+      password_cmd = ${pkgs.pass}/bin/pass show spotify.com
+
+      device_name = spotifyd
+      device_type = computer
+      
+      volume_controller = softvol
+      bitrate = 320
+      volume_normalization = true
+      normalization_pregain = -10
+      backend = portaudio
+    '';
+
+    configFile."spotify-tui/client.yml".text = ''
+      client_id: ~
+      client_secret: ~
+      device_id: ~
+      port: 8888
+    '';
   };
 
   accounts.email = {

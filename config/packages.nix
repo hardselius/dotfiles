@@ -32,6 +32,8 @@ with pkgs; [
   rustup
   shellcheck
   skhd
+  spotifyd
+  spotify-tui
   stow
   terraform
   universal-ctags
