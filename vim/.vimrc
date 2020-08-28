@@ -1,6 +1,8 @@
 " Basic {{{
 filetype plugin indent on
 syntax on
+
+runtime macros/matchit.vim
 " }}}
 
 " Variable Assignments {{{
@@ -114,7 +116,6 @@ cnoremap <expr> <CR> cmdline#AutoComplete()
 " }}}
 
 " Plugins {{{
-runtime macros/matchit.vim
 
 let g:terraform_fmt_on_save = 1
 
