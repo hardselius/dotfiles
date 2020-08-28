@@ -38,7 +38,8 @@ with pkgs; [
   terraform
   universal-ctags
   urlscan
-  vim_configurable
+  vim
+  # vim_configurable
   w3m
   wget
   yabai
