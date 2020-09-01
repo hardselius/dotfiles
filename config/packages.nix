@@ -45,6 +45,7 @@ with pkgs; [
   yabai
   zsh
   zsh-powerlevel10k
+  weechat
 
   nixUnstable
 ]
