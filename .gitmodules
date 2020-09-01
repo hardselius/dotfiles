@@ -34,3 +34,6 @@
 [submodule "submodules/snipmate"]
 	path = submodules/snipmate
 	url = git@github.com:hardselius/snipmate.vim.git
+[submodule "submodules/kotlin-vim"]
+	path = submodules/kotlin-vim
+	url = git@github.com:udalov/kotlin-vim.git
