@@ -45,4 +45,6 @@ with pkgs; [
   yabai
   zsh
   zsh-powerlevel10k
+
+  nixUnstable
 ]
