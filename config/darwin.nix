@@ -66,6 +66,7 @@ in rec {
     variables = {
       HOME_MANAGER_CONFIG = "$HOME/.dotfiles/config/home.nix";
 
+      MANPAGER = "${pkgs.vim}/bin/vim -M +MANPAGER -";
       MANPATH = [
         "${home_directory}/.nix-profile/share/man"
         "${home_directory}/.nix-profile/man"
@@ -79,7 +80,7 @@ in rec {
 
       LC_ALL = "en_US.UTF-8";
       LANG = "en_US.UTF-8";
-      EDITOR = "${pkgs.vim_configurable}/bin/vim";
+      EDITOR = "${pkgs.vim}/bin/vim";
       PAGER = "less";
     };
   };

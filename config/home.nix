@@ -136,7 +136,7 @@ in rec {
 
       extraConfig = {
         core = {
-          editor            = "${pkgs.vim_configurable}/bin/vim";
+          editor            = "${pkgs.vim}/bin/vim";
           trustctime        = false;
           pager             = "${pkgs.gitAndTools.delta}/bin/delta"
                             # + " --diff-so-fancy";
