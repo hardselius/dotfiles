@@ -36,4 +36,4 @@
 	url = git@github.com:udalov/kotlin-vim.git
 [submodule "submodules/vim-dim"]
 	path = submodules/vim-dim
-	url = git@github.com:jeffkreeftmeijer/vim-dim.git
+	url = git@github.com:hardselius/vim-dim.git
