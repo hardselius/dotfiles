@@ -7,9 +7,6 @@
 [submodule "submodules/vim-surround"]
 	path = submodules/vim-surround
 	url = git@github.com:tpope/vim-surround.git
-[submodule "submodules/Apprentice"]
-	path = submodules/Apprentice
-	url = git@github.com:romainl/Apprentice
 [submodule "submodules/vim-goimports"]
 	path = submodules/vim-goimports
 	url = git@github.com:mattn/vim-goimports
