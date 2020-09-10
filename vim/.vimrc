@@ -5,11 +5,6 @@ syntax on
 runtime macros/matchit.vim
 " }}}
 
-" Variable Assignments {{{
-let $MYVIMRC="~/.vimrc"
-let $MYVIMDIR="~/.vim"
-" }}}
-
 " Settings {{{
 set autoindent                 " Minimal automatic indent for any filetype.
 set backspace=indent,eol,start " Proper backspace behaviour.
@@ -57,8 +52,6 @@ augroup END
 " }}}
 
 " Mappings {{{
-" Re-detect filetypes
-nnoremap <leader>t :filetype detect<CR>
 " Fast switching to alternate file
 nnoremap ,a :buffer#<CR>
 " Faster buffer navigation
@@ -89,11 +82,6 @@ nnoremap [A :first<CR>
 nnoremap ]A :last<CR>
 
 " Useful for accessing commonly-used files
-nnoremap <leader>v :e $MYVIMRC<CR>
-nnoremap <leader>f :e <C-R>='$MYVIMDIR/ftplugin/'.&filetype.'.vim'<CR><CR>
-nnoremap <leader>i :e <C-R>='$MYVIMDIR/indent/'.&filetype.'.vim'<CR><CR>
-nnoremap <leader>z :e ~/.zshrc<CR>
-nnoremap <leader>s :UltiSnipsEdit<CR>
 nnoremap <Leader>ni :e $NOTES/index.md<CR>:cd $NOTES<CR>
 
 " Symbol-based navigation
