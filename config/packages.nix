@@ -5,47 +5,42 @@ with pkgs; [
   cacert
   coreutils
   curl
+  darwin-zsh-completions
   direnv
   fd
   findutils
   fzf
   getopt
   git
-  gitAndTools.delta
-  gitAndTools.diff-so-fancy
   gitAndTools.pass-git-helper
   gnumake
   gnupg
   go
   gpgme
+  home-manager
   htop
   imagemagick
   jq
   less
-  lorri
-  niv
+  nixUnstable
   nixfmt
-  passff-host
-  pkgs.darwin-zsh-completions
   ripgrep
   rsync
   rustup
   shellcheck
   skhd
-  spotifyd
   spotify-tui
+  spotifyd
   stow
   terraform
+  tuir
   universal-ctags
   urlscan
   vim
-  # vim_configurable
   w3m
+  weechat
   wget
   yabai
   zsh
   zsh-powerlevel10k
-  weechat
-
-  nixUnstable
 ]
