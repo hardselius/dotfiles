@@ -87,9 +87,7 @@ in rec {
 
   fonts = {
     enableFontDir = true;
-    fonts = [
-      pkgs.cozette
-    ];
+    fonts = [ pkgs.cozette ];
   };
 
   # Auto upgrade nix package and the daemon service.
