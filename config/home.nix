@@ -10,8 +10,8 @@ let
 in rec {
   nixpkgs = {
     config = {
-      allowUnfree            = true;
-      allowBroken            = false;
+      allowUnfree = true;
+      allowBroken = false;
       allowUnsupportedSystem = false;
     };
 
@@ -23,24 +23,24 @@ in rec {
       (attrNames (readDir path)));
   };
 
+  fonts.fontconfig.enable = true;
+
   home = {
-    username      = "martin";
+    username = "martin";
     homeDirectory = "${home_directory}";
-    stateVersion  = "20.09";
+    stateVersion = "20.09";
+
+    sessionVariables = {
+      EDITOR = "${pkgs.vim}/bin/vim";
+      PAGER = "${pkgs.less}/bin/less";
+    };
 
     packages = with pkgs; [ ];
   };
 
   programs = {
-    neomutt = import ./home/neomutt.nix;
 
-    mbsync.enable = true;
-    msmtp.enable = true;
-
-    home-manager = {
-      enable = true;
-      path = "${home_directory}/src/nix/home-manager";
-    };
+    home-manager = { enable = true; };
 
     browserpass = {
       enable = true;
@@ -57,18 +57,18 @@ in rec {
       defaultKeymap = "viins";
 
       history = {
-        size       = 50000;
-        save       = 500000;
+        size = 50000;
+        save = 500000;
         ignoreDups = true;
-        share      = true;
+        share = true;
       };
 
       sessionVariables = {
         CLICOLOR = true;
-        NOTES    = "$HOME/dropbox-personal/wiki";
-        GPG_TTY  = "$TTY";
-        GOPATH   = "$(go env GOPATH)";
-        PATH     = "$PATH:$GOPATH/bin";
+        NOTES = "$HOME/dropbox-personal/wiki";
+        GPG_TTY = "$TTY";
+        GOPATH = "$(go env GOPATH)";
+        PATH = "$PATH:$GOPATH/bin";
       };
 
       shellAliases = {
@@ -113,80 +113,65 @@ in rec {
 
       aliases = {
         authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
-                + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
-                + " | ${pkgs.coreutils}/bin/sort -rn";
-        b       = "branch --color -v";
-        ca      = "commit --amend";
+          + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
+          + " | ${pkgs.coreutils}/bin/sort -rn";
+        b = "branch --color -v";
+        ca = "commit --amend";
         changes = "diff --name-status -r";
-        clone   = "clone --recursive";
-        co      = "checkout";
-        ctags   = "!.git/hooks/ctags";
-        root    = "!pwd";
-        spull   = "!${pkgs.git}/bin/git stash"
-                + " && ${pkgs.git}/bin/git pull"
-                + " && ${pkgs.git}/bin/git stash pop";
-        su      = "submodule update --init --recursive";
-        undo    = "reset --soft HEAD^";
-        w       = "status -sb";
-        wdiff   = "diff --color-words";
-        l       = "log --graph --pretty=format:'%Cred%h%Creset"
-                + " —%Cblue%d%Creset %s %Cgreen(%cr)%Creset'"
-                + " --abbrev-commit --date=relative --show-notes=*";
+        clone = "clone --recursive";
+        co = "checkout";
+        ctags = "!.git/hooks/ctags";
+        root = "!pwd";
+        spull = "!${pkgs.git}/bin/git stash" + " && ${pkgs.git}/bin/git pull"
+          + " && ${pkgs.git}/bin/git stash pop";
+        su = "submodule update --init --recursive";
+        undo = "reset --soft HEAD^";
+        w = "status -sb";
+        wdiff = "diff --color-words";
+        l = "log --graph --pretty=format:'%Cred%h%Creset"
+          + " —%Cblue%d%Creset %s %Cgreen(%cr)%Creset'"
+          + " --abbrev-commit --date=relative --show-notes=*";
       };
 
       extraConfig = {
         core = {
-          editor            = "${pkgs.vim}/bin/vim";
-          trustctime        = false;
-          pager             = "${pkgs.gitAndTools.delta}/bin/delta"
-                            # + " --diff-so-fancy";
-                            + " --plus-color=\"green\"" + " --minus-color=\"red\""
-                            + " --theme='ansi-dark'";
-          logAllRefUpdates  = true;
+          editor = "${pkgs.vim}/bin/vim";
+          trustctime = false;
+          logAllRefUpdates = true;
           precomposeunicode = true;
-          whitespace        = "trailing-space,space-before-tab";
+          whitespace = "trailing-space,space-before-tab";
         };
 
-        init.templatedir       = "${xdg.configHome}/git/template";
-        interactive.diffFilter = "${pkgs.gitAndTools.delta}/bin/delta --color-only";
-        branch.autosetupmerge  = true;
-        commit.gpgsign         = true;
-        github.user            = "hardselius";
-        # credential.helper      = "${pkgs.gitAndTools.pass-git-helper}/bin/pass-git-helper";
-        # ghi.token              = "!${pkgs.pass}/bin/pass show api.github.com | head -1";
-        hub.protocol           = "${pkgs.openssh}/bin/ssh";
-        mergetool.keepBackup   = true;
-        pull.rebase            = true;
-        rebase.autosquash      = true;
-        rerere.enabled         = true;
+        init.templatedir = "${xdg.configHome}/git/template";
+        branch.autosetupmerge = true;
+        commit = {
+          gpgsign = true;
+          verbose = true;
+        };
+        github.user = "hardselius";
+        hub.protocol = "${pkgs.openssh}/bin/ssh";
+        mergetool.keepBackup = true;
+        pull.rebase = true;
+        rebase.autosquash = true;
+        rerere.enabled = true;
 
         http = {
           sslCAinfo = "${ca-bundle_crt}";
           sslverify = true;
         };
 
-        color = {
-          status      = "auto";
-          diff        = "auto";
-          branch      = "auto";
-          interactive = "auto";
-          ui          = "auto";
-          sh          = "auto";
-        };
-
         push = { default = "tracking"; };
 
-        merge = {
-          conflictstyle = "diff3";
-          stat = true;
-        };
+        diff.tool = "${pkgs.vim}/bin/vimdiff";
+        merge.tool = "${pkgs.vim}/bin/vimdiff";
+        difftool.prompt = false;
 
         "color \"sh\"" = {
-          branch      = "yellow reverse";
-          workdir     = "blue bold";
-          dirty       = "red";
+          branch = "yellow reverse";
+          workdir = "blue bold";
+          dirty = "red";
           dirty-stash = "red";
-          repo-state  = "red";
+          repo-state = "red";
         };
 
         annex = {
@@ -209,82 +194,12 @@ in rec {
     enable = true;
 
     configHome = "${home_directory}/.config";
-    dataHome   = "${home_directory}/.local/share";
-    cacheHome  = "${home_directory}/.cache";
+    dataHome = "${home_directory}/.local/share";
+    cacheHome = "${home_directory}/.cache";
 
     configFile."git/template" = {
       recursive = true;
       source = ../git/.git_template;
-    };
-
-    configFile."spotifyd/spotifyd.conf".text = ''
-      [global]
-      username = martinhardselius
-      password_cmd = ${pkgs.pass}/bin/pass show spotify.com
-
-      device_name = spotifyd
-      device_type = computer
-      
-      volume_controller = softvol
-      bitrate = 320
-      volume_normalization = true
-      normalization_pregain = -10
-      backend = portaudio
-    '';
-
-    configFile."spotify-tui/client.yml".text = ''
-      client_id: ~
-      client_secret: ~
-      device_id: ~
-      port: 8888
-    '';
-  };
-
-  accounts.email = {
-
-    certificatesFile = "${ca-bundle_crt}";
-
-    accounts.fastmail = {
-      primary = true;
-      address = programs.git.userEmail;
-      realName = programs.git.userName;
-      userName = programs.git.userEmail;
-      passwordCommand = "${pkgs.pass}/bin/pass show mail.fastmail.com";
-
-      gpg = {
-        key = programs.git.signing.key;
-      };
-
-      imap = {
-        host = "imap.fastmail.com";
-        port = 993;
-        tls = {
-          enable = true;
-        };
-      };
-
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-      };
-
-      msmtp = {
-        enable = true;
-      };
-
-      neomutt = {
-        enable = true;
-      };
-
-      smtp = {
-        host = "smtp.fastmail.com";
-        port = 587;
-        tls = {
-          enable = true;
-          useStartTls = true;
-        };
-      };
     };
   };
 }
