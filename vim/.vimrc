@@ -15,9 +15,10 @@ set wildmenu                   " Command-line completion.
 
 set autoread                   " Auto reread changed files without asking.
 set clipboard^=unnamed         " System clipboard.
+set foldlevelstart=999
+set foldmethod=indent
 set laststatus=2               " Always show status line.
 set noswapfile                 " No swapfiles.
-set number                     " Show line numbers.
 set path=.,,**                 " Search relative to current file.
 set shiftround                 " Round indentation to nearest multile of 'sw'
 set tags=./tags;,tags;         " Tags relative to current file + dir + parents recursively.
@@ -25,13 +26,15 @@ set virtualedit=block          " Allow virtual editing in Visual block mode.
 set visualbell t_vb=           " No beep or flash
 set wildcharm=<C-z>            " Macro-compatible command-line wildchar.
 
-colorscheme dim
+colorscheme jellybeans
 " }}}
 
 " External commands {{{
 if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
   set grepprg=rg\ --vimgrep\ --no-heading\ --hidden\ $*  " Use ripgrep
+else
+  set grepprg=LC_ALL=C\ grep\ -nrsH
 endif
 
 function! Grep(...)
