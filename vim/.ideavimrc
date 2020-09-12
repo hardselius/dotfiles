@@ -1,5 +1,5 @@
 " vim: ft=vim
-source ~/.vimrc
+source ~/.vim/vimrc
 
 set surround   " Emulate vim-surround
 set commentary " Emulate vim-commentary
