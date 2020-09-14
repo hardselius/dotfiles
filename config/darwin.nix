@@ -90,71 +90,17 @@ in rec {
     fonts = [ pkgs.cozette ];
   };
 
-  # Auto upgrade nix package and the daemon service.
-  # services.nix-daemon.enable = true;
-  # nix.package = pkgs.nix;
-
-  # Create /etc/bashrc that loads the nix-darwin environment.
-  programs.zsh = {
-    enable = true; # default shell on catalina
-    enableCompletion = true;
-    enableBashCompletion = true;
-    enableFzfCompletion = true;
-    enableFzfGit = true;
-    enableFzfHistory = true;
-
-    loginShellInit = ''
-      :d() {
-          eval "$(direnv hook zsh)"
-      }
-
-      :r() {
-          direnv reload
-      }
-
-      fzf-store() {
-          find /nix/store -mindepth 1 -maxdepth 1 -type d | fzf -m --preview-window right:50% --preview 'nix-store -q --tree {}'
-      }
-
-      ls() {
-          ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
-      }
-    '';
-
-    interactiveShellInit = ''
-      bindkey -v
-      export KEYTIMEOUT=1
-
-      vi-search-fix() {
-        zle vi-cmd-mode
-        zle .vi-history-search-backward
-      }
-      autoload vi-search-fix
-      zle -N vi-search-fix
-      bindkey -M viins '\e/' vi-search-fix
-
-      bindkey "^?" backward-delete-char
-
-      resume() {
-        fg
-        zle push-input
-        BUFFER=""
-        zle accept-line
-      }
-      zle -N resume
-      bindkey "^Z" resume
-    '';
-
-    promptInit = ''
-      fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
-      autoload -U promptinit; promptinit
-      prompt pure
-    '';
-  };
-
   programs.nix-index.enable = true;
 
   # programs.fish.enable = true;
+  programs.bash.enable = true;
+
+  programs.zsh = {
+    enable = true;
+    enableFzfCompletion = true;
+    enableFzfGit = true;
+    enableFzfHistory = true;
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

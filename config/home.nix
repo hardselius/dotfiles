@@ -35,7 +35,7 @@ in rec {
       PAGER = "${pkgs.less}/bin/less";
     };
 
-    packages = with pkgs; [ ];
+    packages = with pkgs; [];
   };
 
   programs = {
@@ -51,10 +51,19 @@ in rec {
 
     dircolors = import ./home/dircolors.nix;
 
+    bash = rec {
+      enable = true;
+    };
+
     zsh = rec {
       enable = true;
-      dotDir = ".config/zsh";
+
+      cdpath = [
+        "."
+        "~"
+      ];
       defaultKeymap = "viins";
+      dotDir = ".config/zsh";
 
       history = {
         size = 50000;
@@ -73,7 +82,6 @@ in rec {
 
       shellAliases = {
         tf = "terraform";
-
         restartaudio = "sudo killall coreaudiod";
       };
 
@@ -86,7 +94,32 @@ in rec {
       '';
 
       initExtra = ''
-        export CDPATH=.:~:~/projects
+        # export CDPATH=.:~
+
+        export KEYTIMEOUT=1
+
+        vi-search-fix() {
+          zle vi-cmd-mode
+          zle .vi-history-search-backward
+        }
+        autoload vi-search-fix
+        zle -N vi-search-fix
+        bindkey -M viins '\e/' vi-search-fix
+
+        bindkey "^?" backward-delete-char
+
+        resume() {
+          fg
+          zle push-input
+          BUFFER=""
+          zle accept-line
+        }
+        zle -N resume
+        bindkey "^Z" resume
+
+        ls() {
+            ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
+        }
 
         # The next line updates PATH for the Google Cloud SDK.
         if [ -f '/Users/martin/google-cloud-sdk/path.zsh.inc' ]; then
@@ -97,7 +130,26 @@ in rec {
         if [ -f '/Users/martin/google-cloud-sdk/completion.zsh.inc' ]; then
           . '/Users/martin/google-cloud-sdk/completion.zsh.inc'
         fi
+
+        fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
+        autoload -U promptinit; promptinit
+        prompt pure
       '';
+    };
+
+    fzf = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+    };
+
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      settings = {
+        golang.symbol = " ";
+      };
     };
 
     git = {
