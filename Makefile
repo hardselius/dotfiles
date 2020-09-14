@@ -112,6 +112,11 @@ tools:
 stow:
 	stow -t $(HOME) vim
 
+.PHONY: init-submodules
+## init-submodules: Inits submodules
+init-submodules:
+	git submodule update --init --recursive
+
 .PHONY: update-submodules
 ## update-submodules: Updates submodules to latest tips of remote branches
 update-submodules:
