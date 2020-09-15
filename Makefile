@@ -117,6 +117,11 @@ stow:
 init-submodules:
 	git submodule update --init --recursive
 
+.PHONY: pull-submodules
+## pull-submodules: Pulls submodules
+pull-submodules:
+	git submodule update --remote --merge
+
 .PHONY: update-submodules
 ## update-submodules: Updates submodules to latest tips of remote branches
 update-submodules:
