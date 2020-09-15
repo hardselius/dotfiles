@@ -94,8 +94,6 @@ in rec {
       '';
 
       initExtra = ''
-        # export CDPATH=.:~
-
         export KEYTIMEOUT=1
 
         vi-search-fix() {
