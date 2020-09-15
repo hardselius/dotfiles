@@ -103,6 +103,8 @@ in rec {
     enableFzfCompletion = true;
     enableFzfGit = true;
     enableFzfHistory = true;
+    promptInit = ''
+    '';
   };
 
   # Used for backwards compatibility, please read the changelog before changing.

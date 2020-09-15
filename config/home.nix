@@ -130,10 +130,6 @@ in rec {
         if [ -f '/Users/martin/google-cloud-sdk/completion.zsh.inc' ]; then
           . '/Users/martin/google-cloud-sdk/completion.zsh.inc'
         fi
-
-        fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
-        autoload -U promptinit; promptinit
-        prompt pure
       '';
     };
 

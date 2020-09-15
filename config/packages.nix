@@ -42,5 +42,4 @@ with pkgs; [
   wget
   yabai
   zsh
-  zsh-powerlevel10k
 ]
