@@ -87,7 +87,10 @@ in rec {
 
   fonts = {
     enableFontDir = true;
-    fonts = [ pkgs.cozette ];
+    fonts = with pkgs; [
+      cozette
+      jetbrains-mono
+    ];
   };
 
   programs.nix-index.enable = true;
