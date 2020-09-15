@@ -188,48 +188,25 @@ in rec {
           whitespace = "trailing-space,space-before-tab";
         };
 
-        init.templatedir = "${xdg.configHome}/git/template";
         branch.autosetupmerge = true;
-        commit = {
-          gpgsign = true;
-          verbose = true;
-        };
+        color.ui = "auto";
+        commit.gpgsign = true;
+        commit.verbose = true;
+        diff.submodule = "log";
+        diff.tool = "${pkgs.vim}/bin/vimdiff";
+        difftool.prompt = false;
         github.user = "hardselius";
+        http.sslCAinfo = "${ca-bundle_crt}";
+        http.sslverify = true;
         hub.protocol = "${pkgs.openssh}/bin/ssh";
+        init.templatedir = "${xdg.configHome}/git/template";
+        merge.tool = "${pkgs.vim}/bin/vimdiff";
         mergetool.keepBackup = true;
         pull.rebase = true;
+        push.default = "tracking";
         rebase.autosquash = true;
         rerere.enabled = true;
-
-        http = {
-          sslCAinfo = "${ca-bundle_crt}";
-          sslverify = true;
-        };
-
-        push = { default = "tracking"; };
-
-        diff.tool = "${pkgs.vim}/bin/vimdiff";
-        merge.tool = "${pkgs.vim}/bin/vimdiff";
-        difftool.prompt = false;
-
-        "color \"sh\"" = {
-          branch = "yellow reverse";
-          workdir = "blue bold";
-          dirty = "red";
-          dirty-stash = "red";
-          repo-state = "red";
-        };
-
-        annex = {
-          backends = "BLAKE2B512E";
-          alwayscommit = false;
-        };
-
-        "filter \"media\"" = {
-          required = true;
-          clean = "${pkgs.git}/bin/git media clean %f";
-          smudge = "${pkgs.git}/bin/git media smudge %f";
-        };
+        status.submoduleSummary = true;
       };
 
       ignores = import ./home/gitignore.nix;
