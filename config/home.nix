@@ -142,7 +142,24 @@ in rec {
       enableBashIntegration = true;
       enableZshIntegration = true;
       settings = {
-        golang.symbol = " ";
+        aws.symbol = "aws ";
+        conda.symbol = "conda ";
+        docker.symbol = "docker ";
+        elixir.symbol = "elixir ";
+        elm.symbol = "elm ";
+        golang.symbol = "go ";
+        haskell.symbol = "haskell ";
+        java.symbol = "java ";
+        julia.symbol = "julia ";
+        memory_usage.symbol = " ";
+        nim.symbol = "nim ";
+        nix_shell.symbol = "nix ";
+        nodejs.symbol = "node ";
+        package.symbol = "pkg ";
+        php.symbol = "php ";
+        python.symbol = "python ";
+        ruby.symbol = "ruby ";
+        rust.symbol = "rust ";
       };
     };
 
