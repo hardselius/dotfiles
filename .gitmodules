@@ -1,3 +1,0 @@
-[submodule "submodules/large-vimrc"]
-	path = submodules/large-vimrc
-	url = git@github.com:hardselius/large-vimrc.git
