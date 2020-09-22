@@ -2,8 +2,7 @@
 
 > These are my dotfiles. There are many like them, but these are mine.
 
-This repo conatains mainly my Nix config but also some dotfiles managed with
-[GNU-stow][stow] (mainly Vim).
+This repo has evolved to mainly contain my Nix config.
 
 ## nix-darwin and home-manager
 
@@ -13,10 +12,11 @@ This repo conatains mainly my Nix config but also some dotfiles managed with
 4. Clone this repo to `$HOME/.dotfiles`
 5. Run
 ```
-$ darwin-rebuild switch -I darwin-config=$HOME/.dotfiles/config/darwin.nix
+darwin-rebuild switch -I darwin-config=$HOME/.dotfiles/config/darwin.nix
+cd $HOME/.dotfiles
+make switch
 ```
 6. Profit
 
-[stow]: https://www.gnu.org/software/stow/
 [nix-darwin]: https://github.com/LnL7/nix-darwin
 [home-manager]: https://github.com/nix-community/home-manager
