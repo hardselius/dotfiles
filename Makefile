@@ -107,27 +107,6 @@ tools:
 # Other stuff
 # ------------------------------------------------------------------------------
 
-.PHONY: stow
-## stow: stows relevant directories
-stow:
-	stow -t $(HOME) vim
-
-.PHONY: submodules-init
-## submodules-init: Inits submodules
-submodules-init:
-	git submodule update --init --recursive
-
-.PHONY: submodules-pull
-## submodules-pull: Pulls submodules
-submodules-pull:
-	git submodule update --remote --merge
-
-.PHONY: submodules-update
-## submodules-update: Updates submodules to latest tips of remote branches
-submodules-update:
-	git submodule update --recursive --remote
-
-
 .PHONY: help
 ## help: Prints this help message
 help:
