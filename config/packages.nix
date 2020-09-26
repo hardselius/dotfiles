@@ -17,6 +17,7 @@ with pkgs; [
   gnupg
   go
   gpgme
+  gtypist
   home-manager
   htop
   imagemagick
@@ -24,6 +25,8 @@ with pkgs; [
   less
   nixUnstable
   nixfmt
+  nodePackages.vim-language-server
+  renameutils
   ripgrep
   rsync
   rustup
@@ -37,6 +40,7 @@ with pkgs; [
   universal-ctags
   urlscan
   vim
+  vim-vint
   w3m
   weechat
   wget
