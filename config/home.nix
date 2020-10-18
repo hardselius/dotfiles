@@ -49,7 +49,10 @@ in rec {
 
     direnv = { enable = true; };
 
-    dircolors = import ./home/dircolors.nix;
+    dircolors = {
+      enable = true;
+      enableZshIntegration = true;
+    };
 
     bash = rec {
       enable = true;
