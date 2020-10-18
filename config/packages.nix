@@ -1,7 +1,6 @@
 { pkgs }:
 
 with pkgs; [
-  (pass.withExtensions (ext: with ext; [ pass-otp pass-genphrase ]))
   cacert
   coreutils
   curl
@@ -26,6 +25,7 @@ with pkgs; [
   nixUnstable
   nixfmt
   nodePackages.vim-language-server
+  pass
   renameutils
   ripgrep
   rsync
