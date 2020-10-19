@@ -92,6 +92,7 @@ in rec {
       cozette
       fira-code
       jetbrains-mono
+      nerdfonts
     ];
   };
 
