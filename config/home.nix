@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 let
   home_directory = builtins.getEnv "HOME";
   tmp_directoru = "/tmp";
@@ -7,7 +6,8 @@ let
   lib = pkgs.stdenv.lib;
   localcondfig = import <localconfig>;
 
-in rec {
+in
+rec {
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -15,12 +15,15 @@ in rec {
       allowUnsupportedSystem = false;
     };
 
-    overlays = let path = ../overlays;
-    in with builtins;
-    map (n: import (path + ("/" + n))) (filter (n:
-      match ".*\\.nix" n != null
-      || pathExists (path + ("/" + n + "/default.nix")))
-      (attrNames (readDir path)));
+    overlays =
+      let path = ../overlays;
+      in
+      with builtins;
+      map (n: import (path + ("/" + n))) (filter
+        (n:
+          match ".*\\.nix" n != null
+          || pathExists (path + ("/" + n + "/default.nix")))
+        (attrNames (readDir path)));
   };
 
   fonts.fontconfig.enable = true;
@@ -35,7 +38,7 @@ in rec {
       PAGER = "${pkgs.less}/bin/less";
     };
 
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
   programs = {

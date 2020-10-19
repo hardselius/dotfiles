@@ -23,7 +23,7 @@ with pkgs; [
   jq
   less
   nixUnstable
-  nixfmt
+  nixpkgs-fmt
   nodePackages.vim-language-server
   pass
   renameutils

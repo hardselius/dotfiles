@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }@args:
-
 let
   home_directory = "/Users/martin";
   xdg_configHome = "${home_directory}/.config";
@@ -7,7 +6,8 @@ let
   tmp_directory = "/tmp";
   localcondfig = import <localconfig>;
 
-in rec {
+in
+rec {
   system = {
     defaults = {
       NSGlobalDomain = {
@@ -47,12 +47,15 @@ in rec {
       allowUnsupportedSystem = false;
     };
 
-    overlays = let path = ../overlays;
-    in with builtins;
-    map (n: import (path + ("/" + n))) (filter (n:
-      match ".*\\.nix" n != null
-      || pathExists (path + ("/" + n + "/default.nix")))
-      (attrNames (readDir path)));
+    overlays =
+      let path = ../overlays;
+      in
+      with builtins;
+      map (n: import (path + ("/" + n))) (filter
+        (n:
+          match ".*\\.nix" n != null
+          || pathExists (path + ("/" + n + "/default.nix")))
+        (attrNames (readDir path)));
   };
 
   # List packages installed in system profile. To search by name, run:
