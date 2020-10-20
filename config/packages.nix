@@ -26,6 +26,7 @@ with pkgs; [
   nixpkgs-fmt
   nodePackages.vim-language-server
   pass
+  pure-prompt
   renameutils
   ripgrep
   rsync

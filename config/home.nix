@@ -143,42 +143,6 @@ rec {
       enableZshIntegration = true;
     };
 
-    starship = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      settings = {
-        aws.symbol = " ";
-        battery.charging_symbol = "";
-        battery.discharging_symbol = "";
-        battery.full_symbol = "";
-        conda.symbol = " ";
-        dart.symbol = " ";
-        docker.symbol = " ";
-        elixir.symbol = " ";
-        elm.symbol = " ";
-        gcloud.disabled = true;
-        gcloud.symbol = " ";
-        git_branch.symbol = " ";
-        golang.symbol = " ";
-        haskell.symbol = " ";
-        hg_branch.symbol = " ";
-        java.symbol = " ";
-        julia.symbol = " ";
-        memory_usage.symbol = " ";
-        nim.symbol = " ";
-        nix_shell.symbol = " ";
-        nodejs.symbol = " ";
-        package.symbol = " ";
-        perl.symbol = " ";
-        php.symbol = " ";
-        python.symbol = " ";
-        ruby.symbol = " ";
-        rust.symbol = " ";
-        swift.symbol = "ﯣ ";
-      };
-    };
-
     git = {
       enable = true;
 
