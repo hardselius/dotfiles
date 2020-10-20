@@ -110,9 +110,6 @@ rec {
     enableFzfGit = true;
     enableFzfHistory = true;
     promptInit = ''
-      fpath+=${pkgs.pure-prompt}
-      autoload -U promptinit; promptinit
-      prompt pure
     '';
   };
 

@@ -125,6 +125,13 @@ rec {
             ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
         }
 
+        # Configure pure-promt
+
+        fpath+=${pkgs.pure-prompt}
+        autoload -U promptinit; promptinit
+        prompt pure
+        zstyle :prompt:pure:prompt:success color green
+
         # The next line updates PATH for the Google Cloud SDK.
         if [ -f '/Users/martin/bin/google-cloud-sdk/path.zsh.inc' ]; then
           . '/Users/martin/bin/google-cloud-sdk/path.zsh.inc'
