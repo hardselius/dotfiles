@@ -91,11 +91,7 @@ rec {
   fonts = {
     enableFontDir = true;
     fonts = with pkgs; [
-      anonymousPro
-      cozette
-      fira-code
-      jetbrains-mono
-      nerdfonts
+      hack-font
     ];
   };
 
