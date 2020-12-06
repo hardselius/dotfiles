@@ -22,11 +22,13 @@ with pkgs; [
   imagemagick
   jq
   less
-  nixUnstable
   nixpkgs-fmt
+  nodePackages.node2nix
   nodePackages.vim-language-server
   pass
+  plantuml
   pure-prompt
+  pywal
   renameutils
   ripgrep
   rsync
