@@ -111,5 +111,12 @@ rec {
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
+
+  # Auto upgrade nix package and the daemon service.
+  services.nix-daemon.enable = true;
+  nix = {
+    package = pkgs.nix;
+  };
+
   system.stateVersion = 4;
 }
