@@ -79,16 +79,20 @@ nix.package = pkgs.nix;
 `/etc/static`. Also, you should remeber to backup existing etc files
 
 ```
-$ sudo mv /etc/bashrc /etc/bashrc.backup-before-darwin`
-$ sudo mv /etc/zshrc /etc/zshrc.backup-before-darwin`
+$ sudo mv /etc/bashrc /etc/bashrc.backup-before-darwin
+$ sudo mv /etc/zshrc /etc/zshrc.backup-before-darwin
 ```
 
-It's also possible that you may have to backup `nix.conf` in order for
+**NOTE 2:** It's also possible that you may have to backup `nix.conf` in order for
 `nix-darwin` to be able to link it
 
 ```
 $ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
 ```
+
+**NOTE 3:** `nix-darwin` might also complain about linking `ca-certificates.crt`. That
+stuff we may or may not have had to take care of earlier. Just back that up,
+rebuild, and watch `nix-darwin` link it.
 
 #### home-manager
 
@@ -110,12 +114,18 @@ $ cd $HOME/.dotfiles
 $ make switch
 ```
 
-**NOTE:** `darwin-rebuild` might fail, saying it can't find the file `darwin`,
+**NOTE 1:** `darwin-rebuild` might fail, saying it can't find the file `darwin`,
 in which case you have to fix your `$NIX_PATH`.
 
 ```
 export NIX_PATH=darwin-config=$HOME/.dotfiles/config/darwin.nix:$HOME/.nix-defexpr/channels:$NIX_PATH
 ```
+
+**NOTE 2:** It's possible that the updated `$NIX_PATH` will stick when you open
+up a new shell. This happens under zsh. One way to get around this is to switch
+to bash when rebuilding with the custom `darwin-config` path. When you feel
+reasonably sure everything is as it should be (nix-darwin and home-manager
+switched using the `make switch`), things should work in zsh again.
 
 [nix-darwin]: https://github.com/LnL7/nix-darwin
 [home-manager]: https://github.com/nix-community/home-manager
