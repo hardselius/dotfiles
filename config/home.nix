@@ -126,8 +126,6 @@ rec {
         }
 
         # Configure pure-promt
-
-        fpath+=${pkgs.pure-prompt}
         autoload -U promptinit; promptinit
         prompt pure
         zstyle :prompt:pure:prompt:success color green
