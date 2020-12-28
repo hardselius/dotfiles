@@ -230,5 +230,28 @@ rec {
       recursive = true;
       source = ../git/.git_template;
     };
+
+    configFile."newsboat/urls".text = ''
+      https://this-week-in-rust.org/atom.xml
+      https://cprss.s3.amazonaws.com/golangweekly.com.xml
+      https://vimtricks.com/atom
+    '';
+
+    configFile."newsboat/config".text = ''
+      unbind-key h
+      unbind-key j
+      unbind-key k
+      unbind-key l
+
+      bind-key h quit
+      bind-key j down
+      bind-key k up
+      bind-key l open
+
+      unbind-key g # bound to `sort` by default
+      bind-key g home
+      unbind-key G # bound to `rev-sort` by default
+      bind-key G end
+    '';
   };
 }
