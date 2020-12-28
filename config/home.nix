@@ -87,7 +87,7 @@ rec {
         NOTES = "$HOME/dropbox-personal/wiki";
         GPG_TTY = "$TTY";
         GOPATH = "$(go env GOPATH)";
-        PATH = "$PATH:$HOME/bin:$GOPATH/bin";
+        PATH = "$PATH:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin";
       };
 
       shellAliases = {
@@ -136,12 +136,12 @@ rec {
 
         # The next line updates PATH for the Google Cloud SDK.
         if [ -f '/Users/martin/bin/google-cloud-sdk/path.zsh.inc' ]; then
-          . '/Users/martin/bin/google-cloud-sdk/path.zsh.inc'
+          . '/Users/martin/.local/bin/google-cloud-sdk/path.zsh.inc'
         fi
 
         # The next line enables shell command completion for gcloud.
-        if [ -f '/Users/martin/bin/google-cloud-sdk/completion.zsh.inc' ]; then
-          . '/Users/martin/bin/google-cloud-sdk/completion.zsh.inc'
+        if [ -f '/Users/martin/.local/bin/google-cloud-sdk/completion.zsh.inc' ]; then
+          . '/Users/martin/.local/bin/google-cloud-sdk/completion.zsh.inc'
         fi
       '';
     };
