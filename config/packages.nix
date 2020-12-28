@@ -5,10 +5,8 @@ with pkgs; [
   coreutils
   curl
   darwin-zsh-completions
-  direnv
   fd
   findutils
-  fzf
   getopt
   git
   gitAndTools.pass-git-helper
@@ -16,10 +14,8 @@ with pkgs; [
   gnupg
   go
   gpgme
-  gtypist
   home-manager
   htop
-  imagemagick
   jq
   less
   nixpkgs-fmt
@@ -32,14 +28,6 @@ with pkgs; [
   renameutils
   ripgrep
   rsync
-  rustup
-  shellcheck
-  skhd
-  spotify-tui
-  spotifyd
-  stow
-  terraform
-  tuir
   universal-ctags
   urlscan
   vim
@@ -47,6 +35,4 @@ with pkgs; [
   w3m
   weechat
   wget
-  yabai
-  zsh
 ]

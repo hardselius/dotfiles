@@ -38,7 +38,11 @@ rec {
       PAGER = "${pkgs.less}/bin/less";
     };
 
-    packages = with pkgs; [ ];
+    packages = with pkgs; [
+      gtypist
+      newsboat
+      taskwarrior
+    ];
   };
 
   programs = {
