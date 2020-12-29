@@ -54,7 +54,10 @@ rec {
       browsers = [ "firefox" ];
     };
 
-    direnv = { enable = true; };
+    direnv = {
+      enable = true;
+      enableNixDirenvIntegration = true;
+    };
 
     dircolors = {
       enable = true;
