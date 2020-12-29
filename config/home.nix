@@ -39,9 +39,16 @@ rec {
     };
 
     packages = with pkgs; [
+      fd
       gtypist
       newsboat
+      ripgrep
       taskwarrior
+      tree
+      universal-ctags
+      weechat
+
+      darwin-zsh-completions
     ];
   };
 

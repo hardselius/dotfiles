@@ -8,8 +8,6 @@ with pkgs; [
   fd
   findutils
   getopt
-  git
-  gitAndTools.pass-git-helper
   gnumake
   gnupg
   go
