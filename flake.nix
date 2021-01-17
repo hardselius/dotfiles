@@ -55,6 +55,11 @@
           nix.nixPath = {
             nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
           };
+          users.users.${user}.home = "/Users/${user}";
+          home-manager = {
+            useGlobalPkgs = true;
+            users.${user} = homeManagerConfig;
+          };
         }
       ];
 
@@ -74,14 +79,7 @@
         };
 
         macbook = darwin.lib.darwinSystem {
-          modules = darwinModules { user = "martin"; } ++ [
-            {
-              networking = {
-                computerName = "MacBook Pro";
-                hostName = "MacBook-Pro.local";
-              };
-            }
-          ];
+          modules = darwinModules { user = "martin"; };
         };
       };
 

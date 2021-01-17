@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   home_directory = builtins.getEnv "HOME";
-  tmp_directoru = "/tmp";
+  tmp_directory = "/tmp";
   ca-bundle_crt = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   lib = pkgs.stdenv.lib;
 
@@ -11,7 +11,6 @@ rec {
   fonts.fontconfig.enable = true;
 
   home = {
-    homeDirectory = "${home_directory}";
     stateVersion = "20.09";
 
     sessionVariables = {
@@ -77,10 +76,6 @@ rec {
     dircolors = {
       enable = true;
       enableZshIntegration = true;
-    };
-
-    bash = rec {
-      enable = true;
     };
 
     zsh = rec {
@@ -233,7 +228,7 @@ rec {
         status.submoduleSummary = true;
       };
 
-      ignores = import ./home/gitignore.nix;
+      ignores = import ../config/home/gitignore.nix;
     };
   };
 
