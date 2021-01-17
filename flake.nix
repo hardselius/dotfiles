@@ -72,6 +72,17 @@
         ghActions = darwin.lib.darwinSystem {
           modules = darwinModules { user = "runner"; };
         };
+
+        macbook = darwin.lib.darwinSystem {
+          modules = darwinModules { user = "martin"; } ++ [
+            {
+              networking = {
+                computerName = "MacBook Pro";
+                hostName = "MacBook-Pro.local";
+              };
+            }
+          ];
+        };
       };
 
       overlays =
