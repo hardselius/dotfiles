@@ -1,15 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  home_directory = builtins.getEnv "HOME";
-  tmp_directory = "/tmp";
   ca-bundle_crt = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-  lib = pkgs.stdenv.lib;
 
 in
 rec {
-
-  fonts.fontconfig.enable = true;
-
   home = {
     stateVersion = "20.09";
 
@@ -97,7 +91,6 @@ rec {
 
       sessionVariables = {
         CLICOLOR = true;
-        NOTES = "$HOME/dropbox-personal/wiki";
         GPG_TTY = "$TTY";
         GOPATH = "$(go env GOPATH)";
         PATH = "$PATH:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin";
@@ -218,7 +211,7 @@ rec {
         http.sslCAinfo = "${ca-bundle_crt}";
         http.sslverify = true;
         hub.protocol = "${pkgs.openssh}/bin/ssh";
-        init.templatedir = "${xdg.configHome}/git/template";
+        # init.templatedir = "${xdg.configHome}/git/template";
         merge.tool = "${pkgs.vim}/bin/vimdiff";
         mergetool.keepBackup = true;
         pull.rebase = true;
@@ -234,10 +227,6 @@ rec {
 
   xdg = {
     enable = true;
-
-    configHome = "${home_directory}/.config";
-    dataHome = "${home_directory}/.local/share";
-    cacheHome = "${home_directory}/.cache";
 
     configFile."git/template" = {
       recursive = true;
