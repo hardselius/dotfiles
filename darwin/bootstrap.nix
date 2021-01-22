@@ -24,11 +24,6 @@
     nix-daemon.enable = true;
   };
 
-  environment.shells = with pkgs; [
-    bashInteractive
-    zsh
-  ];
-
   programs.nix-index.enable = true;
 
   # programs.fish.enable = true;
