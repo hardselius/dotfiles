@@ -56,23 +56,36 @@ symlink
 $ sudo ln -s /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 ```
 
-#### `nix-darwin`
+#### Flakes
 
-Install [nix-darwin][nix-darwin]:
-
-```sh
-$ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
-$ ./result/bin/darwin-installer
-```
-
-Make sure to edit the configuration file during the installation and see to
-that the following is not commented out
+Now we're ready to bootstrap and install the actual configuration. First, we
+need to install `nixFlakes` in our environment.
 
 ```
-# Auto upgrade nix package and the daemon service. 
-services.nix-daemon.enable = true;
-nix.package = pkgs.nix;
+$ nix-env -iA nixpkgs.nixFlakes
 ```
+
+Then we need to edit `/etc/nix/nix.conf` and add:
+
+```
+experimantal-features = nix-command flakes
+```
+
+Once that's done, we should be able to bootstrap the system with a minimal
+configuration.
+
+```
+$ nix build .#darwinConfigurations.bootstrap.system
+$ ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
+```
+
+Open up a new terminal session and run
+
+```
+$ darwin-rebuild switch --flake .#macbook
+```
+
+Tada! Everything should be installed and ready to go.
 
 **NOTE:** It's a good idea to make sure that any existing installation of
 `nix-darwin` is uninstalled before you begin. There may be crap remaining in
@@ -93,39 +106,6 @@ $ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
 **NOTE 3:** `nix-darwin` might also complain about linking `ca-certificates.crt`. That
 stuff we may or may not have had to take care of earlier. Just back that up,
 rebuild, and watch `nix-darwin` link it.
-
-#### home-manager
-
-Install [home-manager][home-manager]:
-
-```
-$ nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-$ nix-channel --update
-$ nix-shell '<home-manager>' -A install
-```
-
-#### This repo
-
-Clone this repo to `$HOME/.dotfiles` and execute
-
-```
-$ darwin-rebuild switch -I darwin-config=$HOME/.dotfiles/config/darwin.nix
-$ cd $HOME/.dotfiles
-$ make switch
-```
-
-**NOTE 1:** `darwin-rebuild` might fail, saying it can't find the file `darwin`,
-in which case you have to fix your `$NIX_PATH`.
-
-```
-export NIX_PATH=darwin-config=$HOME/.dotfiles/config/darwin.nix:$HOME/.nix-defexpr/channels:$NIX_PATH
-```
-
-**NOTE 2:** It's possible that the updated `$NIX_PATH` will stick when you open
-up a new shell. This happens under zsh. One way to get around this is to switch
-to bash when rebuilding with the custom `darwin-config` path. When you feel
-reasonably sure everything is as it should be (nix-darwin and home-manager
-switched using the `make switch`), things should work in zsh again.
 
 [nix-darwin]: https://github.com/LnL7/nix-darwin
 [home-manager]: https://github.com/nix-community/home-manager
