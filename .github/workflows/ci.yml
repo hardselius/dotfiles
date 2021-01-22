@@ -54,8 +54,7 @@ jobs:
           # Build and switch to bootstrap config
           nix build .#darwinConfigurations.bootstrap.system
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
-          # Test output
-          ls /run/current-system/sw/bin/
           # Build and switch to full config
+          sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
+          sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
           /run/current-system/sw/bin/darwin-rebuild switch --flake .#ghActions
-          # ./result/sw/bin/darwin-rebuild switch --flake .#ghActions
