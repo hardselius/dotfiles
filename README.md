@@ -68,7 +68,7 @@ $ nix-env -iA nixpkgs.nixFlakes
 Then we need to edit `/etc/nix/nix.conf` and add:
 
 ```
-experimantal-features = nix-command flakes
+experimental-features = nix-command flakes
 ```
 
 Once that's done, we should be able to bootstrap the system with a minimal
