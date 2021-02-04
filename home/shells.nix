@@ -23,7 +23,7 @@
       CLICOLOR = true;
       GPG_TTY = "$TTY";
       GOPATH = "$(go env GOPATH)";
-      PATH = "$PATH:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin";
+      PATH = "$PATH:$HOME/.local/bin:$GOPATH/bin";
     };
 
     shellAliases = {
