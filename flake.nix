@@ -41,25 +41,38 @@
         ];
       };
 
-      homeManagerConfig = with self.homeManagerModules; {
-        imports = [
-          ./home
-        ];
-      };
+      homeManagerConfig =
+        { user
+        , userName ? null
+        , userEmail
+        , signingKey ? null
+        }: with self.homeManagerModules; {
+          imports = [
+            ./home
+            {
+              programs.git = {
+                userName = if userName != null then userName else user;
+                userEmail = userEmail;
+                signing = if signingKey == null then null else {
+                  key = signingKey;
+                  signByDefault = true;
+                };
+              };
+            }
+          ];
+        };
 
-      darwinModules = { user }: [
+      mkDarwinModules = args @ { user, ... }: [
         ./darwin
         home-manager.darwinModules.home-manager
-        {
+        rec {
           nixpkgs = nixpkgsConfig;
           nix.nixPath = {
             nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
           };
           users.users.${user}.home = "/Users/${user}";
-          home-manager = {
-            useGlobalPkgs = true;
-            users.${user} = homeManagerConfig;
-          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.${user} = homeManagerConfig args;
         }
       ];
 
@@ -71,17 +84,31 @@
         bootstrap = darwin.lib.darwinSystem {
           modules = [
             ./darwin/bootstrap.nix
+            { nixpkgs = nixpkgsConfig; }
           ];
         };
 
         ghActions = darwin.lib.darwinSystem {
-          modules = darwinModules { user = "runner"; };
+          modules = mkDarwinModules {
+            user = "runner";
+            userName = "github-actions";
+            userEmail = "github-actions@github.com";
+          };
         };
 
         macbook = darwin.lib.darwinSystem {
-          modules = darwinModules { user = "martin"; };
+          modules = mkDarwinModules {
+            user = "martin";
+            userName = "Martin Hardselius";
+            userEmail = "martin" + "@hardselius.dev";
+            signingKey = "84D80CE9A803D1C5";
+          };
         };
       };
+
+      darwinModules = { };
+
+      homeManagerModules = { };
 
       overlays =
         let path = ./overlays; in

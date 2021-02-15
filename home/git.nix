@@ -4,14 +4,6 @@
   programs.git = {
     enable = true;
 
-    userName = "Martin Hardselius";
-    userEmail = "martin@hardselius.dev";
-
-    signing = {
-      key = "84D80CE9A803D1C5";
-      signByDefault = true;
-    };
-
     aliases = {
       authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
         + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
