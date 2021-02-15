@@ -1,8 +1,4 @@
 { config, pkgs, lib, ... }:
-let
-  ca-bundle_crt = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-
-in
 rec {
   imports = [
     ./git.nix
