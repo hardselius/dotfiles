@@ -39,7 +39,6 @@ rec {
       renameutils
       ripgrep
       rsync
-      taskwarrior
       tree
       universal-ctags
       urlscan
