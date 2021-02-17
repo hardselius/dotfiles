@@ -36,7 +36,6 @@ rec {
       nodePackages.vim-language-server
       pass
       plantuml
-      pure-prompt
       pywal
       renameutils
       ripgrep
