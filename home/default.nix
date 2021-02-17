@@ -15,6 +15,7 @@ rec {
     };
 
     packages = with pkgs; [
+      asciinema
       cacert
       cachix
       coreutils
