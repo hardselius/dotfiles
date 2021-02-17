@@ -31,7 +31,6 @@ rec {
       htop
       jq
       less
-      newsboat
       nixpkgs-fmt
       nodePackages.node2nix
       nodePackages.vim-language-server
