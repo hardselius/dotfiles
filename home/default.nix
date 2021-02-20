@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 rec {
   imports = [
+    ./dev.nix
     ./git.nix
     ./newsboat.nix
     ./shells.nix
@@ -23,18 +24,13 @@ rec {
       fd
       findutils
       getopt
-      gnumake
       gnupg
-      go
       gpgme
       gtypist
       htop
       jq
       less
-      nodePackages.node2nix
-      nodePackages.vim-language-server
       pass
-      plantuml
       pywal
       renameutils
       ripgrep
