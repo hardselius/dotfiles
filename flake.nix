@@ -101,7 +101,7 @@
             user = "martin";
             userName = "Martin Hardselius";
             userEmail = "martin" + "@hardselius.dev";
-            signingKey = "84D80CE9A803D1C5";
+            signingKey = "martin" + "@hardselius.dev";
           };
         };
       };
