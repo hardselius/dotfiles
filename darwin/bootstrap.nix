@@ -24,6 +24,8 @@
     nix-daemon.enable = true;
   };
 
+  users.nix.configureBuildUsers = true;
+
   programs.nix-index.enable = true;
 
   # programs.fish.enable = true;
