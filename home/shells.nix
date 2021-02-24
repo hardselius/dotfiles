@@ -26,8 +26,7 @@
     sessionVariables = {
       CLICOLOR = true;
       GPG_TTY = "$TTY";
-      GOPATH = "$(go env GOPATH)";
-      PATH = "$PATH:$HOME/.local/bin:$GOPATH/bin";
+      PATH = "$PATH:$HOME/.local/bin";
     };
 
     shellAliases = {
