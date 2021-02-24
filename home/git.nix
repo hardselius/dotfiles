@@ -37,7 +37,6 @@
 
       branch.autosetupmerge = true;
       color.ui = "auto";
-      commit.gpgsign = true;
       commit.verbose = true;
       diff.submodule = "log";
       diff.tool = "${pkgs.vim}/bin/vimdiff";
