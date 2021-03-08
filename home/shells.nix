@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     pure-prompt
+    igloo-prompt
   ];
 
   programs.zsh = {
@@ -68,10 +69,18 @@
           ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
       }
 
-      # Configure pure-promt
       autoload -U promptinit; promptinit
+
+      # Configure pure-promt
       prompt pure
       zstyle :prompt:pure:prompt:success color green
+
+      # Configure igloo-prompt
+      # source ${pkgs.git}/share/git/contrib/completion/git-prompt.sh
+      # IGLOO_ZSH_PROMPT_THEME_ALWAYS_SHOW_USER=true
+      # IGLOO_ZSH_PROMPT_THEME_ALWAYS_SHOW_HOST=true
+      # IGLOO_ZSH_PROMPT_THEME_HIDE_TIME=false
+      # prompt igloo
 
       # The next line updates PATH for the Google Cloud SDK.
       if [ -f '/Users/martin/bin/google-cloud-sdk/path.zsh.inc' ]; then
