@@ -43,9 +43,6 @@ rec {
       w3m
       weechat
       wget
-
-      yubikey-personalization
-      yubikey-manager
     ] ++ lib.optionals stdenv.isDarwin [
       darwin-zsh-completions
     ];
