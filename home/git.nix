@@ -90,6 +90,7 @@
       ".apdisk"
       ".envrc"
       "shell.nix"
+      ".direnv/"
     ];
   };
 
