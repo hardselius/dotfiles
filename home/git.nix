@@ -33,6 +33,7 @@
         logAllRefUpdates = true;
         precomposeunicode = true;
         whitespace = "trailing-space,space-before-tab";
+        hooksPath = "$XDG_CONFIG_HOME/git/hooks";
       };
 
       branch.autosetupmerge = true;
@@ -45,7 +46,6 @@
       http.sslCAinfo = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       http.sslverify = true;
       hub.protocol = "${pkgs.openssh}/bin/ssh";
-      # init.templatedir = "${xdg.configHome}/git/template";
       merge.tool = "${pkgs.vim}/bin/vimdiff";
       mergetool.keepBackup = true;
       pull.rebase = true;
@@ -94,8 +94,8 @@
     ];
   };
 
-  xdg.configFile."git/template" = {
+  xdg.configFile."git/hooks" = {
     recursive = true;
-    source = ../git/.git_template;
+    source = ./git/hooks;
   };
 }
