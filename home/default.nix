@@ -1,10 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, localconfig, ... }:
 rec {
   imports = [
     ./dev.nix
     ./git.nix
     ./newsboat.nix
     ./shells.nix
+    ./kitty.nix
   ];
 
   home = {
