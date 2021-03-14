@@ -1,8 +1,15 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, localconfig, ... }:
 
 {
   programs.git = {
     enable = true;
+
+    userName = if localconfig.userName != null then localconfig.userName else localconfig.user;
+    userEmail = localconfig.userEmail;
+    signing = if localconfig.signingKey == null then null else {
+      key = localconfig.signingKey;
+      signByDefault = true;
+    };
 
     aliases = {
       authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"

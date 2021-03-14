@@ -41,28 +41,15 @@
         ];
       };
 
-      homeManagerConfig =
-        { user
-        , userName ? null
-        , userEmail
-        , signingKey ? null
-        }: with self.homeManagerModules; {
-          imports = [
-            ./home
-            {
-              programs.git = {
-                userName = if userName != null then userName else user;
-                userEmail = userEmail;
-                signing = if signingKey == null then null else {
-                  key = signingKey;
-                  signByDefault = true;
-                };
-              };
-            }
-          ];
-        };
+      homeManagerConfig = localconfig @ { ... }: with self.homeManagerModules; {
+        imports = [
+          ./home
+        ];
+        # propagate local condfiguration to imports
+        _module.args.localconfig = localconfig;
+      };
 
-      mkDarwinModules = args @ { user, ... }: [
+      mkDarwinModules = localconfig @ { user, ... }: [
         ./darwin
         home-manager.darwinModules.home-manager
         rec {
@@ -72,7 +59,7 @@
           };
           users.users.${user}.home = "/Users/${user}";
           home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerConfig args;
+          home-manager.users.${user} = homeManagerConfig localconfig;
         }
       ];
 
