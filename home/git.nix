@@ -6,7 +6,7 @@
 
     userName = if localconfig.userName != null then localconfig.userName else localconfig.user;
     userEmail = localconfig.userEmail;
-    signing = if localconfig.signingKey == null then null else {
+    signing = if !(localconfig ? signingKey) || localconfig.signingKey == null then null else {
       key = localconfig.signingKey;
       signByDefault = true;
     };
