@@ -1,7 +1,6 @@
 { config, pkgs, lib, localconfig, ... }:
 rec {
   imports = [
-    ./dev.nix
     ./git.nix
     ./newsboat.nix
     ./shells.nix
@@ -24,17 +23,22 @@ rec {
       fd
       findutils
       getopt
+      gnumake
       gnupg
       gpgme
-      gtypist
       htop
       jq
       less
+      nodePackages.node2nix
+      nodePackages.vim-language-server
       pass
+      plantuml
       pywal
       renameutils
       ripgrep
       rsync
+      shellcheck
+      shfmt
       tree
       universal-ctags
       urlscan
@@ -71,6 +75,10 @@ rec {
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+    };
+
+    go = {
+      enable = true;
     };
 
     kitty = {
