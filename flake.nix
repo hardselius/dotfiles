@@ -93,6 +93,21 @@
         };
       };
 
+      cloudVM = home-manager.lib.homeManagerConfiguration {
+        system = "x86_64-linux";
+        homeDirectory = "/home/martin";
+        username = "martin";
+        configuration = {
+          imports = [
+            (homeManagerConfig {
+              userName = "Martin Hardselius";
+              userEmail = "martin" + "@hardselius.dev";
+            })
+          ];
+          nixpkgs = nixpkgsConfig;
+        };
+      };
+
       darwinModules = { };
 
       homeManagerModules = { };
