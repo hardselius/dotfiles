@@ -2,10 +2,14 @@ name: Build Nix environments
 
 on:
   pull_request:
+    branches:
+      - master
     paths:
       - '**'
       - '!**.md'
   push:
+    branches:
+      - master
     paths:
       - '**'
       - '!**.md'
@@ -62,3 +66,36 @@ jobs:
           git add --all
           git commit -m "Update sources"
           git push
+
+  linux:
+    name: Build/cache linux environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v12
+        with:
+          install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210126_f15f0b8/install
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            substituters = https://cache.nixos.org/ https://hydra.iohk.io
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v8
+        with:
+          name: hardselius
+          extraPullNames: iohk
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
+      - name: Build and switch to home-manager env
+        run: |
+          # Prevent conflict between Cachix installed by workflow and the one installed in the config
+          nix-env --set-flag priority 1 cachix
+          # Build and switch to home-manager env
+          nix build .#cloudVM.activationPackage; ./result/activate
