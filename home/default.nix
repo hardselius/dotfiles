@@ -321,8 +321,12 @@ rec {
 
     configFile."gnupg/gpg-agent.conf".text = ''
       enable-ssh-support
-      default-cache-ttl 86400
-      max-cache-ttl 86400
+
+      default-cache-ttl 600
+      max-cache-ttl 7200
+
+      default-cache-ttl-ssh 600
+      max-cache-ttl-ssh 7200
     '';
 
     configFile."git/hooks" = {
