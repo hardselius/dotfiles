@@ -131,8 +131,9 @@ rec {
       };
 
       shellAliases = {
-        tf = "terraform";
+        gpgreset = "gpg-connect-agent killagent /bye; gpg-connect-agent updatestartuptty /bye; gpg-connect-agent /bye";
         restartaudio = "sudo killall coreaudiod";
+        tf = "terraform";
       };
 
       profileExtra = ''
