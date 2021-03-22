@@ -1,5 +1,6 @@
 { config, pkgs, lib, localconfig, ... }:
 let
+  tmp_directory = "/tmp";
   home_directory = "${config.home.homeDirectory}";
 in
 rec {
@@ -12,7 +13,10 @@ rec {
 
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
+      EMAIL = "${programs.git.userEmail}";
+      GNUPGHOME = "${xdg.configHome}/gnupg";
       PAGER = "${pkgs.less}/bin/less";
+      SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
     };
 
     packages = with pkgs; [
@@ -204,6 +208,28 @@ rec {
         ".direnv/"
       ];
     };
+
+    ssh = {
+      enable = true;
+
+      controlMaster = "auto";
+      controlPath = "${tmp_directory}/ssh-%u-%r@%h:%p";
+      controlPersist = "1800";
+
+      forwardAgent = true;
+      serverAliveInterval = 60;
+
+      hashKnownHosts = true;
+      userKnownHostsFile = "${xdg.configHome}/ssh/known_hosts";
+
+      extraConfig = ''
+        Host remarkable
+          Hostname 10.11.99.1
+          User root
+          ForwardX11 no
+          ForwardAgent no
+      '';
+    };
   };
 
   xdg = {
@@ -212,6 +238,12 @@ rec {
     configHome = "${home_directory}/.config";
     dataHome = "${home_directory}/.local/share";
     cacheHome = "${home_directory}/.cache";
+
+    configFile."gnupg/gpg-agent.conf".text = ''
+      enable-ssh-support
+      default-cache-ttl 86400
+      max-cache-ttl 86400
+    '';
 
     configFile."git/hooks" = {
       recursive = true;

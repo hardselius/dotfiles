@@ -45,6 +45,7 @@
 
     initExtra = ''
       export KEYTIMEOUT=1
+      export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket)
 
       vi-search-fix() {
         zle vi-cmd-mode
