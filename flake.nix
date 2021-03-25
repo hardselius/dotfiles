@@ -71,6 +71,16 @@
         }
       ];
 
+      mkNixosModules = localconfig @ { user, ... }: [
+        home-manager.nixosModules.home-manager
+        rec {
+          nixpkgs = nixpkgsConfig;
+          users.users.${user}.home = "/home/${user}";
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.${user} = homeManagerConfig localconfig;
+        }
+      ];
+
     in
     {
       darwinConfigurations = {
@@ -98,6 +108,83 @@
             userEmail = "martin" + "@hardselius.dev";
             signingKey = "martin" + "@hardselius.dev";
           };
+        };
+      };
+
+      nixosConfigurations = {
+        vmware = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = mkNixosModules
+            {
+              user = "martin";
+              userName = "Martin Hardselius";
+              userEmail = "martin" + "@hardselius.dev";
+              signingKey = "martin" + "@hardselius.dev";
+            } ++ [
+            ({ config, pkgs, callPackage,  ... }: {
+              imports =
+                [ # Include the results of the hardware scan.
+                  ./hosts/nixos-vmware.nix
+                ];
+              nix = {
+                package = pkgs.nixFlakes;
+                extraOptions = ''
+                  experimental-features = nix-command flakes
+                '';
+              };
+              boot.loader.grub.enable = true;
+              boot.loader.grub.version = 2;
+              boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+              networking.hostName = "nixos"; # Define your hostname.
+              networking.useDHCP = false;
+              networking.interfaces.ens33.useDHCP = true;
+
+              virtualisation = {
+                vmware.guest.enable = true;
+              };
+              environment = {
+                pathsToLink = [ "/libexec" ];
+                systemPackages = with pkgs; [
+                    wget
+                    vim
+                    firefox
+                    git
+                  ];
+              };
+              services = {
+                pcscd.enable = true;
+                xserver = {
+                  enable = true;
+                
+                  windowManager.i3 = {
+                    enable = true;
+                    extraPackages = with pkgs; [
+                      dmenu
+                      i3status
+                      i3lock
+                    ];
+                  };
+                  displayManager.defaultSession = "none+i3";
+                };
+              };
+              programs.gnupg.agent = {
+                enable = true;
+                enableSSHSupport = true;
+              };
+
+              programs.zsh = {
+                enable = true;
+                promptInit = "";
+              };
+
+              users.users.martin = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+                shell = pkgs.zsh;
+              };
+              system.stateVersion = "20.09"; # Did you read the comment?
+            })
+          ];
         };
       };
 
