@@ -135,11 +135,11 @@
     "vimrc": {
       "flake": false,
       "locked": {
-        "lastModified": 1617051439,
-        "narHash": "sha256-vtk7ZA/h2ngKfv5XGkr44Z2A8Z+ZW4beAn4L8v6adKQ=",
+        "lastModified": 1617054976,
+        "narHash": "sha256-KZSeYtQO61OWLrlvtoGA7eYNgxsbb6dOlAhEDSD4rWA=",
         "ref": "master",
-        "rev": "8588e0c4e8fdc1139ad0098a09cfcb523943775c",
-        "revCount": 74,
+        "rev": "85450d8a21584483804595d8f6cecdf6c0b50d22",
+        "revCount": 75,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hardselius/large-vimrc.git"
