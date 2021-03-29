@@ -1,4 +1,8 @@
 final: prev: {
+  pure-prompt = prev.pure-prompt.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./pure-zsh.patch ];
+  });
+
   igloo-prompt = with prev.lib; prev.stdenv.mkDerivation rec {
     name = "igloo-prompt";
     version = "0.1.1";
