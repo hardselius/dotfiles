@@ -18,6 +18,13 @@
     };
 
     flake-utils.url = "github:numtide/flake-utils";
+
+    vimrc = {
+      url = "https://github.com/hardselius/large-vimrc.git";
+      type = "git";
+      flake = false;
+      submodules = true;
+    };
   };
 
   outputs = inputs @ { self, nixpkgs, darwin, home-manager, ... }:
@@ -47,6 +54,7 @@
         ];
         # propagate local condfiguration to imports
         _module.args.localconfig = localconfig;
+        _module.args.vimrc = inputs.vimrc;
       };
 
       mkDarwinModules = localconfig @ { user, ... }: [

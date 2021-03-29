@@ -128,7 +128,26 @@
         "nixos-stable": "nixos-stable",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
-        "nixpkgs-stable-darwin": "nixpkgs-stable-darwin"
+        "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
+        "vimrc": "vimrc"
+      }
+    },
+    "vimrc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1617051439,
+        "narHash": "sha256-vtk7ZA/h2ngKfv5XGkr44Z2A8Z+ZW4beAn4L8v6adKQ=",
+        "ref": "master",
+        "rev": "8588e0c4e8fdc1139ad0098a09cfcb523943775c",
+        "revCount": 74,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/hardselius/large-vimrc.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/hardselius/large-vimrc.git"
       }
     }
   },
