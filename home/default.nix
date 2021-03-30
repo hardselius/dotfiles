@@ -329,6 +329,8 @@ rec {
 
       default-cache-ttl-ssh 600
       max-cache-ttl-ssh 7200
+
+      pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
     '';
 
     configFile."git/hooks" = {
