@@ -169,7 +169,7 @@ rec {
         zle -N resume
         bindkey "^Z" resume
 
-        ls() {
+        function ls() {
             ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
         }
 
