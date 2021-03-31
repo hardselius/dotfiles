@@ -10,9 +10,9 @@ rec {
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
       EMAIL = "${programs.git.userEmail}";
-      GNUPGHOME = "${xdg.configHome}/gnupg";
+      # GNUPGHOME = "${xdg.configHome}/gnupg";
       PAGER = "${pkgs.less}/bin/less";
-      SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
+      # SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
     };
 
     packages = with pkgs; [
@@ -55,6 +55,16 @@ rec {
     ];
 
     file.".vim".source = vimrc;
+
+    file.".gnupg/gpg-agent.conf".text = ''
+      enable-ssh-support
+
+      default-cache-ttl 600
+      max-cache-ttl 7200
+
+      default-cache-ttl-ssh 600
+      max-cache-ttl-ssh 7200
+    '';
   };
 
   programs = {
@@ -169,7 +179,7 @@ rec {
         zle -N resume
         bindkey "^Z" resume
 
-        ls() {
+        function ls() {
             ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
         }
 
@@ -321,15 +331,6 @@ rec {
     dataHome = "${home_directory}/.local/share";
     cacheHome = "${home_directory}/.cache";
 
-    configFile."gnupg/gpg-agent.conf".text = ''
-      enable-ssh-support
-
-      default-cache-ttl 600
-      max-cache-ttl 7200
-
-      default-cache-ttl-ssh 600
-      max-cache-ttl-ssh 7200
-    '';
 
     configFile."git/hooks" = {
       recursive = true;
