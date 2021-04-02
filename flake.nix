@@ -137,6 +137,7 @@
 
         # Minimal configuration to bootstrap systems
         bootstrap = darwin.lib.darwinSystem {
+          inputs = inputs;
           modules = [
             ./darwin/bootstrap.nix
             { nixpkgs = nixpkgsConfig; }
@@ -144,6 +145,7 @@
         };
 
         ghActions = darwin.lib.darwinSystem {
+          inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
             userName = "github-actions";
@@ -152,6 +154,7 @@
         };
 
         macbook = darwin.lib.darwinSystem {
+          inputs = inputs;
           modules = mkDarwinModules {
             user = "martin";
             userName = "Martin Hardselius";
@@ -164,6 +167,7 @@
       nixosConfigurations = {
         vmware = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
           modules = mkNixosModules
             {
               user = "martin";
