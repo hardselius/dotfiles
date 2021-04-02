@@ -17,11 +17,4 @@
       TERMINFO_DIRS = "${pkgs.kitty.terminfo.outPath}/share/terminfo";
     };
   };
-
-  fonts = {
-    enableFontDir = true;
-    fonts = with pkgs; [
-      hack-font
-    ];
-  };
 }

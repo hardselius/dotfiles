@@ -108,10 +108,10 @@
       };
 
       mkDarwinModules = localconfig @ { user, ... }: [
-        ./darwin
         home-manager.darwinModules.home-manager
+        sharedHostsConfig
+        ./darwin
         rec {
-          nixpkgs = nixpkgsConfig;
           nix.nixPath = {
             nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
           };
@@ -139,8 +139,8 @@
         bootstrap = darwin.lib.darwinSystem {
           inputs = inputs;
           modules = [
+            sharedHostsConfig
             ./darwin/bootstrap.nix
-            { nixpkgs = nixpkgsConfig; }
           ];
         };
 
