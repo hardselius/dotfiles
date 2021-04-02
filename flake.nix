@@ -48,6 +48,56 @@
         ];
       };
 
+      # sharedHostsConfig contains configuration that is shared across all
+      # hosts.
+      sharedHostsConfig = { config, pkgs, lib, options, ... }: {
+        nix = {
+          package = pkgs.nixFlakes;
+          extraOptions = "experimental-features = nix-command flakes";
+          binaryCaches = [
+            "https://cache.nixos.org/"
+            "https://hardselius.cachix.org"
+            "https://hydra.iohk.io"
+            "https://iohk.cachix.org"
+          ];
+          binaryCachePublicKeys = [
+            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            "hardselius.cachix.org-1:wdmClEq/2j8gEKJ5vLLCmpgCDumsyPMO6iVWKkYHKP0="
+            "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+            "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+          ];
+
+          gc = {
+            automatic = true;
+            options = "--delete-older-than 7d";
+          };
+        };
+
+        nixpkgs = nixpkgsConfig;
+
+        programs = {
+          bash = {
+            enable = true;
+          };
+
+          zsh = {
+            enable = true;
+            promptInit = ''
+            '';
+          };
+        };
+
+        fonts = (lib.mkMerge [
+          # [note] Remove this condition when `nix-darwin` aligns with NixOS
+          (if (builtins.hasAttr "fontDir" options.fonts) then {
+            fontDir.enable = true;
+          } else {
+            enableFontDir = true;
+          })
+          { fonts = with pkgs; [ hack-font ]; }
+        ]);
+      };
+
       homeManagerConfig = localconfig @ { ... }: with self.homeManagerModules; {
         imports = [
           ./home
