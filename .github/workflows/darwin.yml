@@ -1,4 +1,4 @@
-name: Build Nix environments
+name: darwin
 
 on:
   pull_request:
@@ -17,7 +17,7 @@ on:
     - cron: '0 0 * * 0' # Every Sunday at midnight UTC
 
 jobs:
-  build-darwin:
+  darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -55,27 +55,3 @@ jobs:
           git add --all
           git commit -m "Update sources"
           git push
-
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: cachix/install-nix-action@v12
-        with:
-          install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210126_f15f0b8/install
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-            substituters = https://cache.nixos.org/ https://hydra.iohk.io
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
-      - uses: cachix/cachix-action@v9
-        with:
-          name: hardselius
-          extraPullNames: iohk
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-      - run: |
-          nix-env --set-flag priority 0 cachix
-      - run: |
-          nix build .#cloudVM.activationPackage; ./result/activate
