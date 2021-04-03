@@ -40,7 +40,7 @@ jobs:
           echo -e "run\tprivate/var/run" | sudo tee -a /etc/synthetic.conf >/dev/null
           /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -B 2>/dev/null || true
       - run: |
-          nix-env --set-flag priority 1 cachix
+          nix-env --set-flag priority 0 cachix
       - run: |
           nix build .#darwinConfigurations.bootstrap.system
       - run: |
@@ -76,6 +76,6 @@ jobs:
           extraPullNames: iohk
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
       - run: |
-          nix-env --set-flag priority 1 cachix
+          nix-env --set-flag priority 0 cachix
       - run: |
           nix build .#cloudVM.activationPackage; ./result/activate
