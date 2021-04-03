@@ -10,9 +10,6 @@ rec {
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
       EMAIL = "${programs.git.userEmail}";
-      # GNUPGHOME = "${xdg.configHome}/gnupg";
-      PAGER = "${pkgs.less}/bin/less";
-      # SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
     };
 
     packages = with pkgs; [
