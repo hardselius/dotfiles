@@ -1,3 +1,5 @@
+[![Build Nix environments](https://github.com/hardselius/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/hardselius/dotfiles/actions/workflows/ci.yml)
+
 # Martin's dotfiles and Nix config
 
 > These are my dotfiles. There are many like them, but these are mine.
