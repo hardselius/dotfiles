@@ -20,37 +20,53 @@ jobs:
   darwin:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: cachix/install-nix-action@v12
+
+      - name: Install nix
+        uses: cachix/install-nix-action@v12
         with:
           install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210207_fd6eaa1/install
           extra_nix_config: |
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
       - uses: cachix/cachix-action@v9
         with:
           name: hardselius
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-      - if: ${{ github.event_name == 'schedule' && success() }}
+
+      - name: If scheduled, update inputs
+        if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           nix flake update --recreate-lock-file
-      - run: |
+
+      - name: Create a symlink to /var/run
+        run: |
           echo -e "run\tprivate/var/run" | sudo tee -a /etc/synthetic.conf >/dev/null
           /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -B 2>/dev/null || true
-      - run: |
+          /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t 2>/dev/null || true
+
+      - name: Prioritize cachix installed by workflow
+        run: |
           nix-env --set-flag priority 0 cachix
-      - run: |
+
+      - name: Build and switch to bootstrap config
+        run: |
           nix build .#darwinConfigurations.bootstrap.system
-      - run: |
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
-      - run: |
+
+      - name: Build and switch to full config
+        run: |
           . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
           darwin-rebuild switch --flake .#ghActions
-      - if: ${{ github.event_name == 'schedule' && success() }}
+
+      - name: If scheduled, push commit with updated sources
+        if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           git add --all
           git commit -m "Update sources"
