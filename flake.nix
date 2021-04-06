@@ -8,7 +8,7 @@
     nixos-stable.url = "github:nixos/nixpkgs/nixos-20.09";
 
     darwin = {
-      url = "github:hardselius/nix-darwin/master";
+      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
