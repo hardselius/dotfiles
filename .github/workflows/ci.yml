@@ -29,6 +29,7 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            sandbox = false
       - uses: cachix/cachix-action@v8
         with:
           name: hardselius
