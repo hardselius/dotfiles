@@ -2,10 +2,7 @@
   description = "Martin's dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-20.09";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -33,19 +30,7 @@
         config = {
           allowUnfree = true;
         };
-        overlays = self.overlays ++ [
-          (
-            final: prev:
-              let
-                system = prev.stdenv.system;
-                nixpkgs-stable = if system == "x86_64-darwin" then nixpkgs-stable-darwin else nixos-stable;
-              in
-              {
-                master = nixpkgs-master.legacyPackages.${system};
-                stable = nixpkgs-stable.legacyPackages.${system};
-              }
-          )
-        ];
+        overlays = self.overlays;
       };
 
       # sharedHostsConfig contains configuration that is shared across all
@@ -175,9 +160,10 @@
               userEmail = "martin" + "@hardselius.dev";
               signingKey = "martin" + "@hardselius.dev";
             } ++ [
-            ({ config, pkgs, callPackage,  ... }: {
+            ({ config, pkgs, callPackage, ... }: {
               imports =
-                [ # Include the results of the hardware scan.
+                [
+                  # Include the results of the hardware scan.
                   ./hosts/nixos-vmware.nix
                 ];
               nix = {
@@ -199,17 +185,17 @@
               environment = {
                 pathsToLink = [ "/libexec" ];
                 systemPackages = with pkgs; [
-                    wget
-                    vim
-                    firefox
-                    git
-                  ];
+                  wget
+                  vim
+                  firefox
+                  git
+                ];
               };
               services = {
                 pcscd.enable = true;
                 xserver = {
                   enable = true;
-                
+
                   windowManager.i3 = {
                     enable = true;
                     extraPackages = with pkgs; [
