@@ -47,10 +47,11 @@ jobs:
       - run: |
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
       - run: |
-          . /etc/static/bashrc
+          # . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
-          darwin-rebuild switch --flake .#ghActions
+          # darwin-rebuild switch --flake .#ghActions
+          ./result/sw/bin/darwin-rebuild switch --flake .#ghActions
       - if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           git add --all
