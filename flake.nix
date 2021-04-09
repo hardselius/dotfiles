@@ -45,19 +45,26 @@
           _module.args.vimrc = inputs.vimrc;
         };
 
-      mkDarwinModules = args @ { user, ... }: [
-        home-manager.darwinModules.home-manager
-        ./config/darwin.nix
-        rec {
-          nix.nixPath = {
-            nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
-          };
-          nixpkgs = nixpkgsConfig;
-          users.users.${user}.home = "/Users/${user}";
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerConfig args;
-        }
-      ];
+      mkDarwinModules =
+        args @
+        { user
+        , host
+        , hostConfig ? ./config + "/host-${host}.nix"
+        , ...
+        }: [
+          home-manager.darwinModules.home-manager
+          ./config/darwin.nix
+          hostConfig
+          rec {
+            nix.nixPath = {
+              nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
+            };
+            nixpkgs = nixpkgsConfig;
+            users.users.${user}.home = "/Users/${user}";
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user} = homeManagerConfig args;
+          }
+        ];
 
       mkNixosModules = localconfig @ { user, ... }: [
         home-manager.nixosModules.home-manager
@@ -86,6 +93,7 @@
           inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
+            host = "mac-gh";
           };
         };
 
@@ -93,6 +101,7 @@
           inputs = inputs;
           modules = mkDarwinModules {
             user = "martin";
+            host = "macbook";
           };
         };
       };
