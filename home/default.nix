@@ -9,7 +9,7 @@ rec {
 
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
-      EMAIL = "${programs.git.userEmail}";
+      EMAIL = "${config.programs.git.userEmail}";
       # GNUPGHOME = "${xdg.configHome}/gnupg";
       PAGER = "${pkgs.less}/bin/less";
       # SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
@@ -204,13 +204,6 @@ rec {
     git = {
       enable = true;
 
-      userName = if localconfig.userName != null then localconfig.userName else localconfig.user;
-      userEmail = localconfig.userEmail;
-      signing = if !(localconfig ? signingKey) || localconfig.signingKey == null then null else {
-        key = localconfig.signingKey;
-        signByDefault = true;
-      };
-
       aliases = {
         authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
           + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
@@ -249,7 +242,6 @@ rec {
         diff.submodule = "log";
         diff.tool = "${pkgs.vim}/bin/vimdiff";
         difftool.prompt = false;
-        github.user = "hardselius";
         http.sslCAinfo = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
         http.sslverify = true;
         hub.protocol = "${pkgs.openssh}/bin/ssh";

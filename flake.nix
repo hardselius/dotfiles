@@ -83,16 +83,19 @@
         ]);
       };
 
-      homeManagerConfig = localconfig @ { ... }: with self.homeManagerModules; {
-        imports = [
-          ./home
-        ];
-        # propagate local condfiguration to imports
-        _module.args.localconfig = localconfig;
-        _module.args.vimrc = inputs.vimrc;
-      };
+      homeManagerConfig =
+        { user
+        , userConfig ? ./home + "/user-${user}.nix"
+        , ...
+        }: with self.homeManagerModules; {
+          imports = [
+            userConfig
+            ./home
+          ];
+          _module.args.vimrc = inputs.vimrc;
+        };
 
-      mkDarwinModules = localconfig @ { user, ... }: [
+      mkDarwinModules = args @ { user, ... }: [
         home-manager.darwinModules.home-manager
         sharedHostsConfig
         ./darwin
@@ -102,7 +105,7 @@
           };
           users.users.${user}.home = "/Users/${user}";
           home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerConfig localconfig;
+          home-manager.users.${user} = homeManagerConfig args;
         }
       ];
 
@@ -133,8 +136,6 @@
           inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
-            userName = "github-actions";
-            userEmail = "github-actions@github.com";
           };
         };
 
@@ -142,9 +143,6 @@
           inputs = inputs;
           modules = mkDarwinModules {
             user = "martin";
-            userName = "Martin Hardselius";
-            userEmail = "martin" + "@hardselius.dev";
-            signingKey = "martin" + "@hardselius.dev";
           };
         };
       };
@@ -156,9 +154,6 @@
           modules = mkNixosModules
             {
               user = "martin";
-              userName = "Martin Hardselius";
-              userEmail = "martin" + "@hardselius.dev";
-              signingKey = "martin" + "@hardselius.dev";
             } ++ [
             ({ config, pkgs, callPackage, ... }: {
               imports =
@@ -234,10 +229,7 @@
         username = "martin";
         configuration = {
           imports = [
-            (homeManagerConfig {
-              userName = "Martin Hardselius";
-              userEmail = "martin" + "@hardselius.dev";
-            })
+            (homeManagerConfig { user = "martin"; })
           ];
           nixpkgs = nixpkgsConfig;
         };
