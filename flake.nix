@@ -47,8 +47,7 @@
 
       mkDarwinModules = args @ { user, ... }: [
         home-manager.darwinModules.home-manager
-        ./config/shared.nix
-        ./darwin
+        ./config/darwin.nix
         rec {
           nix.nixPath = {
             nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
@@ -79,8 +78,7 @@
         bootstrap = darwin.lib.darwinSystem {
           inputs = inputs;
           modules = [
-            ./config/shared.nix
-            ./darwin/bootstrap.nix
+            ./config/darwin-bootstrap.nix
           ];
         };
 

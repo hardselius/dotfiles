@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = [
+    ./shared.nix
+  ];
+
   nix = {
     trustedUsers = [
       "@admin"
