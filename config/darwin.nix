@@ -17,6 +17,10 @@
     };
   };
 
+  programs.bash = {
+    enable = true;
+  };
+
   system = {
     defaults = {
       NSGlobalDomain = {
