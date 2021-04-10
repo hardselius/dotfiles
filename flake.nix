@@ -66,16 +66,30 @@
           }
         ];
 
-      mkNixosModules = localconfig @ { user, ... }: [
-        home-manager.nixosModules.home-manager
-        ./config/shared.nix
-        rec {
-          nixpkgs = nixpkgsConfig;
-          users.users.${user}.home = "/home/${user}";
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerConfig localconfig;
-        }
-      ];
+      mkNixosModules =
+        args @
+        { user
+        , host
+        , hostConfig ? ./config + "/host-${host}.nix"
+        , ...
+        }: [
+          home-manager.nixosModules.home-manager
+          ./config/shared.nix
+          hostConfig
+          ({ pkgs, ... }: rec {
+            nixpkgs = nixpkgsConfig;
+            users.users.${user} = {
+              createHome = true;
+              extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+              group = "${user}";
+              home = "/home/${user}";
+              isNormalUser = true;
+              shell = pkgs.zsh;
+            };
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user} = homeManagerConfig args;
+          })
+        ];
 
     in
     {
@@ -110,75 +124,10 @@
         vmware = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
-          modules = mkNixosModules
-            {
-              user = "martin";
-            } ++ [
-            ({ config, pkgs, callPackage, ... }: {
-              imports =
-                [
-                  # Include the results of the hardware scan.
-                  ./hosts/nixos-vmware.nix
-                ];
-              nix = {
-                package = pkgs.nixFlakes;
-                extraOptions = ''
-                  experimental-features = nix-command flakes
-                '';
-              };
-              boot.loader.grub.enable = true;
-              boot.loader.grub.version = 2;
-              boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-              networking.hostName = "nixos"; # Define your hostname.
-              networking.useDHCP = false;
-              networking.interfaces.ens33.useDHCP = true;
-
-              virtualisation = {
-                vmware.guest.enable = true;
-              };
-              environment = {
-                pathsToLink = [ "/libexec" ];
-                systemPackages = with pkgs; [
-                  wget
-                  vim
-                  firefox
-                  git
-                ];
-              };
-              services = {
-                pcscd.enable = true;
-                xserver = {
-                  enable = true;
-
-                  windowManager.i3 = {
-                    enable = true;
-                    extraPackages = with pkgs; [
-                      dmenu
-                      i3status
-                      i3lock
-                    ];
-                  };
-                  displayManager.defaultSession = "none+i3";
-                };
-              };
-              programs.gnupg.agent = {
-                enable = true;
-                enableSSHSupport = true;
-              };
-
-              programs.zsh = {
-                enable = true;
-                promptInit = "";
-              };
-
-              users.users.martin = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-                shell = pkgs.zsh;
-              };
-              system.stateVersion = "20.09"; # Did you read the comment?
-            })
-          ];
+          modules = mkNixosModules {
+            user = "martin";
+            host = "vmware";
+          };
         };
       };
 
