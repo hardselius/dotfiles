@@ -10,9 +10,7 @@ rec {
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
       EMAIL = "${config.programs.git.userEmail}";
-      # GNUPGHOME = "${xdg.configHome}/gnupg";
       PAGER = "${pkgs.less}/bin/less";
-      # SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
     };
 
     packages = with pkgs; [
@@ -55,16 +53,6 @@ rec {
     ];
 
     file.".vim".source = vimrc;
-
-    file.".gnupg/gpg-agent.conf".text = ''
-      enable-ssh-support
-
-      default-cache-ttl 600
-      max-cache-ttl 7200
-
-      default-cache-ttl-ssh 600
-      max-cache-ttl-ssh 7200
-    '';
   };
 
   programs = {
@@ -143,22 +131,16 @@ rec {
       };
 
       shellAliases = {
-        gpgreset = "gpg-connect-agent killagent /bye; gpg-connect-agent updatestartuptty /bye; gpg-connect-agent /bye";
         restartaudio = "sudo killall coreaudiod";
         tf = "terraform";
       };
 
       profileExtra = ''
         export GPG_TTY=$(tty)
-
-        if ! pgrep -x "gpg-agent" > /dev/null; then
-            ${pkgs.gnupg}/bin/gpgconf --launch gpg-agent
-        fi
       '';
 
       initExtra = ''
         export KEYTIMEOUT=1
-        export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket)
 
         vi-search-fix() {
           zle vi-cmd-mode
