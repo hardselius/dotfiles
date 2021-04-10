@@ -9,10 +9,8 @@ rec {
 
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
-      EMAIL = "${programs.git.userEmail}";
-      # GNUPGHOME = "${xdg.configHome}/gnupg";
+      EMAIL = "${config.programs.git.userEmail}";
       PAGER = "${pkgs.less}/bin/less";
-      # SSH_AUTH_SOCK = "${xdg.configHome}/gnupg/S.gpg-agent.ssh";
     };
 
     packages = with pkgs; [
@@ -55,16 +53,6 @@ rec {
     ];
 
     file.".vim".source = vimrc;
-
-    file.".gnupg/gpg-agent.conf".text = ''
-      enable-ssh-support
-
-      default-cache-ttl 600
-      max-cache-ttl 7200
-
-      default-cache-ttl-ssh 600
-      max-cache-ttl-ssh 7200
-    '';
   };
 
   programs = {
@@ -143,22 +131,16 @@ rec {
       };
 
       shellAliases = {
-        gpgreset = "gpg-connect-agent killagent /bye; gpg-connect-agent updatestartuptty /bye; gpg-connect-agent /bye";
         restartaudio = "sudo killall coreaudiod";
         tf = "terraform";
       };
 
       profileExtra = ''
         export GPG_TTY=$(tty)
-
-        if ! pgrep -x "gpg-agent" > /dev/null; then
-            ${pkgs.gnupg}/bin/gpgconf --launch gpg-agent
-        fi
       '';
 
       initExtra = ''
         export KEYTIMEOUT=1
-        export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket)
 
         vi-search-fix() {
           zle vi-cmd-mode
@@ -204,13 +186,6 @@ rec {
     git = {
       enable = true;
 
-      userName = if localconfig.userName != null then localconfig.userName else localconfig.user;
-      userEmail = localconfig.userEmail;
-      signing = if !(localconfig ? signingKey) || localconfig.signingKey == null then null else {
-        key = localconfig.signingKey;
-        signByDefault = true;
-      };
-
       aliases = {
         authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
           + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
@@ -249,7 +224,6 @@ rec {
         diff.submodule = "log";
         diff.tool = "${pkgs.vim}/bin/vimdiff";
         difftool.prompt = false;
-        github.user = "hardselius";
         http.sslCAinfo = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
         http.sslverify = true;
         hub.protocol = "${pkgs.openssh}/bin/ssh";
@@ -312,7 +286,6 @@ rec {
       serverAliveInterval = 60;
 
       hashKnownHosts = true;
-      userKnownHostsFile = "${xdg.configHome}/ssh/known_hosts";
 
       extraConfig = ''
         Host remarkable
