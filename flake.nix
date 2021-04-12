@@ -15,13 +15,6 @@
     };
 
     flake-utils.url = "github:numtide/flake-utils";
-
-    vimrc = {
-      url = "https://github.com/hardselius/large-vimrc.git";
-      type = "git";
-      flake = false;
-      submodules = true;
-    };
   };
 
   outputs = inputs @ { self, nixpkgs, darwin, home-manager, ... }:
@@ -42,7 +35,6 @@
             userConfig
             ./home
           ];
-          _module.args.vimrc = inputs.vimrc;
         };
 
       mkDarwinModules =

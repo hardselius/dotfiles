@@ -1,4 +1,4 @@
-{ config, pkgs, lib, localconfig, vimrc, ... }:
+{ config, pkgs, lib, ... }:
 let
   tmp_directory = "/tmp";
   home_directory = "${config.home.homeDirectory}";
@@ -51,8 +51,6 @@ rec {
     ] ++ lib.optionals stdenv.isDarwin [
       darwin-zsh-completions
     ];
-
-    file.".vim".source = vimrc;
   };
 
   programs = {
