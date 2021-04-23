@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  gitTemplateDir = "git/template";
+in
 {
   programs.git = {
     enable = true;
@@ -32,7 +35,6 @@
         logAllRefUpdates = true;
         precomposeunicode = true;
         whitespace = "trailing-space,space-before-tab";
-        hooksPath = "${config.xdg.configHome}/git/hooks";
       };
 
       branch.autosetupmerge = true;
@@ -92,7 +94,8 @@
     ];
   };
 
-  xdg.configFile."git/hooks" = {
+  programs.git.extraConfig.init.templateDir = "${config.xdg.configHome}/${gitTemplateDir}";
+  xdg.configFile."${gitTemplateDir}/hooks" = {
     recursive = true;
     source = ./git/hooks;
   };
