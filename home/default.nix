@@ -37,7 +37,7 @@ rec {
       less
       nodePackages.node2nix
       nodePackages.vim-language-server
-      pass
+      (pass.withExtensions (exts: [ exts.pass-otp ]))
       plantuml
       pywal
       renameutils
