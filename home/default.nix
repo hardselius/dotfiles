@@ -5,6 +5,7 @@ let
 in
 rec {
   imports = [
+    ./alacritty.nix
     ./git.nix
     ./kitty.nix
     ./newsboat.nix
