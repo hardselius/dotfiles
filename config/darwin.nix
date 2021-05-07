@@ -7,6 +7,7 @@
 
   environment = {
     systemPackages = with pkgs; [
+      alacritty
       kitty
       terminal-notifier
     ];
