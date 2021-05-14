@@ -24,6 +24,10 @@
 
   system = {
     defaults = {
+      LaunchServices = {
+        LSQuarantine = false;
+      };
+
       NSGlobalDomain = {
         AppleKeyboardUIMode = 3;
         ApplePressAndHoldEnabled = false;
@@ -42,7 +46,7 @@
       dock = {
         autohide = true;
         mru-spaces = false;
-        orientation = "left";
+        orientation = "bottom";
         showhidden = true;
       };
 
