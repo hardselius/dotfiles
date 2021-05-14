@@ -3,6 +3,14 @@
   programs.alacritty = {
     enable = true;
     settings = {
+
+      window = {
+        padding = {
+          x = 6;
+          y = 6;
+        };
+      };
+
       font = {
         size = 14;
         normal = {
