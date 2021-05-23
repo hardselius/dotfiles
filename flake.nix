@@ -19,162 +19,170 @@
   };
 
   outputs = inputs @ { self, nixpkgs, darwin, home-manager, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
+    let
+      systems = [
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
 
-          nixpkgsConfig = with inputs; {
-            config = {
-              allowUnfree = true;
-            };
-            overlays = self.overlays ++ [
-              (
-                final: prev:
-                  let
-                    system = prev.stdenv.system;
-                    nixpkgs-stable = if system == "x86_64-darwin" then nixpkgs-stable-darwin else nixos-stable;
-                  in
-                  {
-                    master = nixpkgs-master.legacyPackages.${system};
-                    stable = nixpkgs-stable.legacyPackages.${system};
+      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
-                    # Temporaray overides for packages we use that are currently broken on `unstable`
-                    # thefuck = final.stable.thefuck;
-                  }
-              )
-            ];
-          };
+      nixpkgsConfig = with inputs; {
+        config = {
+          allowUnfree = true;
+        };
+        overlays = self.overlays ++ [
+          (
+            final: prev:
+              let
+                system = prev.stdenv.system;
+                nixpkgs-stable = if system == "x86_64-darwin" then nixpkgs-stable-darwin else nixos-stable;
+              in
+              {
+                master = nixpkgs-master.legacyPackages.${system};
+                stable = nixpkgs-stable.legacyPackages.${system};
 
-          homeManagerConfig =
-            { user
-            , userConfig ? ./home + "/user-${user}.nix"
-            , ...
-            }: with self.homeManagerModules; {
-              imports = [
-                userConfig
-                ./home
-              ];
-            };
-
-          mkDarwinModules =
-            args @
-            { user
-            , host
-            , hostConfig ? ./config + "/host-${host}.nix"
-            , ...
-            }: [
-              home-manager.darwinModules.home-manager
-              ./config/darwin.nix
-              hostConfig
-              rec {
-                nix.nixPath = {
-                  nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
-                };
-                nixpkgs = nixpkgsConfig;
-                users.users.${user}.home = "/Users/${user}";
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.${user} = homeManagerConfig args;
+                # Temporaray overides for packages we use that are currently broken on `unstable`
+                # thefuck = final.stable.thefuck;
               }
-            ];
+          )
+        ];
+      };
 
-          mkNixosModules =
-            args @
-            { user
-            , host
-            , hostConfig ? ./config + "/host-${host}.nix"
-            , ...
-            }: [
-              home-manager.nixosModules.home-manager
-              ./config/shared.nix
-              hostConfig
-              ({ pkgs, ... }: rec {
-                nixpkgs = nixpkgsConfig;
-                users.users.${user} = {
-                  createHome = true;
-                  extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-                  group = "${user}";
-                  home = "/home/${user}";
-                  isNormalUser = true;
-                  shell = pkgs.zsh;
-                };
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.${user} = homeManagerConfig args;
-              })
-            ];
+      homeManagerConfig =
+        { user
+        , userConfig ? ./home + "/user-${user}.nix"
+        , ...
+        }: with self.homeManagerModules; {
+          imports = [
+            userConfig
+            ./home
+          ];
+        };
 
-        in
-        {
-          darwinConfigurations = {
-
-            # Minimal configuration to bootstrap systems
-            bootstrap = darwin.lib.darwinSystem {
-              inputs = inputs;
-              modules = [
-                ./config/darwin-bootstrap.nix
-              ];
+      mkDarwinModules =
+        args @
+        { user
+        , host
+        , hostConfig ? ./config + "/host-${host}.nix"
+        , ...
+        }: [
+          home-manager.darwinModules.home-manager
+          ./config/darwin.nix
+          hostConfig
+          rec {
+            nix.nixPath = {
+              nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
             };
+            nixpkgs = nixpkgsConfig;
+            users.users.${user}.home = "/Users/${user}";
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user} = homeManagerConfig args;
+          }
+        ];
 
-            ghActions = darwin.lib.darwinSystem {
-              inputs = inputs;
-              modules = mkDarwinModules {
-                user = "runner";
-                host = "mac-gh";
-              };
+      mkNixosModules =
+        args @
+        { user
+        , host
+        , hostConfig ? ./config + "/host-${host}.nix"
+        , ...
+        }: [
+          home-manager.nixosModules.home-manager
+          ./config/shared.nix
+          hostConfig
+          ({ pkgs, ... }: rec {
+            nixpkgs = nixpkgsConfig;
+            users.users.${user} = {
+              createHome = true;
+              extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+              group = "${user}";
+              home = "/home/${user}";
+              isNormalUser = true;
+              shell = pkgs.zsh;
             };
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user} = homeManagerConfig args;
+          })
+        ];
 
-            macbook = darwin.lib.darwinSystem {
-              inputs = inputs;
-              modules = mkDarwinModules {
-                user = "martin";
-                host = "macbook";
-              };
-            };
+    in
+    {
+      darwinConfigurations = {
+
+        # Minimal configuration to bootstrap systems
+        bootstrap = darwin.lib.darwinSystem {
+          inputs = inputs;
+          modules = [
+            ./config/darwin-bootstrap.nix
+          ];
+        };
+
+        ghActions = darwin.lib.darwinSystem {
+          inputs = inputs;
+          modules = mkDarwinModules {
+            user = "runner";
+            host = "mac-gh";
           };
+        };
 
-          nixosConfigurations = {
-            vmware = nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
-              specialArgs = { inherit inputs; };
-              modules = mkNixosModules {
-                user = "martin";
-                host = "vmware";
-              };
-            };
+        macbook = darwin.lib.darwinSystem {
+          inputs = inputs;
+          modules = mkDarwinModules {
+            user = "martin";
+            host = "macbook";
           };
+        };
+      };
 
-          cloudVM = home-manager.lib.homeManagerConfiguration {
-            system = "x86_64-linux";
-            homeDirectory = "/home/martin";
-            username = "martin";
-            configuration = {
-              imports = [
-                (homeManagerConfig { user = "martin"; })
-              ];
-              nixpkgs = nixpkgsConfig;
-            };
+      nixosConfigurations = {
+        vmware = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = mkNixosModules {
+            user = "martin";
+            host = "vmware";
           };
+        };
+      };
 
-          darwinModules = { };
+      cloudVM = home-manager.lib.homeManagerConfiguration {
+        system = "x86_64-linux";
+        homeDirectory = "/home/martin";
+        username = "martin";
+        configuration = {
+          imports = [
+            (homeManagerConfig { user = "martin"; })
+          ];
+          nixpkgs = nixpkgsConfig;
+        };
+      };
 
-          homeManagerModules = { };
+      darwinModules = { };
 
-          overlays =
-            let path = ./overlays; in
-            with builtins;
-            map (n: import (path + ("/" + n))) (filter
-              (n:
-                match ".*\\.nix" n != null
-                || pathExists (path + ("/" + n + "/default.nix")))
-              (attrNames (readDir path)));
+      homeManagerModules = { };
 
-          # `nix develop`
-          devShell = pkgs.mkShell {
+      overlays =
+        let path = ./overlays; in
+        with builtins;
+        map (n: import (path + ("/" + n))) (filter
+          (n:
+            match ".*\\.nix" n != null
+            || pathExists (path + ("/" + n + "/default.nix")))
+          (attrNames (readDir path)));
+
+      # `nix develop`
+      devShell = forAllSystems
+        (system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          pkgs.mkShell {
             nativeBuildInputs = with pkgs; [
               rnix-lsp
               nixpkgs-fmt
             ];
-          };
-        }
-      );
+          }
+        );
+    };
 }
