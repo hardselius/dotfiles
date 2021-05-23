@@ -3,16 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-20.09";
 
-    darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    darwin.url = "github:LnL7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -23,7 +22,22 @@
         config = {
           allowUnfree = true;
         };
-        overlays = self.overlays;
+        overlays = self.overlays ++ [
+          (
+            final: prev:
+              let
+                system = prev.stdenv.system;
+                nixpkgs-stable = if system == "x86_64-darwin" then nixpkgs-stable-darwin else nixos-stable;
+              in
+              {
+                master = nixpkgs-master.legacyPackages.${system};
+                stable = nixpkgs-stable.legacyPackages.${system};
+
+                # Temporaray overides for packages we use that are currently broken on `unstable`
+                # thefuck = final.stable.thefuck;
+              }
+          )
+        ];
       };
 
       homeManagerConfig =
