@@ -2,8 +2,6 @@
 {
   home.packages = with pkgs; [
     pure-prompt
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin-zsh-completions
   ];
 
   programs.zsh = {
