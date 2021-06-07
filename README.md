@@ -22,17 +22,17 @@ $ export PATH=/usr/sbin:$PATH
 Now you can go ahead and run the installer
 
 ```sh
-$ sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume --daemon
+sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume --daemon
 ```
 
 This should take you throught the process in a nice and straight-forward way.
 
 Once the installation finishes, it should print something like
 
-```
 Try it! Open a new terminal, and type:
 
-  $ nix-shell -p nix-info --run "nix-info -m"
+```sh
+nix-shell -p nix-info --run "nix-info -m"
 ```
 
 It's possible that this won't work straight away, and you may get something like
@@ -55,7 +55,7 @@ dead symlink. This can be fixed by removing that file and creating a new
 symlink
 
 ```
-$ sudo ln -s /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
+sudo ln -s /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 ```
 
 #### Flakes
@@ -76,9 +76,9 @@ experimental-features = nix-command flakes
 Once that's done, we should be able to bootstrap the system with a minimal
 configuration.
 
-```
-$ nix build .#darwinConfigurations.bootstrap.system
-$ ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
+```sh
+nix build .#darwinConfigurations.bootstrap.system
+./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
 ```
 
 Open up a new terminal session and run
