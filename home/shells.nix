@@ -7,6 +7,13 @@
   programs.zsh = {
     enable = true;
 
+    enableCompletion = true;
+    completionInit = ''
+      autoload bashcompinit && bashcompinit
+      autoload -Uz compinit && compinit
+      compinit
+    '';
+
     cdpath = [
       "."
       "~"
