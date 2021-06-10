@@ -37,6 +37,7 @@ rec {
       jq
       less
       nodePackages.node2nix
+      nodePackages.prettier
       nodePackages.vim-language-server
       (pass.withExtensions (exts: [ exts.pass-otp ]))
       plantuml
@@ -54,6 +55,8 @@ rec {
       w3m
       weechat
       wget
+
+      yubikey-manager
     ];
   };
 
