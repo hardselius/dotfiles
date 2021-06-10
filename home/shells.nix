@@ -32,7 +32,7 @@
     sessionVariables = {
       CLICOLOR = true;
       GPG_TTY = "$TTY";
-      PATH = "$PATH:$HOME/.local/bin";
+      PATH = "$PATH:$HOME/.local/bin:$HOME/.tfenv/bin";
     };
 
     shellAliases = {
