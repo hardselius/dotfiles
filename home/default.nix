@@ -61,6 +61,11 @@ rec {
 
     home-manager = { enable = true; };
 
+    awscli = {
+      enable = true;
+      enableAWSVault = true;
+    };
+
     browserpass = {
       enable = true;
       browsers = [ "firefox" ];

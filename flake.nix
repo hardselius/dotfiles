@@ -57,6 +57,7 @@
           imports = [
             userConfig
             ./home
+            programs.awscli
           ];
         };
 
@@ -160,7 +161,9 @@
 
       darwinModules = { };
 
-      homeManagerModules = { };
+      homeManagerModules = {
+        programs.awscli = import ./modules/home/programs/awscli.nix;
+      };
 
       overlays =
         let path = ./overlays; in
