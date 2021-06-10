@@ -38,6 +38,7 @@
     shellAliases = {
       restartaudio = "sudo killall coreaudiod";
       tf = "terraform";
+      lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
     };
 
     profileExtra = ''
