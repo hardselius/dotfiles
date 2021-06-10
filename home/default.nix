@@ -66,7 +66,12 @@ rec {
 
     awscli = {
       enable = true;
-      enableAWSVault = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      awsVault = {
+        enable = true;
+        prompt = "ykman";
+      };
     };
 
     browserpass = {
