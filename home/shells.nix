@@ -29,12 +29,6 @@
       share = true;
     };
 
-    sessionVariables = {
-      CLICOLOR = true;
-      GPG_TTY = "$TTY";
-      PATH = "$PATH:$HOME/.local/bin:$HOME/.tfenv/bin";
-    };
-
     shellAliases = {
       restartaudio = "sudo killall coreaudiod";
       tf = "terraform";
