@@ -71,6 +71,8 @@ rec {
       awsVault = {
         enable = true;
         prompt = "ykman";
+        backend = "pass";
+        passPrefix = "aws_vault/";
       };
     };
 
