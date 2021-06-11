@@ -4,6 +4,8 @@ with lib;
 
 let
   cfg = config.programs.awscli;
+
+  mkIfString = x: y: if x then y else "";
 in
 {
   options.programs.awscli = {
@@ -58,12 +60,20 @@ in
         AWS_VAULT_PROMPT = cfg.awsVault.prompt;
       });
 
-    programs.bash.initExtra = mkIf cfg.enableBashIntegration ''
-      complete -C '${pkgs.awscli}/bin/aws_completer' aws
-    '';
+    programs.bash.initExtra = mkIf cfg.enableBashIntegration (
+      ''
+        complete -C '${pkgs.awscli}/bin/aws_completer' aws
+      '' + mkIfString cfg.awsVault.enable ''
+        . ${pkgs.aws-vault}/share/bash-completion/completions/aws-vault.bash
+      ''
+    );
 
-    programs.zsh.initExtra = mkIf cfg.enableZshIntegration ''
-      complete -C '${pkgs.awscli}/bin/aws_completer' aws
-    '';
+    programs.zsh.initExtra = mkIf cfg.enableZshIntegration (
+      ''
+        complete -C '${pkgs.awscli}/bin/aws_completer' aws
+      '' + mkIfString cfg.awsVault.enable ''
+        ${pkgs.aws-vault}/share/zsh/site-functions/_aws_vault
+      ''
+    );
   };
 }
