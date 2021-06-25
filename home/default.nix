@@ -56,7 +56,6 @@ rec {
       vim
       vim-vint
       w3m
-      weechat
       wget
 
       yubikey-manager
