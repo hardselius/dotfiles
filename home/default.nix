@@ -25,11 +25,13 @@ rec {
     };
 
     packages = with pkgs; [
+      (pass.withExtensions (exts: [ exts.pass-otp ]))
       asciinema
       cacert
       cachix
       coreutils
       curl
+      exiftool
       fd
       findutils
       getopt
@@ -42,7 +44,6 @@ rec {
       nodePackages.node2nix
       nodePackages.prettier
       nodePackages.vim-language-server
-      (pass.withExtensions (exts: [ exts.pass-otp ]))
       plantuml
       pywal
       renameutils
@@ -57,7 +58,6 @@ rec {
       vim-vint
       w3m
       wget
-
       yubikey-manager
     ];
   };
