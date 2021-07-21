@@ -58,6 +58,7 @@ rec {
       vim-vint
       w3m
       wget
+      xkcdpass
       yubikey-manager
     ];
   };
