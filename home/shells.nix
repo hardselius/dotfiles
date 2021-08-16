@@ -33,6 +33,12 @@
       restartaudio = "sudo killall coreaudiod";
       tf = "terraform";
       lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
+
+      # Get public ip directly from a DNS server instead of from some hip
+      # whatsmyip HTTP service. https://unix.stackexchange.com/a/81699
+      wanip = "dig @resolver4.opendns.com myip.opendns.com +short";
+      wanip4 = "dig @resolver4.opendns.com myip.opendns.com +short -4";
+      wanip6 = "dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6";
     };
 
     profileExtra = ''
