@@ -4,11 +4,18 @@
     # to find applications installed by nix through spotlight.
     activationScripts.applications.text = pkgs.lib.mkForce (
       ''
-        rm -rf ~/Applications/Nix\ Apps
-        mkdir -p ~/Applications/Nix\ Apps
+        if [[ -L "$HOME/Applications" ]]; then
+          rm "$HOME/Applications"
+          mkdir -p "$HOME/Applications/Nix Apps"
+        fi
+
+        rm -rf "$HOME/Applications/Nix Apps"
+        mkdir -p "$HOME/Applications/Nix Apps"
+
         for app in $(find ${config.system.build.applications}/Applications -maxdepth 1 -type l); do
           src="$(/usr/bin/stat -f%Y "$app")"
-          cp -rL "$src" ~/Applications/Nix\ Apps
+          echo "copying $app"
+          cp -rL "$src" "$HOME/Applications/Nix Apps"
         done
       ''
     );
