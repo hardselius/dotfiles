@@ -49,7 +49,7 @@ jobs:
           . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
-          darwin-rebuild switch --flake .#ghActions
+          darwin-rebuild switch --flake .#githubActions
       - if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           git add --all

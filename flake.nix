@@ -119,7 +119,7 @@
           ];
         };
 
-        ghActions = darwin.lib.darwinSystem {
+        githubActions = darwin.lib.darwinSystem {
           inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
