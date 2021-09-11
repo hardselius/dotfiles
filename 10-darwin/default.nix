@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./darwin-bootstrap.nix
+    ./bootstrap.nix
   ];
 
   environment = {
@@ -30,6 +30,7 @@
       NSGlobalDomain = {
         AppleKeyboardUIMode = 3;
         ApplePressAndHoldEnabled = false;
+        AppleShowAllExtensions = true;
         InitialKeyRepeat = 20;
         KeyRepeat = 1;
         NSAutomaticCapitalizationEnabled = false;

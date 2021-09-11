@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./shared.nix
+    ../00-config/shared.nix
   ];
 
   nix = {

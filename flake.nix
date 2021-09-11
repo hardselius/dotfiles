@@ -51,12 +51,12 @@
 
       homeManagerConfig =
         { user
-        , userConfig ? ./home + "/user-${user}.nix"
+        , userConfig ? ./20-home + "/user-${user}.nix"
         , ...
         }: with self.homeManagerModules; {
           imports = [
             userConfig
-            ./home
+            ./20-home
             programs.awscli
           ];
         };
@@ -65,11 +65,11 @@
         args @
         { user
         , host
-        , hostConfig ? ./config + "/host-${host}.nix"
+        , hostConfig ? ./10-darwin/hosts + "/${host}.nix"
         , ...
         }: [
           home-manager.darwinModules.home-manager
-          ./config/darwin.nix
+          ./10-darwin
           hostConfig
           rec {
             nix.nixPath = {
@@ -86,11 +86,11 @@
         args @
         { user
         , host
-        , hostConfig ? ./config + "/host-${host}.nix"
+        , hostConfig ? ./10-nixos/hosts + "/${host}.nix"
         , ...
         }: [
           home-manager.nixosModules.home-manager
-          ./config/shared.nix
+          ./00-config/shared.nix
           hostConfig
           ({ pkgs, ... }: rec {
             nixpkgs = nixpkgsConfig;
@@ -115,7 +115,7 @@
         bootstrap = darwin.lib.darwinSystem {
           inputs = inputs;
           modules = [
-            ./config/darwin-bootstrap.nix
+            ./10-darwin/bootstrap.nix
           ];
         };
 
@@ -123,7 +123,7 @@
           inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
-            host = "mac-gh";
+            host = "github-actions";
           };
         };
 
@@ -162,11 +162,11 @@
       darwinModules = { };
 
       homeManagerModules = {
-        programs.awscli = import ./modules/home/programs/awscli.nix;
+        programs.awscli = import ./30-modules/home/programs/awscli.nix;
       };
 
       overlays =
-        let path = ./overlays; in
+        let path = ./40-overlays; in
         with builtins;
         map (n: import (path + ("/" + n))) (filter
           (n:
