@@ -41,18 +41,13 @@ rec {
       htop
       jq
       less
-      nodePackages.node2nix
-      nodePackages.prettier
-      nodePackages.vim-language-server
       plantuml
       pywal
       renameutils
       ripgrep
       rsync
-      shellcheck
-      shfmt
+      screen
       tree
-      universal-ctags
       urlscan
       vim
       vim-vint
@@ -100,10 +95,6 @@ rec {
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-    };
-
-    go = {
-      enable = true;
     };
 
     ssh = {
