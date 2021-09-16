@@ -46,7 +46,6 @@ rec {
       renameutils
       ripgrep
       rsync
-      screen
       tree
       urlscan
       vim
@@ -96,6 +95,8 @@ rec {
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
+
+    screen.enable = true;
 
     ssh = {
       enable = true;

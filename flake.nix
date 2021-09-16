@@ -58,6 +58,7 @@
             userConfig
             ./20-home
             programs.awscli
+            programs.screen
           ];
         };
 
@@ -163,6 +164,7 @@
 
       homeManagerModules = {
         programs.awscli = import ./30-modules/home/programs/awscli.nix;
+        programs.screen = import ./30-modules/home/programs/screen.nix;
       };
 
       overlays =
