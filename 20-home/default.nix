@@ -6,6 +6,7 @@ in
 rec {
   imports = [
     ./alacritty.nix
+    ./code.nix
     ./git.nix
     ./newsboat.nix
     ./shells.nix

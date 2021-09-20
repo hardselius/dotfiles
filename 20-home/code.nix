@@ -16,9 +16,9 @@
       # tags
       universal-ctags
     ];
+  };
 
-    programs.go = {
-      enable = true;
-    };
+  programs.go = {
+    enable = true;
   };
 }
