@@ -114,6 +114,7 @@
 
         # Minimal configuration to bootstrap systems
         bootstrap = darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
           inputs = inputs;
           modules = [
             ./10-darwin/bootstrap.nix
@@ -121,6 +122,7 @@
         };
 
         githubActions = darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
           inputs = inputs;
           modules = mkDarwinModules {
             user = "runner";
@@ -129,6 +131,7 @@
         };
 
         macbook = darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
           inputs = inputs;
           modules = mkDarwinModules {
             user = "martin";
