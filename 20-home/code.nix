@@ -8,6 +8,7 @@
       nodePackages.vim-language-server
       shellcheck
       shfmt
+      steampipe
       universal-ctags
     ];
   };
