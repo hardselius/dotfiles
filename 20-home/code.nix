@@ -6,7 +6,7 @@
       nodePackages.node2nix
       nodePackages.prettier
       nodePackages.vim-language-server
-      pgformatter
+      python39Packages.sqlparse
       shellcheck
       shfmt
       steampipe
