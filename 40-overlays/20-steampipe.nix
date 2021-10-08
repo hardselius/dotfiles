@@ -1,13 +1,13 @@
 self: super: {
   steampipe = with super; buildGoModule rec {
     pname = "steampipe";
-    version = "0.8.4";
+    version = "0.8.5";
 
     src = fetchFromGitHub {
       owner = "turbot";
       repo = "steampipe";
       rev = "v${version}";
-      sha256 = "sha256-dnvCK/d2ojOFgMAsTCvn3nuje8maVUg+C1IjLeWZAGc=";
+      sha256 = "sha256-3vetSUJwCeaBzKj+635siskfcDPs/kkgCH954cg/REA=";
     };
 
     vendorSha256 = "sha256-TGDFNHWWbEy1cD7b2yPqAN7rRrLvL0ZX/R3BWGRWjjw=";
