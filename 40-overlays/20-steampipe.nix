@@ -26,7 +26,7 @@ self: super: {
     meta = with lib; {
       homepage = "https://steampipe.io/";
       description = "select * from cloud;";
-      license = licenses.asl20;
+      license = licenses.agpl3;
       maintainers = with maintainers; [ hardselius ];
     };
   };
