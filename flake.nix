@@ -2,20 +2,22 @@
   description = "Martin's dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-21.05-darwin";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-20.09";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-21.05";
 
     darwin.url = "github:LnL7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-21.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-    flake-compat.url = "github:edolstra/flake-compat";
-    flake-compat.flake = false;
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
   };
 
   outputs = inputs @ { self, nixpkgs, darwin, home-manager, flake-utils, ... }:
@@ -33,18 +35,10 @@
         };
         overlays = self.overlays ++ [
           (
-            final: prev:
-              let
-                system = prev.stdenv.system;
-                nixpkgs-stable = if system == "x86_64-darwin" then nixpkgs-stable-darwin else nixos-stable;
-              in
-              {
-                master = nixpkgs-master.legacyPackages.${system};
-                stable = nixpkgs-stable.legacyPackages.${system};
-
-                # Temporaray overides for packages we use that are currently broken on `unstable`
-                # thefuck = final.stable.thefuck;
-              }
+            final: prev: {
+              master = import nixpkgs-master { inherit (prev) system; inherit config; };
+              unstable = import nixpkgs-unstable { inherit (prev) system; inherit config; };
+            }
           )
         ];
       };
@@ -73,9 +67,6 @@
           ./10-darwin
           hostConfig
           rec {
-            nix.nixPath = {
-              nixpkgs = "$HOME/.config/nixpkgs/nixpkgs.nix";
-            };
             nixpkgs = nixpkgsConfig;
             users.users.${user}.home = "/Users/${user}";
             home-manager.useGlobalPkgs = true;
