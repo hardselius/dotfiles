@@ -14,13 +14,19 @@ self: super: {
 
     doCheck = false;
 
+    nativeBuildInputs = [ installShellFiles ];
+
     ldflags = [
       "-s"
       "-w"
     ];
 
     postInstall = ''
-      ln -s $out/bin/steampipe $out/bin/go-task
+      INSTALL_DIR=$(mktemp -d)
+      installShellCompletion --cmd steampipe \
+        --bash <($out/bin/steampipe --install-dir $INSTALL_DIR completion bash) \
+        --fish <($out/bin/steampipe --install-dir $INSTALL_DIR completion fish) \
+        --zsh <($out/bin/steampipe --install-dir $INSTALL_DIR completion zsh)
     '';
 
     meta = with lib; {
