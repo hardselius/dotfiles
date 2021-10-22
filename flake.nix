@@ -20,7 +20,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, darwin, home-manager, flake-utils, ... }:
+  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
     let
       systems = [
         "x86_64-darwin"
@@ -29,7 +29,7 @@
 
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
-      nixpkgsConfig = with inputs; {
+      nixpkgsConfig = with inputs; rec {
         config = {
           allowUnfree = true;
         };
