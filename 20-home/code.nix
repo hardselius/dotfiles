@@ -9,8 +9,9 @@
       python39Packages.sqlparse
       shellcheck
       shfmt
-      steampipe
       universal-ctags
+
+      unstable.pkgs.steampipe
     ];
   };
 
