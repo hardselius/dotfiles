@@ -7,7 +7,6 @@ rec {
   imports = [
     ./code.nix
     ./git.nix
-    ./newsboat.nix
     ./shells.nix
   ];
 
