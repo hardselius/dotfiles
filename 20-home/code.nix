@@ -11,7 +11,8 @@
       shfmt
       universal-ctags
 
-      unstable.pkgs.steampipe
+      steampipe
+      # unstable.pkgs.steampipe
     ];
   };
 
