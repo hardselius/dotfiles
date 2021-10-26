@@ -50,7 +50,7 @@ rec {
       vim-vint
       w3m
       wget
-      xkcdpass
+      unstable.pkgs.xkcdpass
       yubikey-manager
     ];
   };
