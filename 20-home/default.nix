@@ -60,6 +60,7 @@ rec {
     home-manager = { enable = true; };
 
     awscli = {
+      package = pkgs.unstable.pkgs.awscli2;
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
