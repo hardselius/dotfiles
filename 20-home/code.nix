@@ -11,6 +11,7 @@
       shfmt
       universal-ctags
 
+      atlantis
       steampipe
       # unstable.pkgs.steampipe
     ];

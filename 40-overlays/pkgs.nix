@@ -106,4 +106,29 @@ final: prev: {
       maintainers = with maintainers; [ hardselius ];
     };
   };
+
+  atlantis = with prev; buildGoModule rec {
+    pname = "atlantis";
+    version = "0.17.4";
+
+    src = fetchFromGitHub {
+      owner = "runatlantis";
+      repo = "atlantis";
+      rev = "v${version}";
+      sha256 = "sha256-QXFUvYUslhwQOiDo9SIMrTjI1sKUv5+6oiVfQbqewNg=";
+    };
+
+    vendorSha256 = "sha256-jZ5QHxUTDVdhCNbCk6Be+zuuXHodYOEcB3braDgH9uM=";
+
+    doCheck = false;
+
+    subPackages = [ "." ];
+
+    meta = with lib; {
+      homepage = "https://github.com/runatlantis/atlantis";
+      description = "Terraform Pull Request Automation";
+      license = licenses.asl20;
+      maintainers = with maintainers; [ jpotier ];
+    };
+  };
 }
