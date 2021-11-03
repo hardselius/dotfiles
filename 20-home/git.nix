@@ -1,13 +1,16 @@
 { config, pkgs, ... }:
 let
   gitTemplateDir = "git/template";
+
+  git = pkgs.unstable.pkgs.git;
 in
 {
   programs.git = {
     enable = true;
+    package = git;
 
     aliases = {
-      authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
+      authors = "!${git}/bin/git log --pretty=format:%aN"
         + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
         + " | ${pkgs.coreutils}/bin/sort -rn";
       b = "branch --color -v";
@@ -17,8 +20,8 @@ in
       co = "checkout";
       ctags = "!.git/hooks/ctags";
       root = "!pwd";
-      spull = "!${pkgs.git}/bin/git stash" + " && ${pkgs.git}/bin/git pull"
-        + " && ${pkgs.git}/bin/git stash pop";
+      spull = "!${git}/bin/git stash" + " && ${git}/bin/git pull"
+        + " && ${git}/bin/git stash pop";
       su = "submodule update --init --recursive";
       undo = "reset --soft HEAD^";
       w = "status -sb";
