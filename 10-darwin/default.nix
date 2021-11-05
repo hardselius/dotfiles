@@ -8,6 +8,7 @@
   environment = {
     systemPackages = with pkgs; [
       terminal-notifier
+      unstable.pkgs.alacritty
     ];
   };
 
