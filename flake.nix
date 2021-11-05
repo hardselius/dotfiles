@@ -45,7 +45,7 @@
 
       homeManagerConfig =
         { user
-        , userConfig ? ./20-home + "/user-${user}.nix"
+        , userConfig ? ./20-home + "/users/${user}.nix"
         , ...
         }: with self.homeManagerModules; {
           imports = [
