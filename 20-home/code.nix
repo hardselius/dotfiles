@@ -1,19 +1,18 @@
 { pkgs, ... }:
 {
   home = {
-    packages = with pkgs; [
+    packages = with pkgs.unstable.pkgs; [
+      atlantis
       gh
+      nixpkgs-fmt
       nodePackages.node2nix
       nodePackages.prettier
       nodePackages.vim-language-server
       python39Packages.sqlparse
       shellcheck
       shfmt
-      universal-ctags
-
-      atlantis
       steampipe
-      # unstable.pkgs.steampipe
+      universal-ctags
     ];
   };
 
