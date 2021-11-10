@@ -21,6 +21,13 @@ in
         bold_italic.family = "${fontFamily}";
         size = 13.0;
       };
+      key_bindings = [
+        {
+          key = "Q";
+          mods = "Control";
+          chars = "\\x11";
+        }
+      ];
     };
   };
 }
