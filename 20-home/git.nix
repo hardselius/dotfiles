@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   gitTemplateDir = "git/template";
+  binDir = ".local/bin";
 
   git = pkgs.unstable.pkgs.git;
 in
@@ -101,5 +102,12 @@ in
   xdg.configFile."${gitTemplateDir}/hooks" = {
     recursive = true;
     source = ./git/hooks;
+  };
+
+  home.file = {
+    "${binDir}/git-jump" = { 
+      executable = true; 
+      source = ./git/addons/git-jump;
+    };
   };
 }
