@@ -15,10 +15,8 @@ in
         + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
         + " | ${pkgs.coreutils}/bin/sort -rn";
       b = "branch --color -v";
-      ca = "commit --amend";
       changes = "diff --name-status -r";
       clone = "clone --recursive";
-      co = "checkout";
       ctags = "!.git/hooks/ctags";
       root = "!pwd";
       spull = "!${git}/bin/git stash" + " && ${git}/bin/git pull"
@@ -27,9 +25,8 @@ in
       undo = "reset --soft HEAD^";
       w = "status -sb";
       wdiff = "diff --color-words";
-      l = "log --graph --pretty=format:'%Cred%h%Creset"
-        + " —%Cblue%d%Creset %s %Cgreen(%cr)%Creset'"
-        + " --abbrev-commit --date=relative --show-notes=*";
+      l = "log --graph --abbrev-commit --date=relative --show-notes=*"
+        + " --pretty=format:'%Cred%h%Creset —%Cblue%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)<%an>%Creset'";
     };
 
     extraConfig = {
