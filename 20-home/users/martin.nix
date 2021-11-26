@@ -21,11 +21,6 @@ in
       };
       extraConfig = {
         github.user = "hardselius";
-        url = {
-          "git@github.com:" = {
-            insteadOf = "https://github.com/";
-          };
-        };
       };
     };
   };
@@ -54,5 +49,3 @@ in
     };
   };
 }
-
-
