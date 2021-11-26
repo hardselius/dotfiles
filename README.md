@@ -6,9 +6,19 @@
 
 This repo has evolved to mainly contain my Nix config.
 
-## Install `nix`
+## Bootstrapping a new machine
 
-### macOS
+Clone this repo. It might be a good idea to clone using HTTPS if you don't have
+your SSH keys configured. I store my SSH key on a Yubikey for portability but
+that setup relies on some of the stuff that's configured in here. HTTPS is a
+safe bet. You can always fix your local git config later on to do something
+like
+
+```
+$ git config url.git@github.com:.insteadof https://github.com/
+```
+
+### Install `nix` on macOS
 
 In order to perform a multi-user install of `nix` on macOS, follow these steps.
 
