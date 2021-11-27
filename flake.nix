@@ -9,9 +9,9 @@
     nixos-stable.url = "github:nixos/nixpkgs/nixos-21.05";
 
     darwin.url = "github:LnL7/nix-darwin/master";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager/release-21.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
