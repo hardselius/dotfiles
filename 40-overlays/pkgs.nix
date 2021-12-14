@@ -131,4 +131,25 @@ final: prev: {
       maintainers = with maintainers; [ jpotier ];
     };
   };
+
+  jsonnet-language-server = with prev; buildGoModule rec {
+    pname = "jsonnet-language-server";
+    version = "0.6.3";
+
+    src = fetchFromGitHub {
+      owner = "grafana";
+      repo = "jsonnet-language-server";
+      rev = "v${version}";
+      sha256 = "sha256-nJlw3RiZWdLmJdrfKlty0Fnn+g+UwkCNNBxVQMp8erI=";
+    };
+
+    vendorSha256 = "sha256-mGocX5z3wf9KRhE9leLNCzn8sVdjKJo6FzgP1OwQB3M=";
+
+    meta = with lib; {
+      homepage = "https://github.com/grafana/jsonnet-language-server";
+      description = "A Language Server Protocol (LSP) server for Jsonnet (https://jsonnet.org)";
+      license = licenses.agpl3Only;
+      maintainers = with maintainers; [ hardselius ];
+    };
+  };
 }

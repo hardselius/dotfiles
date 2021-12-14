@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home = {
-    packages = with pkgs.unstable.pkgs; [
+    packages = with pkgs; [
       atlantis
       gh
       nixpkgs-fmt
@@ -13,6 +13,8 @@
       shfmt
       pkgs.steampipe
       universal-ctags
+
+      jsonnet-language-server
     ];
   };
 
