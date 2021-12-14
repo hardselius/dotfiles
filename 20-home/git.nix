@@ -2,16 +2,14 @@
 let
   gitTemplateDir = "git/template";
   binDir = ".local/bin";
-
-  git = pkgs.unstable.pkgs.git;
 in
 {
   programs.git = {
     enable = true;
-    package = git;
+    package = pkgs.git;
 
     aliases = {
-      authors = "!${git}/bin/git log --pretty=format:%aN"
+      authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
         + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
         + " | ${pkgs.coreutils}/bin/sort -rn";
       b = "branch --color -v";
@@ -19,8 +17,8 @@ in
       clone = "clone --recursive";
       ctags = "!.git/hooks/ctags";
       root = "!pwd";
-      spull = "!${git}/bin/git stash" + " && ${git}/bin/git pull"
-        + " && ${git}/bin/git stash pop";
+      spull = "!${pkgs.git}/bin/git stash" + " && ${pkgs.git}/bin/git pull"
+        + " && ${pkgs.git}/bin/git stash pop";
       su = "submodule update --init --recursive";
       undo = "reset --soft HEAD^";
       w = "status -sb";

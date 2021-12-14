@@ -2,15 +2,14 @@
   description = "Martin's dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-21.05-darwin";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-21.05";
+    nixpkgs-master.url = github:nixos/nixpkgs/master;
+    nixpkgs-stable.url = github:nixos/nixpkgs/nixpkgs-21.11-darwin;
+    nixpkgs-unstable.url = github:nixos/nixpkgs/nixpkgs-unstable;
+    nixos-stable.url = github:nixos/nixpkgs/nixos-21.11;
 
-    darwin.url = "github:LnL7/nix-darwin/master";
+    darwin.url = github:LnL7/nix-darwin;
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-21.05";
+    home-manager.url = github:nix-community/home-manager;
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
@@ -22,41 +21,37 @@
 
   outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
     let
+      inherit (darwin.lib) darwinSystem;
+      inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
+
       systems = [
         "x86_64-darwin"
         "x86_64-linux"
       ];
-
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
       nixpkgsConfig = with inputs; rec {
         config = {
           allowUnfree = true;
         };
-        overlays = self.overlays ++ [
-          (
-            final: prev: {
-              master = import nixpkgs-master { inherit (prev) system; inherit config; };
-              unstable = import nixpkgs-unstable { inherit (prev) system; inherit config; };
-            }
-          )
-        ];
+        overlays = self.overlays;
       };
 
-      homeManagerConfig =
+      # Home Manager configuration shared between all different configurations.
+      homeManagerStateVersion = "22.05";
+      homeManagerCommonConfig =
         { user
         , userConfig ? ./20-home + "/users/${user}.nix"
         , ...
-        }: with self.homeManagerModules; {
-          imports = [
+        }: {
+          imports = attrValues self.homeManagerModules ++ [
             userConfig
             ./20-home
-            programs.awscli
-            programs.screen
+            { home.stateVersion = homeManagerStateVersion; }
           ];
         };
 
-      mkDarwinModules =
+      nixDarwinCommonModules =
         args @
         { user
         , host
@@ -70,33 +65,8 @@
             nixpkgs = nixpkgsConfig;
             users.users.${user}.home = "/Users/${user}";
             home-manager.useGlobalPkgs = true;
-            home-manager.users.${user} = homeManagerConfig args;
+            home-manager.users.${user} = homeManagerCommonConfig args;
           }
-        ];
-
-      mkNixosModules =
-        args @
-        { user
-        , host
-        , hostConfig ? ./10-nixos/hosts + "/${host}.nix"
-        , ...
-        }: [
-          home-manager.nixosModules.home-manager
-          ./00-config/shared.nix
-          hostConfig
-          ({ pkgs, ... }: rec {
-            nixpkgs = nixpkgsConfig;
-            users.users.${user} = {
-              createHome = true;
-              extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-              group = "${user}";
-              home = "/home/${user}";
-              isNormalUser = true;
-              shell = pkgs.zsh;
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.${user} = homeManagerConfig args;
-          })
         ];
 
     in
@@ -104,40 +74,29 @@
       darwinConfigurations = {
 
         # Minimal configuration to bootstrap systems
-        bootstrap = darwin.lib.darwinSystem {
+        bootstrap = makeOverridable darwinSystem {
           system = "x86_64-darwin";
-          inputs = inputs;
           modules = [
             ./10-darwin/bootstrap.nix
+            { nixpkgs = nixpkgsConfig; }
           ];
         };
 
-        githubActions = darwin.lib.darwinSystem {
+        # My macOS configuration
+        macbook = darwinSystem {
           system = "x86_64-darwin";
-          inputs = inputs;
-          modules = mkDarwinModules {
-            user = "runner";
-            host = "github-actions";
-          };
-        };
-
-        macbook = darwin.lib.darwinSystem {
-          system = "x86_64-darwin";
-          inputs = inputs;
-          modules = mkDarwinModules {
+          modules = nixDarwinCommonModules {
             user = "martin";
             host = "macbook";
           };
         };
-      };
 
-      nixosConfigurations = {
-        vmware = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = mkNixosModules {
-            user = "martin";
-            host = "vmware";
+        # Configuration used for CI with GitHub actions
+        githubActions = darwinSystem {
+          system = "x86_64-darwin";
+          modules = nixDarwinCommonModules {
+            user = "runner";
+            host = "github-actions";
           };
         };
       };
@@ -148,7 +107,7 @@
         username = "martin";
         configuration = {
           imports = [
-            (homeManagerConfig { user = "martin"; })
+            (homeManagerCommonConfig { user = "martin"; })
           ];
           nixpkgs = nixpkgsConfig;
         };
@@ -157,8 +116,7 @@
       darwinModules = { };
 
       homeManagerModules = {
-        programs.awscli = import ./30-modules/home/programs/awscli.nix;
-        programs.screen = import ./30-modules/home/programs/screen.nix;
+        awscli = import ./30-modules/home/programs/awscli.nix;
       };
 
       overlays =

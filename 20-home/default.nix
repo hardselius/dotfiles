@@ -12,8 +12,6 @@ rec {
   ];
 
   home = {
-    stateVersion = "20.09";
-
     sessionVariables = {
       EDITOR = "${pkgs.vim}/bin/vim";
       EMAIL = "${config.programs.git.userEmail}";
@@ -51,7 +49,7 @@ rec {
       vim-vint
       w3m
       wget
-      unstable.pkgs.xkcdpass
+      xkcdpass
       yubikey-manager
     ];
   };
@@ -61,7 +59,7 @@ rec {
     home-manager = { enable = true; };
 
     awscli = {
-      package = pkgs.unstable.pkgs.awscli2;
+      package = pkgs.awscli2;
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
@@ -82,7 +80,6 @@ rec {
       enable = true;
       nix-direnv = {
         enable = true;
-        enableFlakes = true;
       };
     };
 
@@ -96,8 +93,6 @@ rec {
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
-
-    screen.enable = true;
 
     ssh = {
       enable = true;
