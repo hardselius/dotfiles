@@ -56,6 +56,4 @@
       displayManager.defaultSession = "none+i3";
     };
   };
-
-  system.stateVersion = "20.09"; # Did you read the comment?
 }
