@@ -103,6 +103,7 @@
 
       cloudVM = home-manager.lib.homeManagerConfiguration {
         system = "x86_64-linux";
+        stateVersion = homeManagerStateVersion;
         homeDirectory = "/home/martin";
         username = "martin";
         configuration = {
