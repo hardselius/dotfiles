@@ -5,7 +5,6 @@ let
 in
 rec {
   imports = [
-    ./code.nix
     ./git.nix
     ./shells.nix
     ./terminal.nix
@@ -22,8 +21,8 @@ rec {
     };
 
     packages = with pkgs; [
-      (pass.withExtensions (exts: [ exts.pass-otp ]))
       asciinema
+      atlantis
       cacert
       cachix
       coreutils
@@ -32,18 +31,31 @@ rec {
       fd
       findutils
       getopt
+      gh
       gnumake
       gnupg
       gpgme
       htop
       jq
+      jsonnet-language-server
       less
+      nixpkgs-fmt
+      nodePackages.node2nix
+      nodePackages.prettier
+      nodePackages.vim-language-server
+      pass
+      pkgs.steampipe
       plantuml
+      prs
+      python39Packages.sqlparse
       pywal
       renameutils
       ripgrep
       rsync
+      shellcheck
+      shfmt
       tree
+      universal-ctags
       urlscan
       vim
       vim-vint
@@ -93,6 +105,8 @@ rec {
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
+
+    go.enable = true;
 
     ssh = {
       enable = true;
