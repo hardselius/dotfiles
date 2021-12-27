@@ -40,6 +40,7 @@ rec {
       jsonnet-language-server
       less
       nixpkgs-fmt
+      nodePackages.bash-language-server
       nodePackages.node2nix
       nodePackages.prettier
       nodePackages.vim-language-server
