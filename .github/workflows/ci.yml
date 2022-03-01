@@ -18,36 +18,44 @@ on:
 
 jobs:
   build-darwin:
-    runs-on: macos-10.15
+    runs-on: macos-latest
     steps:
+
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+
       - uses: cachix/install-nix-action@v16
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
       - uses: cachix/cachix-action@v10
         with:
           name: hardselius
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
       - if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           nix flake update
+
       - run: |
           echo -e "run\tprivate/var/run" | sudo tee -a /etc/synthetic.conf >/dev/null
-          /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -B 2>/dev/null || true
+          /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t &>/dev/null || true
+
       - run: |
           nix-env --set-flag priority 1 cachix
+
       - run: |
           nix build .#darwinConfigurations.bootstrap.system
+
       - run: |
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
+
       - run: |
           . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
           darwin-rebuild switch --flake .#githubActions
+
       - if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           git add --all
