@@ -39,6 +39,7 @@ rec {
       jq
       jsonnet-language-server
       less
+      ncspot
       nixpkgs-fmt
       nodePackages.bash-language-server
       nodePackages.node2nix
