@@ -1,4 +1,3 @@
-
 Martin's dotfiles and Nix config
 ================================
 :toc:
@@ -17,6 +16,7 @@ like
  git config url.git@github.com:.insteadof https://github.com/
 
 === Install `nix` on macOS
+
 In order to perform a multi-user install of `nix` on macOS, follow these steps.
 
 The first order of business is to make sure `diskutil` is in your `$PATH`. If
@@ -53,7 +53,6 @@ dead symlink. This can be fixed by removing that file and creating a new
 symlink
 
  sudo ln -s /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
-
 ====
 
 === Flakes
@@ -80,7 +79,7 @@ Then open up a new terminal session and run
 
 Tada! Everything should be installed and ready to go.
 
-.*Clean up old installation*
+.Clean up old installation
 [NOTE]
 ====
 It's a good idea to make sure that any existing installation of `nix-darwin` is
@@ -89,20 +88,18 @@ Also, you should remeber to backup existing etc files
 
  $ sudo mv /etc/bashrc /etc/bashrc.backup-before-darwin
  $ sudo mv /etc/zshrc /etc/zshrc.backup-before-darwin
-
 ====
 
-.*Linking `nix.conf`*
+.Linking `nix.conf`
 [NOTE]
 ====
 It's also possible that you may have to backup `nix.conf` in order for
 `nix-darwin` to be able to link it
 
  $ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
-
 ====
 
-.*Linking `ca-certificates.crt`*
+.Linking `ca-certificates.crt`
 [NOTE]
 ====
 `nix-darwin` might also complain about linking `ca-certificates.crt`. That
