@@ -28,13 +28,8 @@
     };
   };
 
-  fonts = (lib.mkMerge [
-    # NOTE: Remove this condition when `nix-darwin` aligns with NixOS
-    (if (builtins.hasAttr "fontDir" options.fonts) then {
-      fontDir.enable = true;
-    } else {
-      enableFontDir = true;
-    })
-    { fonts = with pkgs; [ hack-font ]; }
-  ]);
+  fonts = {
+    fontDir.enable = true;
+    fonts = with pkgs; [ hack-font ];
+  };
 }
