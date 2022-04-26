@@ -45,6 +45,7 @@ rec {
       nodePackages.node2nix
       nodePackages.prettier
       nodePackages.vim-language-server
+      paperkey
       pass
       pkgs.steampipe
       plantuml
