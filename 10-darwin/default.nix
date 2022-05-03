@@ -7,8 +7,6 @@
 
   environment = {
     systemPackages = with pkgs; [
-      terminal-notifier
-      alacritty
     ];
   };
 
