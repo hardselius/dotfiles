@@ -33,6 +33,7 @@
       restartaudio = "sudo killall coreaudiod";
       tf = "terraform";
       lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
+      switch-yubikey = "gpg-connect-agent \"scd serialno\" \"learn --force\" /bye";
 
       # Get public ip directly from a DNS server instead of from some hip
       # whatsmyip HTTP service. https://unix.stackexchange.com/a/81699
