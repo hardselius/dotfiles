@@ -22,7 +22,6 @@ rec {
 
     packages = with pkgs; [
       asciinema
-      atlantis
       cacert
       cachix
       coreutils
@@ -47,7 +46,7 @@ rec {
       nodePackages.vim-language-server
       paperkey
       pass
-      pkgs.steampipe
+      steampipe
       plantuml
       prs
       python39Packages.sqlparse
