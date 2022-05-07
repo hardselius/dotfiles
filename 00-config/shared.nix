@@ -1,7 +1,6 @@
 # This file contains configuration that is shared across all hosts.
 { pkgs, lib, options, ... }: {
   nix = {
-    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
       keep-derivations = true
