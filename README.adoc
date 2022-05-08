@@ -58,17 +58,8 @@ symlink
 === Flakes
 
 With Nix installed, we're ready to bootstrap and install the actual
-configuration. First, we need to install `nixFlakes` in our environment. Go
-ahead and run
-
- nix-env -iA nixpkgs.nixFlakes
-
-Then we need to edit '/etc/nix/nix.conf' and add
-
- experimental-features = nix-command flakes
-
-Once that's done, we should be able to bootstrap the system with a minimal
-configuration.
+configuration. Flakes is finally supported in the latest versions of Nix, so
+from the root of the checkout out repo we should be able to go ahead and run
 
  nix build .#darwinConfigurations.bootstrap.system
  ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
@@ -78,6 +69,20 @@ Then open up a new terminal session and run
  darwin-rebuild switch --flake .#macbook
 
 Tada! Everything should be installed and ready to go.
+
+.Enable flake support
+[NOTE]
+====
+Previously, flake support had to be enabled in `/etc/nix/nix.conf` by adding
+the following line to it
+
+  experimental-features = nix-command flakes
+
+A version of Nix with flake support could, and probably still can, be installed
+by running
+
+  nix-env -iA nixpkgs.nixFlakes
+====
 
 .Clean up old installation
 [NOTE]
