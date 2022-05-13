@@ -15,8 +15,9 @@ jobs:
       - name: Install NixOS WSL
         run: |
           $url = "https://github.com/nix-community/NixOS-WSL/releases/download/21.11-d89f18a1/nixos-wsl-installer-fixed.tar.gz"
-          Invoke-WebRequest -Uri $url -OutFile .\nixos.tar.gz
-          wsl --import NixOS .\NixOS\ nixos.tar.gz --version 2
+          $dest = "c:\temp\nixos-wsl-installer.tar.gz"
+          Invoke-WebRequest -Uri $url -OutFile $dest
+          wsl --import NixOS .\NixOS\ $dest --version 2
           wsl --set-default NixOS
 
       - name: Run NixOS
