@@ -1,0 +1,12 @@
+name: Build NixOS WSL environment
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build-wsl:
+    runs-on: windows-latest
+    steps:
+      - run: wsl --install
