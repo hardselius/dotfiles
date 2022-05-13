@@ -18,7 +18,7 @@ jobs:
           $dest = "c:\temp\nixos-wsl-installer.tar.gz"
           Invoke-WebRequest -Uri $url -OutFile $dest
           wsl --import NixOS .\NixOS\ $dest --version 2
-          wsl --list --all
+          wsl --distribution NixOS
 
-      - name: Run NixOS
-        run: wsl --distribution NixOS
+      # - name: Run NixOS
+      #   run: wsl --distribution NixOS
