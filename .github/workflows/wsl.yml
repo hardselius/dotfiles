@@ -13,12 +13,10 @@ jobs:
       #   run: wsl --install --distribution Ubuntu
 
       - name: Install NixOS WSL
-        shell: powershell
+        shell: cmd
         run: |
-          $url = "https://github.com/nix-community/NixOS-WSL/releases/download/21.11-d89f18a1/nixos-wsl-installer-fixed.tar.gz"
-          $dest = "c:\temp\nixos-wsl-installer.tar.gz"
-          Invoke-WebRequest -Uri $url -OutFile $dest
-          wsl --import NixOS .\NixOS\ $dest --version 2
+          curl.exe -L https://github.com/nix-community/NixOS-WSL/releases/download/21.11-d89f18a1/nixos-wsl-installer-fixed.tar.gz -o nixos-wsl-installer.tar.gz
+          wsl --import NixOS .\NixOS\ nixos-wsl-install.tar.gz --version 2
           wsl --distribution NixOS
 
       # - name: Run NixOS
