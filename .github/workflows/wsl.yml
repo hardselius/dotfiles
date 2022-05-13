@@ -9,8 +9,11 @@ jobs:
   build-wsl:
     runs-on: windows-latest
     steps:
-      # - name: Install Ubuntu
-      #   run: wsl --install --distribution Ubuntu
+      - name: Install Ubuntu
+        run: wsl --install --distribution Ubuntu
+
+      - name: List distros
+        run: wsl --list --all
 
       - name: Install NixOS WSL
         shell: cmd
