@@ -16,7 +16,7 @@ jobs:
         run: dir
 
       - name: Import NixOS
-        run: wsl --import NixOS .\NixOS\ .\nixos-wsl-install.tar.gz --version 2
+        run: wsl --import NixOS .\NixOS\ nixos-wsl-installer.tar.gz --version 2
 
       - name: Check the directory again
         run: dir
