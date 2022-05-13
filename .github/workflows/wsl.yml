@@ -9,13 +9,13 @@ jobs:
   build-wsl:
     runs-on: windows-latest
     steps:
-      - name: Install Ubuntu
-        run: wsl --install --distribution Ubuntu
+      # - name: Install Ubuntu
+      #   run: wsl --install --distribution Ubuntu
 
       - name: Install NixOS WSL
         run: |
           $url = "https://github.com/nix-community/NixOS-WSL/releases/download/21.11-d89f18a1/nixos-wsl-installer-fixed.tar.gz"
-          Invoke-WebRequest -Uri $url - OutFile .\nixos.tar.gz
+          Invoke-WebRequest -Uri $url -OutFile .\nixos.tar.gz
           wsl --import NixOS .\NixOS\ nixos.tar.gz --version 2
           wsl --set-default NixOS
 
