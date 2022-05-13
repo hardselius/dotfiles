@@ -9,4 +9,4 @@ jobs:
   build-wsl:
     runs-on: windows-latest
     steps:
-      - run: wsl --install
+      - run: wsl --list --all
