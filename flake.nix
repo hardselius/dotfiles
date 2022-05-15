@@ -74,8 +74,6 @@
       nixosCommonModules =
         args @
         { user
-        , host
-        , hostConfig ? ./10-darwin/hosts + "/${host}.nix"
         , ...
         }: [
           home-manager.nixosModules.home-manager
@@ -129,14 +127,9 @@
           modules = [
             nixos-wsl.nixosModules.wsl
             ./10-wsl
-            rec {
-              users.user.martin = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-                home = "/home/martin";
-              };
-            }
-          ];
+          ] ++ nixosCommonModules {
+            user = "martin";
+          };
         };
       };
 
