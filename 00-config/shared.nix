@@ -4,6 +4,7 @@
     extraOptions = ''
       keep-derivations = true
       keep-outputs = true
+      experimental-features = nix-command flakes
     '';
     binaryCaches = [
       "https://cache.nixos.org/"
