@@ -82,6 +82,7 @@
             users.users.${user} =  {
               home = "/home/${user}";
               isNormalUser = true;
+              initialPassword = "helloworld";
               extraGroups = [ "wheel" ];
             };
             home-manager.useGlobalPkgs = true;
