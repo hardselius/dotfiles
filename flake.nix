@@ -11,6 +11,8 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = github:nix-community/home-manager;
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    wsl.url = github:nix-community/NixOS-WSL;
+    wsl.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
@@ -19,7 +21,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, wsl, flake-utils, ... } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
@@ -69,6 +71,26 @@
           }
         ];
 
+      nixosCommonModules =
+        args @
+        { user
+        , host
+        , hostConfig ? ./10-darwin/hosts + "/${host}.nix"
+        , ...
+        }: [
+          home-manager.nixosModules.home-manager
+          rec {
+            nixpkgs = nixpkgsConfig;
+            users.users.${user} =  {
+              home = "/home/${user}";
+              isNormalUser = true;
+              extraGroups = [ "wheel" ];
+            };
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user} = homeManagerCommonConfig args;
+          }
+        ];
+
     in
     {
       darwinConfigurations = {
@@ -98,6 +120,23 @@
             user = "runner";
             host = "github-actions";
           };
+        };
+      };
+
+      nixosConfigurations = {
+        wsl = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            wsl.nixosModules.wsl
+            ./10-wsl
+            rec {
+              users.user.martin = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" ];
+                home = "/home/martin";
+              };
+            }
+          ];
         };
       };
 
