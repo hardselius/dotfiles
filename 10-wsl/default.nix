@@ -4,7 +4,7 @@ with lib; {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
 
-    nixos-wsl.nixosModules.wsl
+    wsl.nixosModules.wsl
   ];
 
   wsl = {

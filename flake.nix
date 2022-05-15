@@ -11,8 +11,8 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = github:nix-community/home-manager;
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    wsl.url = github:nix-community/NixOS-WSL;
-    wsl.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixos-wsl.url = github:nix-community/NixOS-WSL;
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
@@ -21,7 +21,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, wsl, flake-utils, ... } @ inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, nixos-wsl, flake-utils, ... } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
@@ -127,7 +127,7 @@
         wsl = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            wsl.nixosModules.wsl
+            nixos-wsl.nixosModules.wsl
             ./10-wsl
             rec {
               users.user.martin = {
