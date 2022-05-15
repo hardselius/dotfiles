@@ -2,9 +2,8 @@
 
 with lib; {
   imports = [
+    ../00-config/shared.nix
     "${modulesPath}/profiles/minimal.nix"
-
-    wsl.nixosModules.wsl
   ];
 
   wsl = {
