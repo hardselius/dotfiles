@@ -74,9 +74,12 @@
       nixosCommonModules =
         args @
         { user
+        , host
+        , hostConfig ? ./10-nixos/hosts + "/${host}.nix"
         , ...
         }: [
           home-manager.nixosModules.home-manager
+          hostConfig
           rec {
             nixpkgs = nixpkgsConfig;
             users.users.${user} =  {
@@ -127,9 +130,9 @@
           system = "x86_64-linux";
           modules = [
             nixos-wsl.nixosModules.wsl
-            ./10-wsl
           ] ++ nixosCommonModules {
             user = "martin";
+            host = "wsl";
           };
         };
       };
