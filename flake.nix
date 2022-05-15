@@ -33,9 +33,7 @@
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
       nixpkgsConfig = with inputs; rec {
-        config = {
-          allowUnfree = true;
-        };
+        config = { allowUnfree = true; };
         overlays = self.overlays;
       };
 
