@@ -53,45 +53,35 @@
           ];
         };
 
-      nixDarwinCommonModules =
-        args @
-        { user
-        , host
-        , hostConfig ? ./10-darwin/hosts + "/${host}.nix"
-        , ...
-        }: [
-          home-manager.darwinModules.home-manager
-          ./10-darwin
-          hostConfig
-          rec {
-            nixpkgs = nixpkgsConfig;
-            users.users.${user}.home = "/Users/${user}";
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.${user} = homeManagerCommonConfig args;
-          }
-        ];
+      nixDarwinCommonModules = args @ { user, host, ... }: [
+        home-manager.darwinModules.home-manager
+        ./10-darwin
+        (./10-darwin/hosts + "/${host}.nix")
+        rec {
+          nixpkgs = nixpkgsConfig;
+          users.users.${user}.home = "/Users/${user}";
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.${user} = homeManagerCommonConfig args;
+        }
+      ];
 
-      nixosCommonModules =
-        args @
-        { user
-        , host
-        , hostConfig ? ./10-nixos/hosts + "/${host}.nix"
-        , ...
-        }: [
-          home-manager.nixosModules.home-manager
-          hostConfig
-          rec {
-            nixpkgs = nixpkgsConfig;
-            users.users.${user} =  {
-              home = "/home/${user}";
-              isNormalUser = true;
-              initialPassword = "helloworld";
-              extraGroups = [ "wheel" ];
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.${user} = homeManagerCommonConfig args;
-          }
-        ];
+      nixosCommonModules = args @ { user, host, ... }: [
+        home-manager.nixosModules.home-manager
+        # TODO: should probably make this conditional on the wsl host
+        nixos-wsl.nixosModules.wsl
+        (./10-nixos/hosts + "/${host}.nix")
+        rec {
+          nixpkgs = nixpkgsConfig;
+          users.users.${user} = {
+            home = "/home/${user}";
+            isNormalUser = true;
+            initialPassword = "helloworld";
+            extraGroups = [ "wheel" ];
+          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.users.${user} = homeManagerCommonConfig args;
+        }
+      ];
 
     in
     {
@@ -128,9 +118,7 @@
       nixosConfigurations = {
         wsl = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = [
-            nixos-wsl.nixosModules.wsl
-          ] ++ nixosCommonModules {
+          modules = nixosCommonModules {
             user = "martin";
             host = "wsl";
           };
