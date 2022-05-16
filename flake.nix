@@ -157,6 +157,7 @@
         home-config-files = import ./home/config-files.nix;
         home-git-aliases = import ./home/git-aliases.nix;
         home-git-ignores = import ./home/git-ignores.nix;
+        home-git-templates = import ./home/git-templates.nix;
         home-awscli = import ./30-modules/home/programs/awscli.nix;
 
         home-user-info = { lib, ... }: {
