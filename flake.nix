@@ -76,6 +76,7 @@
             users.users.${primaryUser.username} = {
               home = "/home/${primaryUser.username}";
               isNormalUser = true;
+              isSystemUser = false;
               initialPassword = "helloworld";
               extraGroups = [ "wheel" ];
             };
