@@ -1,8 +1,21 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
+let
+  inherit (config.home) user-info;
+in
+
 {
   home.packages = with pkgs; [
     pure-prompt
   ];
+
+  home.sessionVariables = {
+    EDITOR = "${pkgs.vim}/bin/vim";
+    EMAIL = "${user-info.email}";
+    PAGER = "${pkgs.less}/bin/less";
+    CLICOLOR = true;
+    GPG_TTY = "$TTY";
+    PATH = "$PATH:$HOME/.local/bin:$HOME/.tfenv/bin";
+  };
 
   programs.zsh = {
     enable = true;
@@ -30,9 +43,7 @@
     };
 
     shellAliases = {
-      restartaudio = "sudo killall coreaudiod";
       tf = "terraform";
-      lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
       switch-yubikey = "gpg-connect-agent \"scd serialno\" \"learn --force\" /bye";
 
       # Get public ip directly from a DNS server instead of from some hip
@@ -40,6 +51,9 @@
       wanip = "dig @resolver4.opendns.com myip.opendns.com +short";
       wanip4 = "dig @resolver4.opendns.com myip.opendns.com +short -4";
       wanip6 = "dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6";
+    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
+      restartaudio = "sudo killall coreaudiod";
     };
 
     profileExtra = ''
@@ -69,7 +83,7 @@
       bindkey "^Z" resume
 
       function ls() {
-          ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
+        ${pkgs.coreutils}/bin/ls --color=auto --group-directories-first "$@"
       }
 
       autoload -U promptinit; promptinit

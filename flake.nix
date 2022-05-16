@@ -153,11 +153,15 @@
       };
 
       homeManagerModules = {
-        home-config = import ./home;
         home-config-files = import ./home/config-files.nix;
+        home-git = import ./home/git.nix;
         home-git-aliases = import ./home/git-aliases.nix;
         home-git-ignores = import ./home/git-ignores.nix;
         home-git-templates = import ./home/git-templates.nix;
+        home-packages = import ./home/packages.nix;
+        home-shells = import ./home/shells.nix;
+        home-terminal = import ./home/terminal.nix;
+
         home-awscli = import ./30-modules/home/programs/awscli.nix;
 
         home-user-info = { lib, ... }: {
