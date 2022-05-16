@@ -153,7 +153,7 @@
       };
 
       homeManagerModules = {
-        home-config = import ./20-home;
+        home-config = import ./home;
         home-awscli = import ./30-modules/home/programs/awscli.nix;
 
         home-user-info = { lib, ... }: {
