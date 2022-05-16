@@ -37,48 +37,55 @@
         overlays = self.overlays;
       };
 
-      # Home Manager configuration shared between all different configurations.
       homeManagerStateVersion = "22.05";
-      homeManagerCommonConfig =
-        { user
-        , userConfig ? ./20-home + "/users/${user}.nix"
-        , ...
-        }: {
-          imports = attrValues self.homeManagerModules ++ [
-            userConfig
-            ./20-home
-            { home.stateVersion = homeManagerStateVersion; }
-          ];
-        };
 
-      nixDarwinCommonModules = args @ { user, host, ... }: [
+      primaryUserInfo = {
+        username = "martin";
+        fullName = "Martin Hardselius";
+        email = "martin@hardselius.dev";
+        github = "hardselius";
+        gpgsign = true;
+      };
+
+      nixDarwinCommonModules = attrValues self.darwinModules ++ [
         home-manager.darwinModules.home-manager
-        ./10-darwin
-        (./10-darwin/hosts + "/${host}.nix")
-        rec {
-          nixpkgs = nixpkgsConfig;
-          users.users.${user}.home = "/Users/${user}";
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerCommonConfig args;
-        }
+        ({ config, lib, pkgs, ... }:
+          let
+            inherit (config.users) primaryUser;
+          in
+          rec {
+            nixpkgs = nixpkgsConfig;
+            users.users.${primaryUser.username}.home = "/Users/${primaryUser.username}";
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${primaryUser.username} = {
+              imports = attrValues self.homeManagerModules;
+              home.stateVersion = homeManagerStateVersion;
+              home.user-info = config.users.primaryUser;
+            };
+          })
       ];
 
-      nixosCommonModules = args @ { user, host, ... }: [
+      nixosCommonModules = args @ { user, host, ... }: attrValues self.nixosModules ++ [
         home-manager.nixosModules.home-manager
-        # TODO: should probably make this conditional on the wsl host
-        nixos-wsl.nixosModules.wsl
-        (./10-nixos/hosts + "/${host}.nix")
-        rec {
-          nixpkgs = nixpkgsConfig;
-          users.users.${user} = {
-            home = "/home/${user}";
-            isNormalUser = true;
-            initialPassword = "helloworld";
-            extraGroups = [ "wheel" ];
-          };
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.${user} = homeManagerCommonConfig args;
-        }
+        ({ config, lib, pkgs, ... }:
+          let
+            inherit (config.users) primaryUser;
+          in
+          rec {
+            nixpkgs = nixpkgsConfig;
+            users.users.${primaryUser.username} = {
+              home = "/home/${primaryUser.username}";
+              isNormalUser = true;
+              initialPassword = "helloworld";
+              extraGroups = [ "wheel" ];
+            };
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${primaryUser.username} = {
+              imports = attrValues self.homeManagerModules;
+              home.stateVersion = homeManagerStateVersion;
+              home.user-info = config.users.primaryUser;
+            };
+          })
       ];
 
     in
@@ -97,36 +104,59 @@
         # My macOS configuration
         macbook = darwinSystem {
           system = "x86_64-darwin";
-          modules = nixDarwinCommonModules {
-            user = "martin";
-            host = "macbook";
-          };
+          modules = nixDarwinCommonModules ++ [
+            ./10-darwin/hosts/macbook.nix
+            {
+              users.primaryUser = primaryUserInfo;
+            }
+          ];
         };
 
         # Configuration used for CI with GitHub actions
         githubActions = darwinSystem {
           system = "x86_64-darwin";
-          modules = nixDarwinCommonModules {
-            user = "runner";
-            host = "github-actions";
-          };
+          modules = nixDarwinCommonModules ++ [
+            ./10-darwin/hosts/github-actions.nix
+            ({ lib, ... }: {
+              users.primaryUser = primaryUserInfo // {
+                username = "runner";
+                gpgsign = false;
+              };
+            })
+          ];
         };
       };
 
       nixosConfigurations = {
         wsl = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = nixosCommonModules {
-            user = "martin";
-            host = "wsl";
-          };
+          modules = nixosCommonModules ++ [
+            nixos-wsl.nixosModules.wsl
+            ./10-nixos/hosts/wsl.nix
+            {
+              users.primaryUser = primaryUserInfo;
+            }
+          ];
         };
       };
 
-      darwinModules = { };
+      darwinModules = {
+        darwin-config = import ./10-darwin;
+        users-primaryUser = import ./modules/users.nix;
+      };
+
+      nixosModules = {
+        users-primaryUser = import ./modules/users.nix;
+      };
 
       homeManagerModules = {
-        awscli = import ./30-modules/home/programs/awscli.nix;
+        home-config = import ./20-home;
+        home-awscli = import ./30-modules/home/programs/awscli.nix;
+
+        home-user-info = { lib, ... }: {
+          options.home.user-info =
+            (self.darwinModules.users-primaryUser { inherit lib; }).options.users.primaryUser;
+        };
       };
 
       overlays =

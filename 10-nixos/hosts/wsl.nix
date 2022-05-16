@@ -1,4 +1,7 @@
 { lib, pkgs, config, modulesPath, ... }:
+let
+  inherit (config.users) primaryUser;
+in
 
 with lib; {
   imports = [
@@ -9,7 +12,7 @@ with lib; {
   wsl = {
     enable = true;
     automountPath = "/mnt";
-    defaultUser = "nixos";
+    defaultUser = "${primaryUser.username}";
     startMenuLaunchers = true;
 
     # Enable native Docker support

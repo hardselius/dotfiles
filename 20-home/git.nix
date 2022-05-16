@@ -1,10 +1,15 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   gitTemplateDir = "git/template";
   binDir = ".local/bin";
+  inherit (config.home) user-info;
 in
 {
+
   programs.git = {
+    userEmail = user-info.email;
+    userName = user-info.fullName;
+
     enable = true;
     package = pkgs.git;
 
@@ -52,6 +57,8 @@ in
       rebase.autosquash = true;
       rerere.enabled = true;
       status.submoduleSummary = true;
+      github.user = user-info.github;
+      init.templateDir = "${config.xdg.configHome}/${gitTemplateDir}";
     };
 
     ignores = [
@@ -91,17 +98,21 @@ in
       "shell.nix"
       ".direnv/"
     ];
+  } // lib.optionalAttrs user-info.gpgsign {
+    signing = {
+      key = user-info.email;
+      signByDefault = user-info.gpgsign;
+    };
   };
 
-  programs.git.extraConfig.init.templateDir = "${config.xdg.configHome}/${gitTemplateDir}";
   xdg.configFile."${gitTemplateDir}/hooks" = {
     recursive = true;
     source = ./git/hooks;
   };
 
   home.file = {
-    "${binDir}/git-jump" = { 
-      executable = true; 
+    "${binDir}/git-jump" = {
+      executable = true;
       source = ./git/addons/git-jump;
     };
   };
