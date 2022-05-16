@@ -65,7 +65,7 @@
           })
       ];
 
-      nixosCommonModules = args @ { user, host, ... }: attrValues self.nixosModules ++ [
+      nixosCommonModules = attrValues self.nixosModules ++ [
         home-manager.nixosModules.home-manager
         ({ config, lib, pkgs, ... }:
           let
