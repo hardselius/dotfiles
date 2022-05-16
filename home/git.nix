@@ -4,34 +4,13 @@ let
   binDir = ".local/bin";
   inherit (config.home) user-info;
 in
+
 {
-
   programs.git = {
-    userEmail = user-info.email;
-    userName = user-info.fullName;
-
     enable = true;
     package = pkgs.git;
-
-    aliases = {
-      authors = "!${pkgs.git}/bin/git log --pretty=format:%aN"
-        + " | ${pkgs.coreutils}/bin/sort" + " | ${pkgs.coreutils}/bin/uniq -c"
-        + " | ${pkgs.coreutils}/bin/sort -rn";
-      b = "branch --color -v";
-      changes = "diff --name-status -r";
-      clone = "clone --recursive";
-      ctags = "!.git/hooks/ctags";
-      root = "!pwd";
-      spull = "!${pkgs.git}/bin/git stash" + " && ${pkgs.git}/bin/git pull"
-        + " && ${pkgs.git}/bin/git stash pop";
-      su = "submodule update --init --recursive";
-      undo = "reset --soft HEAD^";
-      w = "status -sb";
-      wdiff = "diff --color-words";
-      l = "log --graph --abbrev-commit --date=relative --show-notes=*"
-        + " --pretty=format:'%Cred%h%Creset —%Cblue%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)<%an>%Creset'";
-    };
-
+    userEmail = user-info.email;
+    userName = user-info.fullName;
     extraConfig = {
       core = {
         editor = "${pkgs.vim}/bin/vim";
@@ -40,7 +19,6 @@ in
         precomposeunicode = true;
         whitespace = "trailing-space,space-before-tab";
       };
-
       branch.autosetupmerge = true;
       color.ui = "auto";
       commit.verbose = true;
@@ -60,44 +38,6 @@ in
       github.user = user-info.github;
       init.templateDir = "${config.xdg.configHome}/${gitTemplateDir}";
     };
-
-    ignores = [
-      "[._]*.s[a-v][a-z]"
-      "[._]*.sw[a-p]"
-      "[._]s[a-rt-v][a-z]"
-      "[._]ss[a-gi-z]"
-      "[._]sw[a-p]"
-      "Session.vim"
-      "Sessionx.vim"
-      ".netrwhist"
-      "*~"
-      "tags"
-      "[._]*.un~"
-      "**/.idea/"
-      "**/*.iml"
-      "**/*.ipr"
-      "**/*.iws"
-      ".DS_Store"
-      ".AppleDouble"
-      ".LSOverride"
-      "Icon"
-      "._*"
-      ".DocumentRevisions-V100"
-      ".fseventsd"
-      ".Spotlight-V100"
-      ".TemporaryItems"
-      ".Trashes"
-      ".VolumeIcon.icns"
-      ".com.apple.timemachine.donotpresent"
-      ".AppleDB"
-      ".AppleDesktop"
-      "Network Trash Folder"
-      "Temporary Items"
-      ".apdisk"
-      ".envrc"
-      "shell.nix"
-      ".direnv/"
-    ];
   } // lib.optionalAttrs user-info.gpgsign {
     signing = {
       key = user-info.email;
