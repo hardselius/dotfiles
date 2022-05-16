@@ -143,6 +143,12 @@ rec {
           ForwardAgent no
       '';
     };
+
+    tmux = {
+      enable = true;
+      aggressiveResize = true;
+      keyMode = "vi";
+    };
   };
 
   xdg = {
