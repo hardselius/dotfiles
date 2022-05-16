@@ -146,6 +146,7 @@
       };
 
       nixosModules = {
+        nixos-config = import ./10-nixos;
         users-primaryUser = import ./modules/users.nix;
       };
 
