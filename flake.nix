@@ -169,7 +169,7 @@
         home-shells = import ./home/shells.nix;
         home-terminal = import ./home/terminal.nix;
 
-        home-awscli = import ./30-modules/home/programs/awscli.nix;
+        home-awscli = import ./modules/home/programs/awscli.nix;
 
         home-user-info = { lib, ... }: {
           options.home.user-info =
