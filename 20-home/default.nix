@@ -46,6 +46,7 @@ rec {
       nodePackages.vim-language-server
       paperkey
       pass
+      socat
       steampipe
       plantuml
       prs
