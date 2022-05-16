@@ -108,7 +108,7 @@
         macbook = darwinSystem {
           system = "x86_64-darwin";
           modules = nixDarwinCommonModules ++ [
-            ./10-darwin/hosts/macbook.nix
+            ./system/darwin/host-mac.nix
             {
               users.primaryUser = primaryUserInfo;
             }
@@ -119,7 +119,7 @@
         githubActions = darwinSystem {
           system = "x86_64-darwin";
           modules = nixDarwinCommonModules ++ [
-            ./10-darwin/hosts/github-actions.nix
+            ./system/darwin/host-github.nix
             ({ lib, ... }: {
               users.primaryUser = primaryUserInfo // {
                 username = "runner";
