@@ -79,6 +79,7 @@
               isSystemUser = false;
               initialPassword = "helloworld";
               extraGroups = [ "wheel" ];
+              shell = pkgs.zsh;
             };
             home-manager.useGlobalPkgs = true;
             home-manager.users.${primaryUser.username} = {
