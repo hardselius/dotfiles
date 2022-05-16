@@ -1,0 +1,4 @@
+#!/bin/sh
+pushd ~/.dotfiles
+nixos-rebuild --use-remote-sudo switch --flake .#$1
+popd
