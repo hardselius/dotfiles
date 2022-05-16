@@ -178,7 +178,7 @@
       };
 
       overlays =
-        let path = ./40-overlays; in
+        let path = ./overlays; in
         with builtins;
         map (n: import (path + ("/" + n))) (filter
           (n:
