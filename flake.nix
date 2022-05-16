@@ -135,7 +135,7 @@
           system = "x86_64-linux";
           modules = nixosCommonModules ++ [
             nixos-wsl.nixosModules.wsl
-            ./10-nixos/hosts/wsl.nix
+            ./system/nixos/host-wsl.nix
             {
               users.primaryUser = primaryUserInfo;
             }
@@ -156,7 +156,6 @@
       nixosModules = {
         common = import ./system/common.nix;
 
-        nixos-config = import ./10-nixos;
         users-primaryUser = import ./modules/users.nix;
       };
 
