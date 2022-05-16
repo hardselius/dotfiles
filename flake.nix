@@ -98,7 +98,8 @@
         bootstrap = makeOverridable darwinSystem {
           system = "x86_64-darwin";
           modules = [
-            ./10-darwin/bootstrap.nix
+            self.darwinModules.common
+            self.darwinModules.darwin-bootstrap
             { nixpkgs = nixpkgsConfig; }
           ];
         };
@@ -143,11 +144,18 @@
       };
 
       darwinModules = {
-        darwin-config = import ./10-darwin;
+        common = import ./system/common.nix;
+
+        darwin-bootstrap = import ./system/darwin/bootstrap.nix;
+        darwin-packages = import ./system/darwin/packages.nix;
+        darwin-system = import ./system/darwin/system.nix;
+
         users-primaryUser = import ./modules/users.nix;
       };
 
       nixosModules = {
+        common = import ./system/common.nix;
+
         nixos-config = import ./10-nixos;
         users-primaryUser = import ./modules/users.nix;
       };
