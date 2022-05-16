@@ -154,6 +154,7 @@
 
       homeManagerModules = {
         home-config = import ./home;
+        home-config-files = import ./home/config-files.nix;
         home-awscli = import ./30-modules/home/programs/awscli.nix;
 
         home-user-info = { lib, ... }: {
