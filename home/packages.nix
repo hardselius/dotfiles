@@ -96,6 +96,8 @@
 
     tmux.enable = true;
     tmux.aggressiveResize = true;
+    tmux.clock24 = true;
     tmux.keyMode = "vi";
+    tmux.terminal = "screen-256color";
   };
 }
