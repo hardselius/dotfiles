@@ -145,6 +145,7 @@
 
       darwinModules = {
         common = import ./system/common.nix;
+        packages = import ./system/packages.nix;
 
         darwin-bootstrap = import ./system/darwin/bootstrap.nix;
         darwin-packages = import ./system/darwin/packages.nix;
@@ -155,6 +156,7 @@
 
       nixosModules = {
         common = import ./system/common.nix;
+        packages = import ./system/packages.nix;
 
         users-primaryUser = import ./modules/users.nix;
       };

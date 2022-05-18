@@ -27,9 +27,7 @@
     pathsToLink = [ "/libexec" ];
     systemPackages = with pkgs; [
       wget
-      vim
       firefox
-      git
     ];
   };
 
