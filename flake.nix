@@ -44,6 +44,7 @@
         fullName = "Martin Hardselius";
         email = "martin@hardselius.dev";
         github = "hardselius";
+        masterKey = "3F35E4CACBF42DE12E9053E503A6E6F786936619";
         gpgsign = true;
       };
 
@@ -167,6 +168,7 @@
         home-git-aliases = import ./home/git-aliases.nix;
         home-git-ignores = import ./home/git-ignores.nix;
         home-git-templates = import ./home/git-templates.nix;
+        home-gpg = import ./home/gpg.nix;
         home-packages = import ./home/packages.nix;
         home-shells = import ./home/shells.nix;
         home-terminal = import ./home/terminal.nix;
