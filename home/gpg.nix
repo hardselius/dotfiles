@@ -6,6 +6,7 @@ in
 {
   programs.gpg.enable = true;
   programs.gpg.settings = {
+  } // lib.optionalAttrs (!builtins.isNull user-info.masterKey) {
     default-key = user-info.masterKey;
     auto-key-locate = "keyserver";
     keyserver = "pgp.mit.edu";

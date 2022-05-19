@@ -22,6 +22,10 @@ in
       type = with types; nullOr string;
       default = null;
     };
+    masterKey = mkOption {
+      type = with types; nullOr string;
+      default = null;
+    };
     gpgsign = mkOption {
       type = with types; bool;
       default = false;
