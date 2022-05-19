@@ -1,5 +1,57 @@
 { config, pkgs, lib, ... }:
 {
+  programs.home-manager.enable = true;
+
+  programs.awscli.enable = true;
+  programs.awscli.package = pkgs.awscli2;
+  programs.awscli.enableBashIntegration = true;
+  programs.awscli.enableZshIntegration = true;
+  programs.awscli.awsVault = {
+    enable = true;
+    prompt = "ykman";
+    backend = "pass";
+    passPrefix = "aws_vault/";
+  };
+
+  programs.browserpass.enable = true;
+  programs.browserpass.browsers = [ "firefox" ];
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.  enable = true;
+
+  programs.dircolors.enable = true;
+  programs.dircolors.enableZshIntegration = true;
+
+  programs.fzf.enable = true;
+  programs.fzf.enableBashIntegration = true;
+  programs.fzf.enableZshIntegration = true;
+
+  programs.go.enable = true;
+
+  programs.htop.enable = true;
+  programs.htop.settings.show_program_path = true;
+
+  programs.ssh.enable = true;
+  programs.ssh.controlMaster = "auto";
+  programs.ssh.controlPath = "/tmp/ssh-%u-%r@%h:%p";
+  programs.ssh.controlPersist = "1800";
+  programs.ssh.forwardAgent = true;
+  programs.ssh.serverAliveInterval = 60;
+  programs.ssh.hashKnownHosts = true;
+  programs.ssh.extraConfig = ''
+    Host remarkable
+      Hostname 10.11.99.1
+      User root
+      ForwardX11 no
+      ForwardAgent no
+  '';
+
+  programs.tmux.enable = true;
+  programs.tmux.aggressiveResize = true;
+  programs.tmux.clock24 = true;
+  programs.tmux.keyMode = "vi";
+  programs.tmux.terminal = "screen-256color";
+
   home.packages = with pkgs; [
     asciinema
     cachix
@@ -45,59 +97,4 @@
     xkcdpass
     yubikey-manager
   ];
-
-  programs = {
-
-    home-manager.enable = true;
-
-    awscli.enable = true;
-    awscli.package = pkgs.awscli2;
-    awscli.enableBashIntegration = true;
-    awscli.enableZshIntegration = true;
-    awscli.awsVault = {
-      enable = true;
-      prompt = "ykman";
-      backend = "pass";
-      passPrefix = "aws_vault/";
-    };
-
-    browserpass.enable = true;
-    browserpass.browsers = [ "firefox" ];
-
-    direnv.enable = true;
-    direnv.nix-direnv.  enable = true;
-
-    dircolors.enable = true;
-    dircolors.enableZshIntegration = true;
-
-    fzf.enable = true;
-    fzf.enableBashIntegration = true;
-    fzf.enableZshIntegration = true;
-
-    go.enable = true;
-
-    htop.enable = true;
-    htop.settings.show_program_path = true;
-
-    ssh.enable = true;
-    ssh.controlMaster = "auto";
-    ssh.controlPath = "/tmp/ssh-%u-%r@%h:%p";
-    ssh.controlPersist = "1800";
-    ssh.forwardAgent = true;
-    ssh.serverAliveInterval = 60;
-    ssh.hashKnownHosts = true;
-    ssh.extraConfig = ''
-      Host remarkable
-        Hostname 10.11.99.1
-        User root
-        ForwardX11 no
-        ForwardAgent no
-    '';
-
-    tmux.enable = true;
-    tmux.aggressiveResize = true;
-    tmux.clock24 = true;
-    tmux.keyMode = "vi";
-    tmux.terminal = "screen-256color";
-  };
 }
