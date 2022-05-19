@@ -19,47 +19,87 @@ on:
     - cron: '0 0 * * 0' # Every Sunday at midnight UTC
 
 jobs:
-  build-darwin:
+  build-darwin-env:
+    name: Build/cache Darwin Nix env
     runs-on: macos-latest
+
     steps:
 
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - uses: cachix/install-nix-action@v16
+      - name: Install Nix
+        uses: cachix/install-nix-action@v16
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - uses: cachix/cachix-action@v10
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v10
         with:
           name: hardselius
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
 
-      - if: ${{ github.event_name == 'schedule' && success() }}
+      - name: If scheduled, update inputs
+        if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           nix flake update
 
-      - run: |
+      - name: Create /run directory
+        run: |
           echo -e "run\tprivate/var/run" | sudo tee -a /etc/synthetic.conf >/dev/null
           /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t &>/dev/null || true
 
-      - run: |
+      - name: Prevent Cachix conflict
+        run: |
           nix-env --set-flag priority 1 cachix
 
-      - run: |
+      - name: Build bootstrap config
+        run: |
           nix build .#darwinConfigurations.bootstrap.system
 
-      - run: |
+      - name: Switch to bootstrap config
+        run: |
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
 
-      - run: |
+      - name: Switch to githubActions config
+        run: |
           . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
           darwin-rebuild switch --flake .#githubActions
 
-      - if: ${{ github.event_name == 'schedule' && success() }}
+      - name: If scheduled, push commit with updated sources
+        if: ${{ github.event_name == 'schedule' && success() }}
         run: |
           git add --all
           git commit -m "Update sources"
           git push
+
+  build-linux-env:
+    name: Build/cache Linux Nix env
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v16
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Cachix
+      uses: cachix/cachix-action@v10
+      with:
+        name: hardselius
+        signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
+    - name: Build and switch to home-manager env
+      run: |
+        # Prevent conflict between Cachix installed by workflow and the one installed in the config
+        nix-env --set-flag priority 1 cachix
+        # Build and switch to home-manager env
+        nix build .#linux.activationPackage; ./result/activate

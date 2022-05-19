@@ -144,6 +144,19 @@
         };
       };
 
+      linux = home-manager.lib.homeManagerConfiguration {
+        system = "x86_64-linux";
+        stateVersion = homeManagerStateVersion;
+        homeDirectory = "/home/martin";
+        username = "martin";
+        configuration = {
+          imports = attrValues self.homeManagerModules ++ singleton {
+            home.user-info = primaryUserInfo;
+          };
+          nixpkgs = nixpkgsConfig;
+        };
+      };
+
       darwinModules = {
         common = import ./system/common.nix;
         packages = import ./system/packages.nix;
