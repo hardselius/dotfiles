@@ -44,8 +44,8 @@
         fullName = "Martin Hardselius";
         email = "martin@hardselius.dev";
         github = "hardselius";
-        masterKey = "3F35E4CACBF42DE12E9053E503A6E6F786936619";
-        gpgsign = true;
+        gpg.enable = true;
+        gpg.masterKey = "3F35E4CACBF42DE12E9053E503A6E6F786936619";
       };
 
       nixDarwinCommonModules = attrValues self.darwinModules ++ [
@@ -117,14 +117,14 @@
         };
 
         # Configuration used for CI with GitHub actions
-        githubActions = darwinSystem {
+        gitHubActions = darwinSystem {
           system = "x86_64-darwin";
           modules = nixDarwinCommonModules ++ [
             ./system/darwin/host-github.nix
             ({ lib, ... }: {
               users.primaryUser = primaryUserInfo // {
                 username = "runner";
-                gpgsign = false;
+                gpg.enable = false;
               };
             })
           ];
@@ -144,14 +144,17 @@
         };
       };
 
-      linux = home-manager.lib.homeManagerConfiguration {
+      linuxGitHubActions = home-manager.lib.homeManagerConfiguration {
         system = "x86_64-linux";
         stateVersion = homeManagerStateVersion;
-        homeDirectory = "/home/martin";
-        username = "martin";
+        homeDirectory = "/home/runner";
+        username = "runner";
         configuration = {
           imports = attrValues self.homeManagerModules ++ singleton {
-            home.user-info = primaryUserInfo;
+            home.user-info = primaryUserInfo // {
+              username = "runner";
+              gpg.enable = false;
+            };
           };
           nixpkgs = nixpkgsConfig;
         };

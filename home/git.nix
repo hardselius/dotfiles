@@ -35,10 +35,10 @@ in
       status.submoduleSummary = true;
       github.user = user-info.github;
     };
-  } // lib.optionalAttrs user-info.gpgsign {
+  } // lib.optionalAttrs user-info.gpg.enable {
     signing = {
       key = user-info.email;
-      signByDefault = user-info.gpgsign;
+      signByDefault = user-info.gpg.enable;
     };
   };
 }

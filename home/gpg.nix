@@ -4,10 +4,10 @@ let
 in
 
 {
-  programs.gpg.enable = true;
+  programs.gpg.enable = user-info.gpg.enable;
   programs.gpg.settings = {
-  } // lib.optionalAttrs (!builtins.isNull user-info.masterKey) {
-    default-key = user-info.masterKey;
+  } // lib.optionalAttrs (!builtins.isNull user-info.gpg.masterKey) {
+    default-key = user-info.gpg.masterKey;
     auto-key-locate = "keyserver";
     keyserver = "pgp.mit.edu";
     keyserver-options = "no-honor-keyserver-url include-revoked auto-key-retrieve";

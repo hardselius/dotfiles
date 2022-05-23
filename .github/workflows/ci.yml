@@ -62,12 +62,12 @@ jobs:
         run: |
           ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
 
-      - name: Switch to githubActions config
+      - name: Switch to gitHubActions config
         run: |
           . /etc/static/bashrc
           sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup-before-darwin
           sudo mv /etc/zshenv /etc/zshenv.backup-before-darwin
-          darwin-rebuild switch --flake .#githubActions
+          darwin-rebuild switch --flake .#gitHubActions
 
       - name: If scheduled, push commit with updated sources
         if: ${{ github.event_name == 'schedule' && success() }}
@@ -102,4 +102,4 @@ jobs:
         # Prevent conflict between Cachix installed by workflow and the one installed in the config
         nix-env --set-flag priority 1 cachix
         # Build and switch to home-manager env
-        nix build .#linux.activationPackage; ./result/activate
+        nix build .#linuxGitHubActions.activationPackage; ./result/activate
