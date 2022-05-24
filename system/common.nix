@@ -23,8 +23,6 @@
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
-  programs.bash.enable = true;
-
   fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [ hack-font ];
 }
