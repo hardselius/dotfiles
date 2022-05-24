@@ -20,4 +20,12 @@ with lib; {
     # Enable integration with Docker Desktop (needs to be installed)
     # docker-desktop.enable = true;
   };
+
+  services.xserver.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
+
+  services.xrdp.enable = true;
+  services.xrdp.port = 3390;
+  services.xrdp.defaultWindowManager = "${pkgs.xfce.xfce4-session}/bin/xfce4-session";
+  services.xrdp.openFirewall = true;
 }
