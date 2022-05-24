@@ -38,6 +38,7 @@
       };
 
       homeManagerStateVersion = "22.05";
+      nixosStateVersion = "22.05";
 
       primaryUserInfo = {
         username = "martin";
@@ -188,6 +189,7 @@
 
       nixosModules = {
         common = import ./system/common.nix;
+        stateVersion = { system.stateVersion = nixosStateVersion; };
         packages = import ./system/packages.nix;
 
         users-primaryUser = import ./modules/users.nix;
