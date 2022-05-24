@@ -4,5 +4,6 @@
     alacritty
     git
     vim
+    wget
   ];
 }
