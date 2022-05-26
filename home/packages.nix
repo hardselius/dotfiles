@@ -53,48 +53,51 @@
   programs.tmux.terminal = "screen-256color";
 
   home.packages = with pkgs; [
-    asciinema
-    cachix
+    # basics
     coreutils
     curl
-    fd
-    findutils
-    getopt
-    gh
-    gnumake
-    gnupg
-    gpgme
-    htop
-    jq
-    jsonnet-language-server
-    less
-    ncspot
-    nixpkgs-fmt
-    nodePackages.bash-language-server
-    nodePackages.node2nix
-    nodePackages.prettier
-    nodePackages.vim-language-server
-    paperkey
-    pass
-    socat
-    steampipe
-    plantuml
-    prs
-    python39Packages.sqlparse
-    pywal
-    renameutils
-    ripgrep
-    rsync
-    shellcheck
-    shfmt
-    tree
-    universal-ctags
-    urlscan
-    vim
-    vim-vint
-    w3m
+    fd # fancy `find`
+    findutils # GNU find utils
+    htop # fancy `top`
+    less # more advanced file pager than `more`
+    renameutils # rename files faster
+    ripgrep # fancy `grep`
+    rsync # incremental file transfer util
+    tree # depth indented directory listing
     wget
-    xkcdpass
-    yubikey-manager
+
+    # dev stuff
+    gh # github cli tool
+    gnumake
+    jq # command line json processor
+    plantuml # draw uml diagrams
+    steampipe # select * from cloud
+    vim
+    visidata # terminal multitool for tabular data
+
+    # code tools
+    jsonnet-language-server
+    nodePackages.bash-language-server
+    nodePackages.prettier # code formatter
+    nodePackages.vim-language-server
+    python39Packages.sqlparse
+    shellcheck
+    shfmt # shell parser and formatter
+    universal-ctags # maintained ctags implementation
+
+    # nix tools
+    cachix
+    nixpkgs-fmt
+    nodePackages.node2nix
+
+    # opsec
+    gnupg
+    gpgme # make gnupg easier
+    pass # "password manager"
+    xkcdpass # generate passwords
+    yubikey-manager # configure yubikeys
+
+    # other
+    asciinema # terminal session recorder
   ];
 }
