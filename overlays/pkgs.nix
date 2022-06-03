@@ -1,83 +1,20 @@
-final: prev: {
-  pure-prompt = prev.pure-prompt.overrideAttrs (old: {
+self: super: {
+  pure-prompt = super.pure-prompt.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ./pure-zsh.patch ];
   });
 
-  steampipe = with prev; buildGoModule rec {
-    pname = "steampipe";
-    version = "0.11.0";
-
-    src = fetchFromGitHub {
-      owner = "turbot";
-      repo = "steampipe";
-      rev = "v${version}";
-      sha256 = "sha256-P/Fys9/V71+VL5Az3EGGaW+tdeQbr2wO+jvVSVZmJT0=";
-    };
-
-    vendorSha256 = "sha256-PYaq74NNEOJ1jZ6PoS6zcTiUN4JA9JDjO7GB9tqgT6c=";
-
-    doCheck = false;
-
-    nativeBuildInputs = [ installShellFiles ];
-
-    ldflags = [
-      "-s"
-      "-w"
-    ];
-
-    postInstall = ''
-      INSTALL_DIR=$(mktemp -d)
-      installShellCompletion --cmd steampipe \
-        --bash <($out/bin/steampipe --install-dir $INSTALL_DIR completion bash) \
-        --fish <($out/bin/steampipe --install-dir $INSTALL_DIR completion fish) \
-        --zsh <($out/bin/steampipe --install-dir $INSTALL_DIR completion zsh)
-    '';
-
-    meta = with lib; {
-      homepage = "https://steampipe.io/";
-      description = "select * from cloud;";
-      license = licenses.agpl3;
-      maintainers = with maintainers; [ hardselius ];
-    };
-  };
-
-  atlantis = with prev; buildGoModule rec {
-    pname = "atlantis";
-    version = "0.17.4";
-
-    src = fetchFromGitHub {
-      owner = "runatlantis";
-      repo = "atlantis";
-      rev = "v${version}";
-      sha256 = "sha256-QXFUvYUslhwQOiDo9SIMrTjI1sKUv5+6oiVfQbqewNg=";
-    };
-
-    vendorSha256 = "sha256-jZ5QHxUTDVdhCNbCk6Be+zuuXHodYOEcB3braDgH9uM=";
-
-    doCheck = false;
-
-    subPackages = [ "." ];
-
-    meta = with lib; {
-      homepage = "https://github.com/runatlantis/atlantis";
-      description = "Terraform Pull Request Automation";
-      license = licenses.asl20;
-      maintainers = with maintainers; [ jpotier ];
-    };
-  };
-
-  jsonnet-language-server = with prev; buildGoModule rec {
+  jsonnet-language-server = with super; buildGoModule rec {
     pname = "jsonnet-language-server";
-    version = "0.6.3";
+    version = "0.7.2";
 
     src = fetchFromGitHub {
       owner = "grafana";
       repo = "jsonnet-language-server";
       rev = "v${version}";
-      sha256 = "sha256-nJlw3RiZWdLmJdrfKlty0Fnn+g+UwkCNNBxVQMp8erI=";
+      sha256 = "sha256-hI8eGfHC7la52nImg6BaBxdl9oD/J9q3F3+xbsHrn30=";
     };
 
-    vendorSha256 = "sha256-mGocX5z3wf9KRhE9leLNCzn8sVdjKJo6FzgP1OwQB3M=";
+    vendorSha256 = "sha256-UEQogVVlTVnSRSHH2koyYaR9l50Rn3075opieK5Fu7I=";
 
     meta = with lib; {
       homepage = "https://github.com/grafana/jsonnet-language-server";
@@ -87,7 +24,7 @@ final: prev: {
     };
   };
 
-  wsl2-ssh-pageant = with prev; buildGoModule rec {
+  wsl2-ssh-pageant = with super; buildGoModule rec {
     name = "wsl-ssh-pageant";
     version = "1.4.0";
 

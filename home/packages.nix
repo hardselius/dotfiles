@@ -71,7 +71,7 @@
     gnumake
     jq # command line json processor
     plantuml # draw uml diagrams
-    steampipe # select * from cloud
+    # steampipe # select * from cloud
     vim
     visidata # terminal multitool for tabular data
 
