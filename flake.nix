@@ -145,34 +145,36 @@
         };
       };
 
-      linuxGitHubActions = home-manager.lib.homeManagerConfiguration {
-        system = "x86_64-linux";
-        stateVersion = homeManagerStateVersion;
-        homeDirectory = "/home/runner";
-        username = "runner";
-        configuration = {
-          imports = attrValues self.homeManagerModules ++ singleton {
-            home.user-info = primaryUserInfo // {
-              username = "runner";
-              gpg.enable = false;
+      homeConfigurations = {
+        linuxGitHubActions = home-manager.lib.homeManagerConfiguration {
+          system = "x86_64-linux";
+          stateVersion = homeManagerStateVersion;
+          homeDirectory = "/home/runner";
+          username = "runner";
+          configuration = {
+            imports = attrValues self.homeManagerModules ++ singleton {
+              home.user-info = primaryUserInfo // {
+                username = "runner";
+                gpg.enable = false;
+              };
             };
+            nixpkgs = nixpkgsConfig;
           };
-          nixpkgs = nixpkgsConfig;
         };
-      };
 
-      linuxWsl = home-manager.lib.homeManagerConfiguration {
-        system = "x86_64-linux";
-        stateVersion = homeManagerStateVersion;
-        homeDirectory = "/home/martin";
-        username = "martin";
-        configuration = {
-          imports = attrValues self.homeManagerModules ++ [
-            {
-              home.user-info = primaryUserInfo;
-            }
-          ];
-          nixpkgs = nixpkgsConfig;
+        linuxWsl = home-manager.lib.homeManagerConfiguration {
+          system = "x86_64-linux";
+          stateVersion = homeManagerStateVersion;
+          homeDirectory = "/home/martin";
+          username = "martin";
+          configuration = {
+            imports = attrValues self.homeManagerModules ++ [
+              {
+                home.user-info = primaryUserInfo;
+              }
+            ];
+            nixpkgs = nixpkgsConfig;
+          };
         };
       };
 
