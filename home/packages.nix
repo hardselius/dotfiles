@@ -99,5 +99,6 @@
 
     # other
     asciinema # terminal session recorder
+    graphviz # graph visualization tools
   ];
 }
