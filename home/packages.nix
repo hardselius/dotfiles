@@ -73,7 +73,7 @@
     plantuml # draw uml diagrams
     # steampipe # select * from cloud
     vim
-    visidata # terminal multitool for tabular data
+    # visidata # terminal multitool for tabular data
 
     # code tools
     jsonnet-language-server
