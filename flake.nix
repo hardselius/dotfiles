@@ -3,9 +3,9 @@
 
   inputs = {
     nixpkgs-master.url = github:nixos/nixpkgs/master;
-    nixpkgs-stable.url = github:nixos/nixpkgs/nixpkgs-21.11-darwin;
+    nixpkgs-stable.url = github:nixos/nixpkgs/nixpkgs-22.05-darwin;
     nixpkgs-unstable.url = github:nixos/nixpkgs/nixpkgs-unstable;
-    nixos-stable.url = github:nixos/nixpkgs/nixos-21.11;
+    nixos-stable.url = github:nixos/nixpkgs/nixos-22.05;
 
     darwin.url = github:LnL7/nix-darwin;
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -34,7 +34,7 @@
 
       nixpkgsConfig = with inputs; rec {
         config = { allowUnfree = true; };
-        overlays = self.overlays;
+        overlays = attrValues self.overlays;
       };
 
       homeManagerStateVersion = "22.05";
@@ -214,14 +214,29 @@
         };
       };
 
-      overlays =
-        let path = ./overlays; in
-        with builtins;
-        map (n: import (path + ("/" + n))) (filter
-          (n:
-            match ".*\\.nix" n != null
-            || pathExists (path + ("/" + n + "/default.nix")))
-          (attrNames (readDir path)));
+      overlays = {
+        pkgs-master = _: prev: {
+          pkgs-master = import inputs.nixpkgs-master {
+            inherit (prev.stdenv) system;
+            inherit (nixpkgsConfig) config;
+          };
+        };
+        pkgs-stable = _: prev: {
+          pkgs-stable = import inputs.nixpkgs-stable {
+            inherit (prev.stdenv) system;
+            inherit (nixpkgsConfig) config;
+          };
+        };
+        pkgs-unstable = _: prev: {
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            inherit (prev.stdenv) system;
+            inherit (nixpkgsConfig) config;
+          };
+        };
+        jsonnet-language-server = import ./overlays/jsonnet-language-server.nix;
+        pure-prompt = import ./overlays/pure-prompt.nix;
+        wsl2-ssh-pageant = import ./overlays/wsl2-ssh-pageant.nix;
+      };
 
       # `nix develop`
       devShell = forAllSystems
