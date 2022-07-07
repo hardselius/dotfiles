@@ -70,6 +70,7 @@
     gh # github cli tool
     gnumake
     jq # command line json processor
+    just # save and run project specific commands
     plantuml # draw uml diagrams
     # steampipe # select * from cloud
     vim
