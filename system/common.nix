@@ -2,11 +2,13 @@
 { pkgs, lib, options, ... }:
 
 {
-  nix.extraOptions = ''
-    keep-derivations = true
-    keep-outputs = true
-    experimental-features = nix-command flakes
-  '';
+  nix.settings.auto-optimise-store = true;
+  nix.settings.keep-derivations = true;
+  nix.settings.keep-outputs = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.settings.substituters = [
     "https://cache.nixos.org/"
     "https://hardselius.cachix.org"
