@@ -1,6 +1,6 @@
 {
-  nix.trustedUsers = [ "@admin" ];
+  nix.settings.trusted-users = [ "@admin" ];
+  nix.configureBuildUsers = true;
   services.nix-daemon.enable = true;
-  users.nix.configureBuildUsers = true;
   system.stateVersion = 4;
 }
