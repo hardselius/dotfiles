@@ -41,7 +41,7 @@
       nixosStateVersion = "22.05";
 
       primaryUserInfo = {
-        username = "martin";
+        username = "mch";
         fullName = "Martin Hardselius";
         email = "martin@hardselius.dev";
         github = "hardselius";
