@@ -6,6 +6,24 @@
 
 ## Bootstrapping a new machine
 
+On a new mac, you might need to install `git`.
+
+```
+xcode-select --install
+```
+
+Verify the installation by running
+
+```
+xcode-select -p
+```
+
+should output the following
+
+```
+/Library/Developer/CommandLineTools
+```
+
 Clone this repo. It might be a good idea to clone using HTTPS if you
 don’t have your SSH keys configured. I store my SSH key on a Yubikey for
 portability but that setup relies on some of the stuff that’s configured
@@ -31,7 +49,7 @@ export PATH=/usr/sbin:$PATH
 to add it. Now you can go ahead and run the installer
 
 ```
-sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume --daemon
+sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
 This should take you throught the process in a nice and straight-forward
@@ -60,7 +78,10 @@ Nix, so from the root of the checkout out repo we should be able to go
 ahead and run
 
 ```
-nix build .#darwinConfigurations.bootstrap-x86.system
+nix build \
+	--extra-experimental-features nix-command \
+	--extra-experimental-features flakes \
+	.#darwinConfigurations.bootstrap-x86.system
 ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap-x86
 ```
 
@@ -76,3 +97,4 @@ Tada! Everything should be installed and ready to go.
 
 - [nix-darwin](https://github.com/LnL7/nix-darwin)
 - [Home Manager](https://github.com/nix-community/home-manager)
+- [YubiKey Guide](https://github.com/drduh/YubiKey-Guide)
