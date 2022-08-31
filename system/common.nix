@@ -5,6 +5,10 @@
   nix.settings.auto-optimise-store = true;
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
+  nix.settings.extra-platforms = lib.mkIf (pkgs.system == "aarch64-darwin") [
+    "x86_64-darwin"
+    "aarch64-darwin"
+  ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

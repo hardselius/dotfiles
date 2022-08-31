@@ -60,8 +60,8 @@ Nix, so from the root of the checkout out repo we should be able to go
 ahead and run
 
 ```
-nix build .#darwinConfigurations.bootstrap.system
-./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
+nix build .#darwinConfigurations.bootstrap-x86.system
+./result/sw/bin/darwin-rebuild switch --flake .#bootstrap-x86
 ```
 
 Then open up a new terminal session and run

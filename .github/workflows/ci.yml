@@ -56,7 +56,7 @@ jobs:
 
       - name: Build bootstrap config
         run: |
-          nix build .#darwinConfigurations.bootstrap.system
+          nix build .#darwinConfigurations.bootstrap-x86.system
 
       - name: Switch to bootstrap config
         run: |

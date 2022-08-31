@@ -94,10 +94,10 @@
 
     in
     {
-      darwinConfigurations = {
+      darwinConfigurations = rec {
 
         # Minimal configuration to bootstrap systems
-        bootstrap = makeOverridable darwinSystem {
+        bootstrap-x86 = makeOverridable darwinSystem {
           system = "x86_64-darwin";
           modules = [
             self.darwinModules.common
@@ -106,9 +106,21 @@
           ];
         };
 
+        bootstrap-arm = bootstrap-x86.override { system = "aarch64-darwin"; };
+
         # My macOS configuration
-        macbook = darwinSystem {
+        macbook-x86 = darwinSystem {
           system = "x86_64-darwin";
+          modules = nixDarwinCommonModules ++ [
+            ./system/darwin/host-mac.nix
+            {
+              users.primaryUser = primaryUserInfo;
+            }
+          ];
+        };
+
+        macbook-arm = darwinSystem {
+          system = "aarch64-darwin";
           modules = nixDarwinCommonModules ++ [
             ./system/darwin/host-mac.nix
             {
@@ -230,6 +242,14 @@
         pkgs-unstable = _: prev: {
           pkgs-unstable = import inputs.nixpkgs-unstable {
             inherit (prev.stdenv) system;
+            inherit (nixpkgsConfig) config;
+          };
+        };
+        # Overlay useful on Macs with Apple Silicon
+        apple-silicon = _: prev: optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+          # Add access to x86 packages system is running Apple Silicon
+          pkgs-x86 = import inputs.nixpkgs-unstable {
+            system = "x86_64-darwin";
             inherit (nixpkgsConfig) config;
           };
         };
