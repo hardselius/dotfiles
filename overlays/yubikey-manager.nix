@@ -14,9 +14,9 @@ final: prev: {
       };
 
     # , pyOpenSSLSupport ? !(stdenv.isDarwin && stdenv.isAarch64)
-      # patches = lib.optionals (!pyOpenSSLSupport) [
-      #   ./remove-pyopenssl-tests.patch
-      # ];
+      patches = lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
+        ./remove-pyopenssl-tests.patch
+      ];
 
       postPatch = ''
         substituteInPlace pyproject.toml \

@@ -60,7 +60,7 @@
     findutils # GNU find utils
     htop # fancy `top`
     less # more advanced file pager than `more`
-    renameutils # rename files faster
+    #renameutils # rename files faster
     ripgrep # fancy `grep`
     rsync # incremental file transfer util
     tree # depth indented directory listing
