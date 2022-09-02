@@ -26,6 +26,13 @@
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
 
+      systems = [
+        "x86_64-darwin"
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+
       nixpkgsConfig = with inputs; rec {
         config = { allowUnfree = true; };
         overlays = attrValues self.overlays;
@@ -252,5 +259,19 @@
         wsl2-ssh-pageant = import ./overlays/wsl2-ssh-pageant.nix;
         yubikey-manager = import ./overlays/yubikey-manager.nix;
       };
+
+      # `nix develop`
+      devShell = forAllSystems
+        (system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          pkgs.mkShell {
+            nativeBuildInputs = with pkgs; [
+              rnix-lsp
+              nixpkgs-fmt
+            ];
+          }
+        );
     };
 }
