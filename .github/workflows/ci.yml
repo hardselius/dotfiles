@@ -60,7 +60,7 @@ jobs:
 
       - name: Switch to bootstrap config
         run: |
-          ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap
+          ./result/sw/bin/darwin-rebuild switch --flake .#bootstrap-x86
 
       - name: Switch to gitHubActions config
         run: |
