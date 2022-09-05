@@ -82,6 +82,7 @@
     nodePackages.bash-language-server
     nodePackages.prettier # code formatter
     nodePackages.vim-language-server
+    pqrs
     python39Packages.sqlparse
     shellcheck
     shfmt # shell parser and formatter
