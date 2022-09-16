@@ -106,5 +106,6 @@
     nmap
     openssl
     watch
+    qemu
   ];
 }
