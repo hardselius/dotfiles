@@ -257,7 +257,6 @@
         jsonnet-language-server = import ./overlays/jsonnet-language-server.nix;
         pure-prompt = import ./overlays/pure-prompt.nix;
         wsl2-ssh-pageant = import ./overlays/wsl2-ssh-pageant.nix;
-        yubikey-manager = import ./overlays/yubikey-manager.nix;
       };
 
       # `nix develop`
