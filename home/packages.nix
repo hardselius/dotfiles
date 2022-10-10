@@ -26,8 +26,6 @@
   programs.fzf.enableBashIntegration = true;
   programs.fzf.enableZshIntegration = true;
 
-  programs.go.enable = true;
-
   programs.htop.enable = true;
   programs.htop.settings.show_program_path = true;
 
@@ -101,7 +99,6 @@
     yubikey-manager # configure yubikeys
 
     # other
-    asciinema # terminal session recorder
     graphviz # graph visualization tools
     nmap
     openssl
