@@ -82,6 +82,7 @@
     nodePackages.vim-language-server
     pqrs
     python39Packages.sqlparse
+    rnix-lsp
     shellcheck
     shfmt # shell parser and formatter
     universal-ctags # maintained ctags implementation
