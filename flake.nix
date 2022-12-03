@@ -2,26 +2,21 @@
   description = "Martin's dotfiles";
 
   inputs = {
-    nixpkgs-master.url = github:nixos/nixpkgs/master;
-    nixpkgs-stable.url = github:nixos/nixpkgs/nixpkgs-22.05-darwin;
-    nixpkgs-unstable.url = github:nixos/nixpkgs/nixpkgs-unstable;
-    nixos-stable.url = github:nixos/nixpkgs/nixos-22.05;
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixpkgs-22.05-darwin";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-22.05";
 
-    darwin.url = github:LnL7/nix-darwin;
+    darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    home-manager.url = github:nix-community/home-manager;
+
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    nixos-wsl.url = github:nix-community/NixOS-WSL;
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
-    };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, nixos-wsl, flake-utils, ... } @ inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
@@ -149,7 +144,6 @@
         wsl = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = nixosCommonModules ++ [
-            nixos-wsl.nixosModules.wsl
             ./system/nixos/host-wsl.nix
             {
               users.primaryUser = primaryUserInfo;
@@ -271,5 +265,7 @@
             ];
           }
         );
+      formatter =
+        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
     };
 }
