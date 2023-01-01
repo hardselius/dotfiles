@@ -8,7 +8,7 @@ in
     EDITOR = "${pkgs.vim}/bin/vim";
     EMAIL = "${user-info.email}";
     PAGER = "${pkgs.less}/bin/less";
-    CLICOLOR = true;
+    CLICOLOR = 1;
     GPG_TTY = "$TTY";
     PATH = "$PATH:$HOME/.local/bin:$HOME/.tfenv/bin";
   };
