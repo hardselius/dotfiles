@@ -72,7 +72,7 @@
     plantuml # draw uml diagrams
     # steampipe # select * from cloud
     vim
-    # visidata # terminal multitool for tabular data
+    zellij # terminal multiplexer
 
     # code tools
     gdbgui
@@ -83,6 +83,7 @@
     pqrs
     python39Packages.sqlparse
     rnix-lsp
+    rustup
     shellcheck
     shfmt # shell parser and formatter
     universal-ctags # maintained ctags implementation
