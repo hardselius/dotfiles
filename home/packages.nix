@@ -75,7 +75,6 @@
     zellij # terminal multiplexer
 
     # code tools
-    gdbgui
     jsonnet-language-server
     nodePackages.bash-language-server
     nodePackages.prettier # code formatter
