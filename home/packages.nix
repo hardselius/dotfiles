@@ -79,6 +79,7 @@
     nodePackages.bash-language-server
     nodePackages.prettier # code formatter
     nodePackages.vim-language-server
+    podman # docker replacement
     pqrs
     python39Packages.sqlparse
     rnix-lsp
