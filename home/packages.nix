@@ -70,9 +70,9 @@
     jq # command line json processor
     just # save and run project specific commands
     plantuml # draw uml diagrams
-    # steampipe # select * from cloud
+    steampipe # select * from cloud
+    terragrunt
     vim
-    zellij # terminal multiplexer
 
     # code tools
     jsonnet-language-server
@@ -101,6 +101,7 @@
     yubikey-manager # configure yubikeys
 
     # other
+    asciidoctor
     graphviz # graph visualization tools
     nmap
     openssl
