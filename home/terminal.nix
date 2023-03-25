@@ -33,62 +33,6 @@ let
       white = "0xffffff";
     };
   };
-
-  # quiet
-  quiet = {
-    primary = {
-      background = "0x000000";
-      foreground = "0xdadada";
-    };
-    normal = {
-      black = "0x000000";
-      red = "0xd7005f";
-      green = "0x00af5f";
-      yellow = "0xd78700";
-      blue = "0x0087d7";
-      magenta = "0xd787d7";
-      cyan = "0x00afaf";
-      white = "0xdadada";
-    };
-    bright = {
-      black = "0x707070";
-      red = "0xff005f";
-      green = "0x00d75f";
-      yellow = "0xffaf00";
-      blue = "0x5fafff";
-      magenta = "0xff87ff";
-      cyan = "0x00d7d7";
-      white = "0xffffff";
-    };
-  };
-
-  # slate
-  slate = {
-    primary = {
-      background = "#262626";
-      foreground = "#ffffff";
-    };
-    normal = {
-      black = "0x000000";
-      red = "0xff0000";
-      green = "0x5f8700";
-      yellow = "0xffff00";
-      blue = "0x87d7ff";
-      magenta = "0xd7d787";
-      cyan = "0xffd7af";
-      white = "0x666666";
-    };
-    light = {
-      black = "0x333333";
-      red = "0xffafaf";
-      green = "0x00875f";
-      yellow = "0xffd700";
-      blue = "0x5f87d7";
-      magenta = "0xafaf87";
-      cyan = "0xff8787";
-      white = "0xffffff";
-    };
-  };
 in
 {
   programs = {
@@ -114,5 +58,7 @@ in
       bold_italic.family = "${fontFamily}";
       size = 13.0;
     };
+
+    alacritty.settings.shell.program = "${pkgs.bashInteractive}/bin/bash";
   };
 }

@@ -27,6 +27,29 @@ in
     restartaudio = "sudo killall coreaudiod";
   };
 
+  #
+  # STARSHIP
+  #
+
+  programs.starship.enable = true;
+  programs.starship.enableBashIntegration = true;
+
+  programs.readline.enable = true;
+  programs.readline.extraConfig = ''
+    bash set editing-mode vi
+  '';
+
+  #
+  # BASH
+  #
+
+  programs.bash.enable = true;
+  programs.bash.enableCompletion = true;
+
+  #
+  # ZSH
+  #
+
   programs.zsh.enable = true;
   programs.zsh.enableCompletion = true;
   programs.zsh.completionInit = ''

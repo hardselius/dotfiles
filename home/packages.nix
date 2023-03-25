@@ -17,9 +17,10 @@
   programs.browserpass.browsers = [ "firefox" ];
 
   programs.direnv.enable = true;
-  programs.direnv.nix-direnv.  enable = true;
+  programs.direnv.nix-direnv.enable = true;
 
   programs.dircolors.enable = true;
+  programs.dircolors.enableBashIntegration = true;
   programs.dircolors.enableZshIntegration = true;
 
   programs.fzf.enable = true;
