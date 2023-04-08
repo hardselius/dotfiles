@@ -59,6 +59,6 @@ in
       size = 13.0;
     };
 
-    alacritty.settings.shell.program = "${pkgs.bashInteractive}/bin/bash";
+    alacritty.settings.shell.program = "${pkgs.zsh}/bin/zsh";
   };
 }
