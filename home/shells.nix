@@ -39,7 +39,7 @@ in
   # BASH
   #
 
-  programs.bash.enable = true;
+  programs.bash.enable = false;
   programs.bash.enableCompletion = true;
   programs.bash.bashrcExtra = ''
     set -o vi
