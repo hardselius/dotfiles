@@ -29,13 +29,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v16
+        uses: cachix/install-nix-action@v20
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Cachix
-        uses: cachix/cachix-action@v10
+        uses: cachix/cachix-action@v12
         with:
           name: hardselius
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
@@ -86,13 +86,13 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install Nix
-      uses: cachix/install-nix-action@v16
+      uses: cachix/install-nix-action@v20
       with:
         extra_nix_config: |
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Cachix
-      uses: cachix/cachix-action@v10
+      uses: cachix/cachix-action@v12
       with:
         name: hardselius
         signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
