@@ -72,7 +72,6 @@
     just # save and run project specific commands
     plantuml # draw uml diagrams
     steampipe # select * from cloud
-    terragrunt
     vim
 
     # code tools
@@ -87,6 +86,7 @@
     rustup
     shellcheck
     shfmt # shell parser and formatter
+    tgswitch
     universal-ctags # maintained ctags implementation
 
     # nix tools

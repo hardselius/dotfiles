@@ -10,7 +10,7 @@ in
     PAGER = "${pkgs.less}/bin/less";
     CLICOLOR = 1;
     GPG_TTY = "$TTY";
-    PATH = "$PATH:$HOME/.local/bin:$HOME/.tfenv/bin";
+    PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.tfenv/bin";
   };
 
   home.shellAliases = {
