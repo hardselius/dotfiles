@@ -3,14 +3,14 @@ name: Build Nix environments
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - '**'
       - '!**.md'
       - '!**.adoc'
   push:
     branches:
-      - master
+      - main
     paths:
       - '**'
       - '!**.md'
