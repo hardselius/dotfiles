@@ -47,6 +47,11 @@ in
         mods = "Control";
         chars = "\\x11";
       }
+      {
+        key = "N";
+        mods = "Command";
+        action = "SpawnNewInstance";
+      }
     ];
 
     alacritty.settings.colors = jellybeans;
