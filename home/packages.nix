@@ -103,6 +103,7 @@
 
     # other
     asciidoctor
+    chatgpt-cli
     graphviz # graph visualization tools
     nmap
     openssl
