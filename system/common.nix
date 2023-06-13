@@ -2,7 +2,7 @@
 { pkgs, lib, options, ... }:
 
 {
-  nix.settings.auto-optimise-store = true;
+  nix.settings.auto-optimise-store = false;
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
   nix.settings.extra-platforms = lib.mkIf (pkgs.system == "aarch64-darwin") [
