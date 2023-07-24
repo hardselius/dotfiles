@@ -19,7 +19,7 @@
   outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
-      inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable optionalAttrs singleton;
+      inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable mkForce optionalAttrs singleton;
 
       systems = [
         "x86_64-darwin"
@@ -126,7 +126,7 @@
         };
 
         # Configuration used for CI with GitHub actions
-        gitHubActions = darwinSystem {
+        githubActions = darwinSystem {
           system = "x86_64-darwin";
           modules = nixDarwinCommonModules ++ [
             ./system/darwin/host-github.nix
@@ -136,6 +136,11 @@
                 gpg.enable = false;
               };
             })
+            {
+              environment.etc.shells.enable = mkForce false;
+              environment.etc."nix/nix.conf".enable = mkForce false;
+              homebrew.enable = mkForce false;
+            }
           ];
         };
       };
