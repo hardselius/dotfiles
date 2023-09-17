@@ -35,13 +35,13 @@ let
   };
 in
 {
-  programs = {
-    alacritty.enable = true;
-    alacritty.settings.window.padding.x = 10;
-    alacritty.settings.window.padding.y = 10;
-    alacritty.settings.window.dynamic_title = true;
-    alacritty.settings.scrolling.history = 10000;
-    alacritty.settings.key_bindings = [
+  programs.alacritty = {
+    enable = true;
+    settings.window.padding.x = 10;
+    settings.window.padding.y = 10;
+    settings.window.dynamic_title = true;
+    settings.scrolling.history = 10000;
+    settings.key_bindings = [
       {
         key = "Q";
         mods = "Control";
@@ -53,17 +53,26 @@ in
         action = "SpawnNewInstance";
       }
     ];
-
-    alacritty.settings.colors = jellybeans;
-
-    alacritty.settings.font = {
+    settings.colors = jellybeans;
+    settings.font = {
       normal.family = "${fontFamily}";
       bold.family = "${fontFamily}";
       italic.family = "${fontFamily}";
       bold_italic.family = "${fontFamily}";
       size = 13.0;
     };
+    settings.shell.program = "${pkgs.zsh}/bin/zsh";
+  };
 
-    alacritty.settings.shell.program = "${pkgs.zsh}/bin/zsh";
+  programs.wezterm = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+    extraConfig = ''
+      return {
+        font = wezterm.font("Hack"),
+        color_scheme = "Jellybeans",
+      }
+    '';
   };
 }
