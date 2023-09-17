@@ -107,6 +107,7 @@
     graphviz # graph visualization tools
     nmap
     openssl
+    renameutils
     watch
     qemu
   ];
