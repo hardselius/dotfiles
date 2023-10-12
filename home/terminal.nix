@@ -72,6 +72,7 @@ in
       return {
         font = wezterm.font("Hack"),
         color_scheme = "Jellybeans",
+        enable_scroll_bar = true,
       }
     '';
   };
