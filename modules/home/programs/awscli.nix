@@ -3,10 +3,10 @@
 with lib;
 
 let
-  cfg = config.programs.awscli;
+  cfg = config.programs.awscli-custom;
 in
 {
-  options.programs.awscli = {
+  options.programs.awscli-custom = {
     enable = mkEnableOption "awscli - manage your AWS services";
 
     package = mkOption {

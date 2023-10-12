@@ -2,11 +2,11 @@
 {
   programs.home-manager.enable = true;
 
-  programs.awscli.enable = true;
-  programs.awscli.package = pkgs.awscli2;
-  programs.awscli.enableBashIntegration = true;
-  programs.awscli.enableZshIntegration = true;
-  programs.awscli.awsVault = {
+  programs.awscli-custom.enable = true;
+  programs.awscli-custom.package = pkgs.awscli2;
+  programs.awscli-custom.enableBashIntegration = true;
+  programs.awscli-custom.enableZshIntegration = true;
+  programs.awscli-custom.awsVault = {
     enable = true;
     prompt = "ykman";
     backend = "pass";
