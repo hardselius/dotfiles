@@ -195,6 +195,7 @@
         darwin-bootstrap = import ./system/darwin/bootstrap.nix;
         darwin-packages = import ./system/darwin/packages.nix;
         darwin-system = import ./system/darwin/system.nix;
+        darwin-homebrew = import ./system/darwin/homebrew.nix;
 
         users-primaryUser = import ./modules/users.nix;
       };
