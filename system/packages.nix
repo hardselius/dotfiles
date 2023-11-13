@@ -4,7 +4,8 @@
     alacritty
     git
     vim
-    wezterm
     wget
+  ] ++ lib.optionals (pkgs.system != "x86_64-darwin") [
+    wezterm
   ];
 }
