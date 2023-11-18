@@ -65,7 +65,7 @@ in
   };
 
   programs.wezterm = {
-    enable = true;
+    enable = (pkgs.system != "x86_64-darwin");
     enableZshIntegration = true;
     enableBashIntegration = true;
     extraConfig = ''
