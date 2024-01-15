@@ -88,6 +88,7 @@
     shfmt # shell parser and formatter
     tgswitch
     universal-ctags # maintained ctags implementation
+    xsv
 
     # nix tools
     cachix
