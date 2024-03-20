@@ -78,6 +78,7 @@
     jsonnet-language-server
     nodePackages.bash-language-server
     nodePackages.prettier # code formatter
+    nodePackages.typescript-language-server
     nodePackages.vim-language-server
     podman # docker replacement
     pqrs
