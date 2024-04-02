@@ -28,7 +28,7 @@
       ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
 
-      nixpkgsConfig = with inputs; rec {
+      nixpkgsConfig = {
         config = { allowUnfree = true; };
         overlays = attrValues self.overlays;
       };
@@ -51,7 +51,7 @@
           let
             inherit (config.users) primaryUser;
           in
-          rec {
+          {
             nixpkgs = nixpkgsConfig;
             users.users.${primaryUser.username}.home = "/Users/${primaryUser.username}";
             home-manager.useGlobalPkgs = true;
@@ -69,7 +69,7 @@
           let
             inherit (config.users) primaryUser;
           in
-          rec {
+          {
             nixpkgs = nixpkgsConfig;
             users.users.${primaryUser.username} = {
               home = "/home/${primaryUser.username}";
