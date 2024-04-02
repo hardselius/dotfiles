@@ -83,7 +83,7 @@
     podman # docker replacement
     pqrs
     python39Packages.sqlparse
-    rnix-lsp
+    nil
     rustup
     shellcheck
     shfmt # shell parser and formatter
