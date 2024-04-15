@@ -72,6 +72,7 @@
     just # save and run project specific commands
     plantuml # draw uml diagrams
     steampipe # select * from cloud
+    tenv # version manager for OpenTofu, Terraform and Terragrunt
     vim
 
     # code tools
