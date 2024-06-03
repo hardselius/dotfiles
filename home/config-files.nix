@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, ... }:
 let
   inherit (config.home) homeDirectory;
 in
