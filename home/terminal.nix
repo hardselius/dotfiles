@@ -70,8 +70,8 @@ in
     enableBashIntegration = true;
     extraConfig = ''
       return {
-        font = wezterm.font("Hack"),
-        color_scheme = "Jellybeans",
+        font = wezterm.font("Iosevka Comfy Fixed"),
+        color_scheme = "Atelier Forest Light (base16)",
         enable_scroll_bar = true,
       }
     '';

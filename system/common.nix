@@ -26,5 +26,9 @@
   programs.zsh.promptInit = "";
 
   fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [ hack-font ];
+  fonts.fonts = with pkgs; [ 
+    hack-font
+    iosevka
+    iosevka-comfy.comfy-fixed
+  ];
 }
