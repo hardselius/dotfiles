@@ -69,9 +69,28 @@ in
     enableZshIntegration = true;
     enableBashIntegration = true;
     extraConfig = ''
+      local wezterm = require 'wezterm'
+
+      function scheme_for_appearance(appearance)
+        if appearance:find 'Dark' then
+          return 'Atelier Forest (base16)'
+        else
+          return 'Atelier Forest Light (base16)'
+        end
+      end
+
+      wezterm.on('window-config-reloaded', function(window, pane)
+        local overrides = window:get_config_overrides() or {}
+        local appearance = window:get_appearance()
+        local scheme = scheme_for_appearance(appearance)
+        if overrides.color_scheme ~= scheme then
+          overrides.color_scheme = scheme
+          window:set_config_overrides(overrides)
+        end
+      end)
+
       return {
         font = wezterm.font("Iosevka Comfy Fixed"),
-        color_scheme = "Atelier Forest Light (base16)",
         enable_scroll_bar = true,
       }
     '';
