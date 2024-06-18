@@ -66,6 +66,7 @@
     wget
 
     # dev stuff
+    devbox
     gh # github cli tool
     gnumake
     jq # command line json processor
