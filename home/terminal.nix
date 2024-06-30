@@ -90,7 +90,7 @@ in
       end)
 
       return {
-        font = wezterm.font("Iosevka Comfy Fixed"),
+        font = wezterm.font("Hack"),
         enable_scroll_bar = true,
       }
     '';
