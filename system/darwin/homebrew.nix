@@ -29,5 +29,6 @@ in
 
   homebrew.brews = [
     "emqx/mqttx/mqttx-cli"
+    "picotool"
   ];
 }
