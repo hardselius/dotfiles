@@ -33,7 +33,7 @@
   programs.ssh.enable = true;
   programs.ssh.controlMaster = "auto";
   programs.ssh.controlPath = "/tmp/ssh-%u-%r@%h:%p";
-  programs.ssh.controlPersist = "1800";
+  programs.ssh.controlPersist = "60";
   programs.ssh.forwardAgent = true;
   programs.ssh.serverAliveInterval = 60;
   programs.ssh.hashKnownHosts = true;
