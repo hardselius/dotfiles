@@ -73,9 +73,9 @@ in
 
       function scheme_for_appearance(appearance)
         if appearance:find 'Dark' then
-          return 'Atelier Forest (base16)'
+          return 'Rosé Pine (Gogh)'
         else
-          return 'Atelier Forest Light (base16)'
+          return 'Rosé Pine Dawn (Gogh)'
         end
       end
 
