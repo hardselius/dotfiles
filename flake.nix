@@ -33,8 +33,8 @@
         overlays = attrValues self.overlays;
       };
 
-      homeManagerStateVersion = "24.05";
-      nixosStateVersion = "24.05";
+      homeManagerStateVersion = "25.05";
+      nixosStateVersion = "25.05";
 
       primaryUserInfo = {
         username = "mch";
