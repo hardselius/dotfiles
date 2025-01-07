@@ -94,6 +94,7 @@
     xsv
 
     # nix tools
+    alejandra
     cachix
     nixpkgs-fmt
     nodePackages.node2nix
