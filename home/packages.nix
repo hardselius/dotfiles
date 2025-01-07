@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.home-manager.enable = true;
 
   programs.awscli-custom.enable = true;
@@ -14,7 +13,7 @@
   };
 
   programs.browserpass.enable = true;
-  programs.browserpass.browsers = [ "firefox" ];
+  programs.browserpass.browsers = ["firefox"];
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;

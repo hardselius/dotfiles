@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   fontFamily = "Hack";
 
   # jellybeans
@@ -33,8 +37,7 @@ let
       white = "0xffffff";
     };
   };
-in
-{
+in {
   programs.alacritty = {
     enable = true;
     settings.window.padding.x = 10;
@@ -65,7 +68,7 @@ in
   };
 
   programs.wezterm = {
-    enable = (pkgs.system != "x86_64-darwin");
+    enable = pkgs.system != "x86_64-darwin";
     enableZshIntegration = true;
     enableBashIntegration = true;
     extraConfig = ''

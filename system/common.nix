@@ -1,7 +1,10 @@
 # This file contains configuration that is shared across all hosts.
-{ pkgs, lib, options, ... }:
-
 {
+  pkgs,
+  lib,
+  options,
+  ...
+}: {
   nix.settings.auto-optimise-store = false;
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
@@ -25,7 +28,7 @@
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
-  fonts.packages = with pkgs; [ 
+  fonts.packages = with pkgs; [
     hack-font
     iosevka
     iosevka-comfy.comfy-fixed

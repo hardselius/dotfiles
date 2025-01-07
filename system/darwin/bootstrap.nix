@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  nix.settings.trusted-users = [ "@admin" ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  nix.settings.trusted-users = ["@admin"];
   nix.configureBuildUsers = true;
   services.nix-daemon.enable = true;
 

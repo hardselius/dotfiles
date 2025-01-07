@@ -1,9 +1,6 @@
-{ config, ... }:
-let
+{config, ...}: let
   inherit (config.home) homeDirectory;
-in
-
-{
+in {
   xdg = {
     enable = true;
     configHome = "${homeDirectory}/.config";

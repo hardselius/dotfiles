@@ -1,6 +1,5 @@
 final: prev: {
   yubikey-manager = with prev;
-
     python3Packages.buildPythonPackage rec {
       pname = "yubikey-manager";
       version = "4.0.9-fixed";
@@ -13,7 +12,7 @@ final: prev: {
         sha256 = "sha256-MwM/b1QP6pkyBjz/r6oC4sW1mKC0CKMay45a0wCktk0=";
       };
 
-    # , pyOpenSSLSupport ? !(stdenv.isDarwin && stdenv.isAarch64)
+      # , pyOpenSSLSupport ? !(stdenv.isDarwin && stdenv.isAarch64)
       patches = lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
         ./remove-pyopenssl-tests.patch
       ];
@@ -22,22 +21,28 @@ final: prev: {
         substituteInPlace pyproject.toml \
           --replace 'fido2 = ">=0.9, <1.0"' 'fido2 = ">*"'
         substituteInPlace "ykman/pcsc/__init__.py" \
-          --replace 'pkill' '${if stdenv.isLinux then "${procps}" else "/usr"}/bin/pkill'
+          --replace 'pkill' '${
+          if stdenv.isLinux
+          then "${procps}"
+          else "/usr"
+        }/bin/pkill'
       '';
 
-      nativeBuildInputs = with python3Packages; [ poetry-core ];
+      nativeBuildInputs = with python3Packages; [poetry-core];
 
-      propagatedBuildInputs =
-        with python3Packages; ([
-          click
-          cryptography
-          pyscard
-          pyusb
-          six
-          fido2
-        ] ++ lib.optionals (!(stdenv.isDarwin && stdenv.isAarch64)) [
-          pyopenssl
-        ]) ++ [
+      propagatedBuildInputs = with python3Packages;
+        ([
+            click
+            cryptography
+            pyscard
+            pyusb
+            six
+            fido2
+          ]
+          ++ lib.optionals (!(stdenv.isDarwin && stdenv.isAarch64)) [
+            pyopenssl
+          ])
+        ++ [
           libu2f-host
           libusb1
           yubikey-personalization
@@ -47,7 +52,7 @@ final: prev: {
         "--prefix"
         "LD_LIBRARY_PATH"
         ":"
-        (lib.makeLibraryPath [ libu2f-host libusb1 yubikey-personalization ])
+        (lib.makeLibraryPath [libu2f-host libusb1 yubikey-personalization])
       ];
 
       postInstall = ''
@@ -62,7 +67,7 @@ final: prev: {
           --replace 'compdef _ykman_completion ykman;' '_ykman_completion "$@"'
       '';
 
-      checkInputs = with python3Packages; [ pytestCheckHook makefun ];
+      checkInputs = with python3Packages; [pytestCheckHook makefun];
 
       meta = with lib; {
         homepage = "https://developers.yubico.com/yubikey-manager";
@@ -70,7 +75,7 @@ final: prev: {
 
         license = licenses.bsd2;
         platforms = platforms.unix;
-        maintainers = with maintainers; [ benley lassulus pinpox ];
+        maintainers = with maintainers; [benley lassulus pinpox];
       };
     };
 }

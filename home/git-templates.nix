@@ -1,11 +1,8 @@
-{ config, ... }:
-let
+{config, ...}: let
   templateDir = "git/template";
   binDir = ".local/bin";
   inherit (config.home) user-info;
-in
-
-{
+in {
   programs.git.extraConfig.init.templateDir = "${config.xdg.configHome}/${templateDir}";
 
   xdg.configFile."${templateDir}/hooks" = {

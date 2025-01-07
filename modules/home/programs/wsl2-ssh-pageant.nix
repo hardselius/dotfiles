@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.programs.wsl2-ssh-pageant;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.programs.wsl2-ssh-pageant;
+in {
   options.programs.wsl2-ssh-pageant = {
     enable = mkEnableOption "wsl2-ssh-pageant";
 
@@ -41,7 +42,8 @@ in
       cfg.package
     ];
 
-    home.sessionVariables = mapAttrs (n: v: toString v)
+    home.sessionVariables =
+      mapAttrs (n: v: toString v)
       {
         # SSH_AUTH_SOCK = "$HOME/.ssh/agent.sock";
         GPG_AGENT_SOCK = "$HOME/.gnupg/S.gpg-agent";
@@ -74,4 +76,3 @@ in
     '';
   };
 }
-

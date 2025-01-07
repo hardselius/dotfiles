@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.programs.screen;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.programs.screen;
+in {
   options.programs.screen = {
     enable = mkEnableOption "screen - screen manager with VT100/ANSI terminal emulation";
 

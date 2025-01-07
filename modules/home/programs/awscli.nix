@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.programs.awscli-custom;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.programs.awscli-custom;
+in {
   options.programs.awscli-custom = {
     enable = mkEnableOption "awscli - manage your AWS services";
 
@@ -74,14 +75,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      cfg.package
-    ] ++ optionals cfg.awsVault.enable [
-      pkgs.aws-vault
-    ];
+    home.packages =
+      [
+        cfg.package
+      ]
+      ++ optionals cfg.awsVault.enable [
+        pkgs.aws-vault
+      ];
 
-    home.sessionVariables = mapAttrs (n: v: toString v)
-      (filterAttrs (n: v: v != [ ] && v != null) {
+    home.sessionVariables =
+      mapAttrs (n: v: toString v)
+      (filterAttrs (n: v: v != [] && v != null) {
         AWS_VAULT_PROMPT = cfg.awsVault.prompt;
         AWS_VAULT_BACKEND = cfg.awsVault.backend;
         AWS_VAULT_PASS_CMD = cfg.awsVault.passCmd;

@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
-let
-  inherit (config.home) user-info;
-in
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (config.home) user-info;
+in {
   home.sessionVariables = {
     EDITOR = "${pkgs.vim}/bin/vim";
     EMAIL = "${user-info.email}";
@@ -13,19 +15,21 @@ in
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.tfenv/bin:$HOME/.cargo/bin";
   };
 
-  home.shellAliases = {
-    tf = "terraform";
-    switch-yubikey = "gpg-connect-agent \"scd serialno\" \"learn --force\" /bye";
+  home.shellAliases =
+    {
+      tf = "terraform";
+      switch-yubikey = "gpg-connect-agent \"scd serialno\" \"learn --force\" /bye";
 
-    # Get public ip directly from a DNS server instead of from some hip
-    # whatsmyip HTTP service. https://unix.stackexchange.com/a/81699
-    wanip = "dig @resolver4.opendns.com myip.opendns.com +short";
-    wanip4 = "dig @resolver4.opendns.com myip.opendns.com +short -4";
-    wanip6 = "dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6";
-  } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-    lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
-    restartaudio = "sudo killall coreaudiod";
-  };
+      # Get public ip directly from a DNS server instead of from some hip
+      # whatsmyip HTTP service. https://unix.stackexchange.com/a/81699
+      wanip = "dig @resolver4.opendns.com myip.opendns.com +short";
+      wanip4 = "dig @resolver4.opendns.com myip.opendns.com +short -4";
+      wanip6 = "dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      lightswitch = "osascript -e  'tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode'";
+      restartaudio = "sudo killall coreaudiod";
+    };
 
   #
   # STARSHIP
@@ -51,7 +55,7 @@ in
     bind 'set vi-ins-mode-string "i "'
 
     # use ctrl-z to toggle in and out of bg
-    if [[ $- == *i* ]]; then 
+    if [[ $- == *i* ]]; then
       stty susp undef
       bind -m vi-command 'Control-z: fg\015'
       bind -m vi-insert 'Control-z: fg\015'
