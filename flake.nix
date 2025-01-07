@@ -14,9 +14,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, ... } @ inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, mac-app-util, ... } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs-unstable.lib) attrValues makeOverridable mkForce optionalAttrs singleton;
@@ -46,6 +47,8 @@
       };
 
       nixDarwinCommonModules = attrValues self.darwinModules ++ [
+        mac-app-util.darwinModules.default
+
         home-manager.darwinModules.home-manager
         ({ config, lib, pkgs, ... }:
           let
@@ -81,7 +84,9 @@
             };
             home-manager.useGlobalPkgs = true;
             home-manager.users.${primaryUser.username} = {
-              imports = attrValues self.homeManagerModules;
+              imports = attrValues self.homeManagerModules ++ [
+                mac-app-util.homeManagerModules.default
+              ];
               home.stateVersion = homeManagerStateVersion;
               home.user-info = config.users.primaryUser;
             };
