@@ -11,6 +11,6 @@
     undo = "reset --soft HEAD^";
     w = "status -sb";
     wdiff = "diff --color-words";
-    l = "log --graph --abbrev-commit --date=relative --show-notes=* --pretty=format:'%Cred%h%Creset —%Cblue%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)<%an>%Creset'";
+    l = "log --graph --abbrev-commit --date=relative --pretty=format:'%C(yellow)%h%C(reset) %C(bold red)%d%C(reset) %s %C(bold cyan)[%(trailers:key=Issue,valueonly=true,separator=%x2C )]%C(reset) %C(green)(%cr)%C(reset) %C(bold blue)<%an>%C(reset)'";
   };
 }
