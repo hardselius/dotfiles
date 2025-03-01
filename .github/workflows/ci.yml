@@ -19,6 +19,28 @@ on:
     - cron: '0 0 * * 0' # Every Sunday at midnight UTC
 
 jobs:
+  build:
+    name: Build macos
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: hardselius
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+      - name: Build config
+        run: |
+          nix build .#darwinConfigurations.githubActions.system
+      - name: Fix Sequoia nixbld users
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix/pr/1448 | sh -s -- repair sequoia --move-existing-users --no-confirm
+      - name: Switch to bootstrap config
+        run: |
+          ./result/sw/bin/darwin-rebuild switch --flake .#githubActions
+
   build-darwin-env:
     name: Build/cache Darwin Nix env
     runs-on: macos-latest
